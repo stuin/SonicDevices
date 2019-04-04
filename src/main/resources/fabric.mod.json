@@ -1,0 +1,17 @@
+{
+  "id": "sonicdevices",
+  "name": "Sonic Devices",
+  "description": "Sonic Screwdrivers in many styles.",
+  "version": "1.0",
+  "side": "universal",
+  "initializers": [
+    "com.stuintech.sonicdevices.SonicDevices"
+  ],
+  "requires": {
+    "fabric": "*"
+  },
+  "mixins": {
+    "client": "sonicdevices.client.json",
+    "common": "sonicdevices.common.json"
+  }
+}
