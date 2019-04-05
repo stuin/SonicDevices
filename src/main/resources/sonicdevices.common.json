@@ -1,9 +1,9 @@
 {
   "required": true,
-  "package": "com.stuintech.thermalconversion.mixin",
+  "package": "com.stuintech.sonicdevices.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinAbstractFurnaceBlockEntity"
+
   ],
   "injectors": {
     "defaultRequire": 1

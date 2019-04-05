@@ -1,5 +1,6 @@
 package com.stuintech.sonicdevices;
 
+import com.stuintech.sonicdevices.items.Device;
 import com.stuintech.sonicdevices.items.Screwdriver;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
@@ -9,17 +10,20 @@ import net.minecraft.util.registry.Registry;
  */
 
 public class ModItems {
-    //Basic items
-    public static final Screwdriver mark1;
+    public static final Item.Settings SETTINGS = new Item.Settings().stackSize(1).itemGroup(SonicDevices.SONIC_GROUP);
 
-    //Initialize full list
-    static {
-        mark1 = new Screwdriver(1);
-    }
+    //Device casings
+    public static final Item mark1case = new Item(SETTINGS);
+
+    //Sonic Screwdrivers
+    public static final Device mark1b = new Screwdriver();
+    public static final Device mark1g = new Screwdriver();
 
     //Register items rendering
     public static void register() {
-        registerItem("mark1", mark1);
+        registerItem("mark1case", mark1case);
+        registerItem("mark1b", mark1b);
+        registerItem("mark1g", mark1g);
     }
 
     private static void registerItem(String name, Item item) {

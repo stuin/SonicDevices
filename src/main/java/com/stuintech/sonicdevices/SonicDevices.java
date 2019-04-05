@@ -14,8 +14,8 @@ public class SonicDevices implements ModInitializer {
 	public static final String MODID = "sonicdevices";
 
 	public static final ItemGroup SONIC_GROUP = FabricItemGroupBuilder.create(
-			new Identifier("mod_id", "other"))
-			.icon(() -> new ItemStack(ModItems.mark1))
+			new Identifier(MODID, "group"))
+			.icon(() -> new ItemStack(ModItems.mark1b))
 			.build();
 
 	@Override

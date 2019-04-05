@@ -1,3 +1,6 @@
 {
-    "item.sonicdevices.mark1": "Mark I Sonic Screwdriver"
+    "itemGroup.sonicdevices.group": "Sonic Devices",
+    "item.sonicdevices.mark1case": "Mark I Screwdriver Casing",
+    "item.sonicdevices.mark1b": "Mark I Sonic Screwdriver",
+    "item.sonicdevices.mark1g": "Mark I Sonic Screwdriver"
 }
