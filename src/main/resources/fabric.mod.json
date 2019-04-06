@@ -9,9 +9,5 @@
   ],
   "requires": {
     "fabric": "*"
-  },
-  "mixins": {
-    "client": "sonicdevices.client.json",
-    "common": "sonicdevices.common.json"
   }
 }

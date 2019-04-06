@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "sonicdevices:mark7/red"
+    }
+  ],
+  "result": {
+    "item": "sonicdevices:red_crystal"
+  }
+}

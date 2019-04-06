@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IG",
+    "SG",
+    "CG"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "G": {
+      "item": "minecraft:gray_concrete_powder"
+    },
+    "S": {
+      "item": "sonicdevices:slide_circuit"
+    },
+    "C": {
+      "item": "minecraft:coal"
+    }
+  },
+  "result": {
+    "item": "sonicdevices:mark5/casing"
+  }
+}

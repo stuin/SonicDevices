@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "sonicdevices:red_crystal"
+    },
+    {
+      "item": "sonicdevices:cane/casing"
+    }
+  ],
+  "result": {
+    "item": "sonicdevices:cane/red"
+  }
+}

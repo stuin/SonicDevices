@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "sonicdevices:cane/green"
+    }
+  ],
+  "result": {
+    "item": "sonicdevices:green_crystal"
+  }
+}

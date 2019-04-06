@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "sonicdevices:item/cane/casing"
+    "layer0": "sonicdevices:item/cane/cane"
   },
   "overrides": [
     {
@@ -9,7 +9,7 @@
         "level": 1,
         "on": 1
       },
-      "model": "sonicdevices:item/cane/casing"
+      "model": "sonicdevices:item/cane/cane"
     },
     {
       "predicate": {

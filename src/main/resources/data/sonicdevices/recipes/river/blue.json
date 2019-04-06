@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "sonicdevices:blue_crystal"
+    },
+    {
+      "item": "sonicdevices:river/casing"
+    }
+  ],
+  "result": {
+    "item": "sonicdevices:river/blue"
+  }
+}

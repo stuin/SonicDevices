@@ -13,6 +13,12 @@ import net.minecraft.util.registry.Registry;
 public class ModItems {
     public static final Item.Settings SETTINGS = new Item.Settings().stackSize(1).itemGroup(SonicDevices.SONIC_GROUP);
 
+    //Device parts
+    public static final Item slide_circuit = new Item(SETTINGS);
+    public static final Item blue_crystal = new Item(SETTINGS);
+    public static final Item green_crystal = new Item(SETTINGS);
+    public static final Item red_crystal = new Item(SETTINGS);
+
     //Device casings
     public static final Item cane_case = new Item(SETTINGS);
     public static final Item mark1_case = new Item(SETTINGS);
@@ -34,6 +40,11 @@ public class ModItems {
 
     //Register items rendering
     public static void register() {
+        registerItem("slide_circuit", slide_circuit);
+        registerItem("blue_crystal", blue_crystal);
+        registerItem("green_crystal", green_crystal);
+        registerItem("red_crystal", red_crystal);
+
         registerItem("cane/casing", cane_case);
         registerItem("mark1/casing", mark1_case);
         registerItem("mark5/casing", mark5_case);

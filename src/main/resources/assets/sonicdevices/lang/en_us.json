@@ -1,5 +1,9 @@
 {
     "itemGroup.sonicdevices.group": "Sonic Devices",
+    "item.sonicdevices.blue_crystal": "Blue Emitter Crystal",
+    "item.sonicdevices.green_crystal": "Green Emitter Crystal",
+    "item.sonicdevices.red_crystal": "Advanced Emitter Crystal",
+    "item.sonicdevices.slide_circuit": "Linear Slide Circuit",
     "item.sonicdevices.cane.casing": "Sonic Cane Casing",
     "item.sonicdevices.cane.blue": "Sonic Cane",
     "item.sonicdevices.cane.green": "Sonic Cane",
