@@ -1,9 +1,5 @@
 package com.stuintech.sonicdevices.items;
 
-/*
- * Created by Stuart Irwin on 4/4/2019.
- */
-
 import com.stuintech.sonicdevices.FakePoweredState;
 import com.stuintech.sonicdevices.PropertyMap;
 import com.sun.istack.internal.Nullable;
@@ -26,23 +22,21 @@ import net.minecraft.world.World;
  */
 
 public class Screwdriver extends Device {
-    private boolean cane;
+    public Screwdriver(boolean cane) { this(cane, 3); }
 
-    public Screwdriver() {
-        this(false);
-    }
-    public Screwdriver(boolean cane) {
-        super(cane ? 4 : 3);
-        this.cane = cane;
+    //Actual constructor
+    public Screwdriver(boolean cane, int maxLevel) {
+        super(cane, cane ? maxLevel + 1 : maxLevel);
     }
 
-    public void interact(int level, World world) {
-
+    public boolean interact(int level, World world) {
+        return false;
     }
 
-    public void interact(int level, World world, BlockPos pos, Direction dir) {
-        if(cane)
-            level -= 1;
+    public boolean interact(int level, World world, BlockPos pos, Direction dir) {
+        int used = 1;
+
+        //Activate and deactivate
         if((level == 1 || level == 2)) {
             //Get block variables
             BlockState blockState = world.getBlockState(pos);
@@ -58,7 +52,10 @@ public class Screwdriver extends Device {
             Property<?> property = stateFactory.getProperty(code);
             if(property != null) {
                 blockState_2 = method_7758(blockState, property, level == 1);
-                world.setBlockState(pos, blockState_2, 18);
+                if(blockState_2 != blockState) {
+                    world.setBlockState(pos, blockState_2, 18);
+                    used++;
+                }
             }
 
 
@@ -100,15 +97,25 @@ public class Screwdriver extends Device {
                         world.updateNeighbor(pos, block, pos.down());
                     }
                     break;
+                case "block.minecraft.observer":
+                    if(level == 1) {
+                        Direction direction_2 = blockState.get(FacingBlock.FACING);
+                        blockPos_2 = pos.offset(direction_2);
+                        world.setBlockState(blockPos_2, new FakePoweredState(world, blockPos_2, direction_2));
+                    }
+                    break;
                 /*case "block.minecraft.redstone_wire": case "block.minecraft.powered_rail": case "block.minecraft.activator_rail":
                     if(level == 1) {
                         world.setBlockState(pos.down(), new FakePoweredState(world, pos.down(), Direction.UP));
                         world.updateNeighbor(pos, block, pos.down());
-                        world.addBlockAction(pos, block, 0, 0);
                     }
                     break;*/
+                default:
+                    used--;
+                    break;
             }
         }
+        return used > 0;
     }
 
     //Based off of DebugStickItem

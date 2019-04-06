@@ -9,60 +9,74 @@
         "level": 1,
         "on": 1
       },
-      "model": "sonicdevices:item/cane/red11"
+      "model": "sonicdevices:item/cane/casing"
     },
     {
       "predicate": {
         "level": 2,
+        "on": 0
+      },
+      "model": "sonicdevices:item/cane/red10"
+    },
+    {
+      "predicate": {
+        "level": 2,
+        "on": 1
+      },
+      "model": "sonicdevices:item/cane/red11"
+    },
+    {
+      "predicate": {
+        "level": 3,
         "on": 0
       },
       "model": "sonicdevices:item/cane/red20"
     },
     {
       "predicate": {
-        "level": 2,
+        "level": 3,
         "on": 1
       },
       "model": "sonicdevices:item/cane/red21"
     },
     {
       "predicate": {
-        "level": 3,
+        "level": 4,
         "on": 0
       },
       "model": "sonicdevices:item/cane/red30"
     },
     {
       "predicate": {
-        "level": 3,
+        "level": 4,
         "on": 1
       },
       "model": "sonicdevices:item/cane/red31"
     },
     {
       "predicate": {
-        "level": 4,
+        "level": 5,
         "on": 0
       },
       "model": "sonicdevices:item/cane/red40"
     },
     {
       "predicate": {
-        "level": 4,
+        "level": 5,
         "on": 1
       },
       "model": "sonicdevices:item/cane/red41"
     },
     {
       "predicate": {
-        "level": 5,
+        "level": 6,
         "on": 0
       },
       "model": "sonicdevices:item/cane/red50"
     },
     {
       "predicate": {
-        "level": 5,
+        "level": 6,
         "on": 1
       },
       "model": "sonicdevices:item/cane/red51"

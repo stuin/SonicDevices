@@ -29,7 +29,7 @@ public class FakePoweredState extends BlockState {
 
     @Override
     public boolean isSimpleFullBlock(BlockView blockView_1, BlockPos blockPos_1) {
-        return direction == Direction.UP;
+        return false;
     }
 
     @Override
@@ -52,10 +52,5 @@ public class FakePoweredState extends BlockState {
             return 15;
         }
         return oldState.getWeakRedstonePower(blockView_1, blockPos_1, direction_1);
-    }
-
-    @Override
-    public <T extends Comparable<T>> T get(Property<T> property_1) {
-        return oldState.get(property_1);
     }
 }

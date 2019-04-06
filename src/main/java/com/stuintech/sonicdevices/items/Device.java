@@ -1,6 +1,7 @@
 package com.stuintech.sonicdevices.items;
 
 import com.stuintech.sonicdevices.PropertyMap;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -10,22 +11,31 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
+
 /*
  * Created by Stuart Irwin on 4/4/2019.
  */
 
 public abstract class Device extends Item {
+    private final int MAXTIME = 25;
     private final int maxLevel;
+    private final int offset;
 
-    public Device(int maxLevel) {
+    //Timer system
+    private static int nextTimer = -1;
+    private static ArrayList<Integer> timers = new ArrayList<>();
+
+    public Device(boolean cane, int maxLevel) {
         super(ModItems.SETTINGS);
 
-        //Set screwdriver type
+        //Set device stats
         this.maxLevel = maxLevel;
+        this.offset = cane ? 0 : 1;
 
         //Set animation variables
         this.addProperty(new Identifier("level"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("level") + 1);
-        this.addProperty(new Identifier("on"), (itemStack, world, livingEntity) -> (itemStack.getOrCreateTag().getInt("on") == 1 && livingEntity.isUsingItem()) ? 1 : 0);
+        this.addProperty(new Identifier("on"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("on"));
     }
 
     @Override
@@ -43,7 +53,7 @@ public abstract class Device extends Item {
             itemStack.getOrCreateTag().putInt("on", 1);
 
             //Activate use
-            interact(itemStack.getOrCreateTag().getInt("level") + 1, world);
+            interact(itemStack.getOrCreateTag().getInt("level") + offset, world);
         }
 
         return super.use(world, playerEntity, hand);
@@ -70,14 +80,14 @@ public abstract class Device extends Item {
             itemStack.getOrCreateTag().putInt("on", 1);
 
             //Activate use
-            interact(itemStack.getOrCreateTag().getInt("level") + 1, context.getWorld(), pos, dir);
+            interact(itemStack.getOrCreateTag().getInt("level") + offset, context.getWorld(), pos, dir);
         }
 
         return ActionResult.SUCCESS;
     }
 
     //Set level of screwdriver
-    public boolean setLevel(PlayerEntity player, ItemStack itemStack) {
+    private boolean setLevel(PlayerEntity player, ItemStack itemStack) {
         if(player.isSneaking()) {
             int level = itemStack.getOrCreateTag().getInt("level");
 
@@ -95,7 +105,48 @@ public abstract class Device extends Item {
         return player.isSneaking();
     }
 
+    @Override
+    public void onEntityTick(ItemStack itemStack, World world, Entity entity, int i, boolean bool) {
+        //Get countdown clock
+        if (itemStack.getOrCreateTag().getInt("on") == 1) {
+            int timer = itemStack.getOrCreateTag().getInt("timer") - 1;
+            if (timer == -1 || timer >= timers.size()) {
+                //Add new timer
+                if(nextTimer > -1) {
+                    itemStack.getOrCreateTag().putInt("timer", nextTimer + 1);
+                    timers.set(nextTimer, MAXTIME);
+                    nextTimer = -1;
+                } else {
+                    //Locate timer location
+                    nextTimer = 0;
+                    while(nextTimer < timers.size() && timers.get(nextTimer) != -1)
+                        nextTimer++;
+
+                    //Set new timer
+                    itemStack.getOrCreateTag().putInt("timer", nextTimer);
+                    if(nextTimer == timers.size())
+                        timers.add(MAXTIME);
+                    else
+                        timers.set(nextTimer, MAXTIME);
+                    nextTimer = -1;
+                }
+            } else {
+                //Check existing timer
+                int time = timers.get(timer);
+                if (time > 0) {
+                    timers.set(timer, time - 1);
+                } else {
+                    //End timer
+                    itemStack.getOrCreateTag().putInt("timer", 0);
+                    itemStack.getOrCreateTag().putInt("on", 0);
+                    timers.set(timer, -1);
+                    nextTimer = timer;
+                }
+            }
+        }
+    }
+
     //Overridable functions for specific device use
-    public abstract void interact(int level, World world);
-    public abstract void interact(int level, World world, BlockPos pos, Direction dir);
+    public abstract boolean interact(int level, World world);
+    public abstract boolean interact(int level, World world, BlockPos pos, Direction dir);
 }

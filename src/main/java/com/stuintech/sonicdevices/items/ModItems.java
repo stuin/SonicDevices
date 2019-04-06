@@ -21,11 +21,16 @@ public class ModItems {
     public static final Item river_case = new Item(SETTINGS);
 
     //Sonic Screwdrivers
-    public static final Device[] cane = {new Screwdriver(true), new Screwdriver(true), new Screwdriver(true)};
-    public static final Device[] mark1 = {new Screwdriver(), new Screwdriver(), new Screwdriver()};
-    public static final Device[] mark5 = {new Screwdriver(), new Screwdriver(), new Screwdriver()};
-    public static final Device[] mark7 = {new Screwdriver(), new Screwdriver(), new Screwdriver()};
-    public static final Device[] river = {new Screwdriver(), new Screwdriver(), new Screwdriver()};
+    public static final Device[] cane = initializeDevice(true);
+    public static final Device[] mark1 = initializeDevice(false);
+    public static final Device[] mark5 = initializeDevice(false);
+    public static final Device[] mark7 = initializeDevice(false);
+    public static final Device[] river = initializeDevice(false);
+
+    private static Device[] initializeDevice(boolean cane) {
+        Device[] array = {new Screwdriver(cane), new Screwdriver(cane), new AdvancedScrewdriver(cane)};
+        return array;
+    }
 
     //Register items rendering
     public static void register() {
@@ -43,7 +48,7 @@ public class ModItems {
 
     }
 
-    public static void registerDevice(String name, Item[] items) {
+    private static void registerDevice(String name, Item[] items) {
         registerItem(name + "/blue", items[0]);
         registerItem(name + "/green", items[1]);
         registerItem(name + "/red", items[2]);
