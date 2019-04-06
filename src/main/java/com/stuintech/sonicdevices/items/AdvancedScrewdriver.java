@@ -1,8 +1,15 @@
 package com.stuintech.sonicdevices.items;
 
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.StringTextComponent;
+import net.minecraft.text.TranslatableTextComponent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+
+import java.util.Collection;
 
 public class AdvancedScrewdriver extends Screwdriver {
     public AdvancedScrewdriver(boolean cane) { this(cane, 3); }
@@ -12,7 +19,31 @@ public class AdvancedScrewdriver extends Screwdriver {
         super(cane, cane ? maxLevel + 1 : maxLevel);
     }
 
-    public boolean interact(int level, World world) {
+    public boolean interact(int level, PlayerEntity player, LivingEntity entity) {
+        //Run scan
+        if(level == 3) {
+            if(super.interact(level, player, entity)) {
+                //Check for potion effects
+                if(entity.getPotionEffects().size() > 0) {
+                    Collection<StatusEffectInstance> effects = entity.getPotionEffects();
+                    player.addChatMessage(new StringTextComponent("Potion Effects:"), false);
+
+                    //List effects
+                    for(StatusEffectInstance effect : effects) {
+                        //Get time
+                        int seconds = effect.getDuration() % 60;
+                        int minutes = effect.getDuration() / 60;
+
+                        //Display status
+                        String message = "  " + new TranslatableTextComponent(effect.getTranslationKey()).getText();
+                        message += " " + (effect.getAmplifier() + 1) + " (" + minutes + ':' + seconds + ')';
+                        player.addChatMessage(new StringTextComponent(message), false);
+                    }
+                    player.addChatMessage(new StringTextComponent(""), false);
+                }
+                return true;
+            }
+        }
         return false;
     }
 

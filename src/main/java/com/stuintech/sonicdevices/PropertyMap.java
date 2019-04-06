@@ -7,7 +7,7 @@ import java.util.HashMap;
  */
 
 public class PropertyMap {
-    private static final HashMap<String, String> map = new HashMap<String, String>() {{
+    private static final HashMap<String, String> properties = new HashMap<String, String>() {{
         put("block.minecraft.iron_door", "open");
         put("block.minecraft.iron_trapdoor", "open");
         put("block.minecraft.redstone_lamp", "lit");
@@ -26,10 +26,6 @@ public class PropertyMap {
         put("block.minecraft.observer!", "powered");
     }};
 
-    public static String getCode(String block) {
-        return map.getOrDefault(block, "");
-    }
-
     private static final String[] exceptions = new String[]{
             "block.minecraft.dropper",
             "block.minecraft.dispenser",
@@ -37,6 +33,12 @@ public class PropertyMap {
             "block.minecraft.comparator",
             "block.minecraft.daylight_detector"
     };
+
+    public static String getCode(String block) {
+        return properties.getOrDefault(block, "");
+    }
+
+
 
     public static boolean isOverride(String block) {
         for(String s : exceptions) {

@@ -8,9 +8,14 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.PistonBlockEntity;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.block.piston.PistonHandler;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateFactory;
 import net.minecraft.state.property.Property;
+import net.minecraft.text.StringTextComponent;
+import net.minecraft.text.TranslatableTextComponent;
 import net.minecraft.util.SystemUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -29,7 +34,19 @@ public class Screwdriver extends Device {
         super(cane, cane ? maxLevel + 1 : maxLevel);
     }
 
-    public boolean interact(int level, World world) {
+    public boolean interact(int level, PlayerEntity player, World world) {
+        return false;
+    }
+
+    public boolean interact(int level, PlayerEntity player, LivingEntity entity) {
+        //Scan mob
+        if(level == 3 && entity.getEntityWorld().isClient) {
+            player.addChatMessage(new StringTextComponent("Scanning Entity:"), false);
+            player.addChatMessage(new StringTextComponent("  Type: " + entity.getType().getTextComponent().getText()), false);
+            player.addChatMessage(new StringTextComponent("  Health: " + entity.getHealth() + " / " + entity.getHealthMaximum()), false);
+            player.addChatMessage(new StringTextComponent(""), false);
+            return true;
+        }
         return false;
     }
 
@@ -37,7 +54,7 @@ public class Screwdriver extends Device {
         int used = 1;
 
         //Activate and deactivate
-        if((level == 1 || level == 2)) {
+        if((level == 1 || level == 2) && !world.isClient) {
             //Get block variables
             BlockState blockState = world.getBlockState(pos);
             Block block = blockState.getBlock();

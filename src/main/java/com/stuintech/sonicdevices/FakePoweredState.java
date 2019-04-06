@@ -42,15 +42,4 @@ public class FakePoweredState extends BlockState {
         }
         return oldState.getWeakRedstonePower(blockView_1, blockPos_1, direction_1);
     }
-
-    @Override
-    public int getStrongRedstonePower(BlockView blockView_1, BlockPos blockPos_1, Direction direction_1) {
-        if(direction == direction_1) {
-            if(checked)
-                world.setBlockState(blockPos_1, oldState);
-            checked = true;
-            return 15;
-        }
-        return oldState.getWeakRedstonePower(blockView_1, blockPos_1, direction_1);
-    }
 }
