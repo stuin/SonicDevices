@@ -4,6 +4,7 @@ package com.stuintech.sonicdevices.items;
  * Created by Stuart Irwin on 4/4/2019.
  */
 
+import com.stuintech.sonicdevices.FakePoweredState;
 import com.stuintech.sonicdevices.PropertyMap;
 import com.sun.istack.internal.Nullable;
 import net.minecraft.block.*;
@@ -42,7 +43,7 @@ public class Screwdriver extends Device {
     public void interact(int level, World world, BlockPos pos, Direction dir) {
         if(cane)
             level -= 1;
-        if(level == 1 || level == 2 && !world.isClient) {
+        if((level == 1 || level == 2)) {
             //Get block variables
             BlockState blockState = world.getBlockState(pos);
             Block block = blockState.getBlock();
@@ -50,53 +51,62 @@ public class Screwdriver extends Device {
 
             //Get relevant variable
             String code = PropertyMap.getCode(block.getTranslationKey());
-            System.out.println("Sonic used on: " + block.getTranslationKey() + " with variable " + code);
+            //System.out.println("Sonic used on: " + block.getTranslationKey() + " with variable " + code);
 
             //Check block tags
+            BlockState blockState_2 = blockState;
             Property<?> property = stateFactory.getProperty(code);
             if(property != null) {
-                BlockState blockState_2 = method_7758(blockState, property, level == 1);
-                if(!blockState.equals(blockState_2)) {
-                    world.setBlockState(pos, blockState_2, 18);
-                    //world.updateNeighbors(pos, block);
+                blockState_2 = method_7758(blockState, property, level == 1);
+                world.setBlockState(pos, blockState_2, 18);
+            }
 
-                    //Special cases
-                    BlockPos blockPos_2;
-                    switch(block.getTranslationKey()) {
-                        case "block.minecraft.iron_door":
-                            //Locate rest of door
-                            if(blockState.get(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
-                                blockPos_2 = pos.up();
-                            else
-                                blockPos_2 = pos.down();
 
-                            //Apply update to rest of door
-                            blockState_2 = world.getBlockState(blockPos_2);
-                            blockState_2 = blockState_2.with(DoorBlock.OPEN, level == 1);
-                            world.setBlockState(blockPos_2, blockState_2, 18);
-                            break;
-                        case "block.minecraft.piston": case "block.minecraft.sticky_piston":
-                            //Activate proper piston mechanics
-                            if(blockState.get(PistonBlock.FACING) != dir)
-                                method_11483(world, pos, blockState_2);
-                            else
-                                world.setBlockState(pos, blockState, 18);
-                            break;
-                        case "block.minecraft.tnt":
-                            TntBlock.primeTnt(world, pos);
-                            world.breakBlock(pos, false);
-                            break;
-                        case "block.minecraft.repeater": case "block.minecraft.comparator":
-                            world.updateNeighbor(pos.offset(blockState.get(HorizontalFacingBlock.field_11177)), block, pos);
-                            break;
-                        case "block.minecraft.redstone_torch": case "block.minecraft.daylight_detector":
-                            world.updateNeighbors(pos, block);
-                            break;
-                        case "block.minecraft.dispenser": case "block.minecraft.dropper":
-                            world.updateNeighbor(pos, block, pos.down());
-                            break;
+            //Special cases
+            BlockPos blockPos_2;
+            switch(block.getTranslationKey()) {
+                case "block.minecraft.iron_door":
+                    //Locate rest of door
+                    if(blockState.get(DoorBlock.HALF) == DoubleBlockHalf.LOWER)
+                        blockPos_2 = pos.up();
+                    else
+                        blockPos_2 = pos.down();
+
+                    //Apply update to rest of door
+                    blockState_2 = world.getBlockState(blockPos_2);
+                    blockState_2 = blockState_2.with(DoorBlock.OPEN, level == 1);
+                    world.setBlockState(blockPos_2, blockState_2, 18);
+                    break;
+                case "block.minecraft.piston": case "block.minecraft.sticky_piston":
+                    //Activate proper piston mechanics
+                    if(blockState.get(PistonBlock.FACING) != dir)
+                        method_11483(world, pos, blockState_2);
+                    else
+                        world.setBlockState(pos, blockState, 18);
+                    break;
+                case "block.minecraft.tnt":
+                    TntBlock.primeTnt(world, pos);
+                    world.breakBlock(pos, false);
+                    break;
+                case "block.minecraft.repeater": case "block.minecraft.comparator":
+                    world.updateNeighbor(pos.offset(blockState.get(HorizontalFacingBlock.field_11177)), block, pos);
+                    break;
+                case "block.minecraft.redstone_torch": case "block.minecraft.daylight_detector":
+                    world.updateNeighbors(pos, block);
+                    break;
+                case "block.minecraft.dispenser": case "block.minecraft.dropper":
+                    if(level == 1) {
+                        world.setBlockState(pos.down(), new FakePoweredState(world, pos.down(), Direction.UP));
+                        world.updateNeighbor(pos, block, pos.down());
                     }
-                }
+                    break;
+                /*case "block.minecraft.redstone_wire": case "block.minecraft.powered_rail": case "block.minecraft.activator_rail":
+                    if(level == 1) {
+                        world.setBlockState(pos.down(), new FakePoweredState(world, pos.down(), Direction.UP));
+                        world.updateNeighbor(pos, block, pos.down());
+                        world.addBlockAction(pos, block, 0, 0);
+                    }
+                    break;*/
             }
         }
     }
@@ -120,32 +130,14 @@ public class Screwdriver extends Device {
     private void method_11483(World world, BlockPos blockPos, BlockState blockState) {
         Direction direction = blockState.get(PistonBlock.FACING);
         Block block = blockState.getBlock();
-        BlockPos blockPos_2;
-        BlockState blockState_2;
 
         if(blockState.get(PistonBlock.EXTENDED)) {
             //On extension
-            if((new PistonHandler(world, blockPos, direction, true)).calculatePush()) {
+            PistonHandler pistonHandler = new PistonHandler(world, blockPos, direction, true);
+            if(pistonHandler.calculatePush()) {
+                world.setBlockState(blockPos.offset(direction, -1), new FakePoweredState(world, blockPos.offset(direction, -1), direction));
                 world.addBlockAction(blockPos, block, 0, direction.getId());
-                world.updateNeighbor(blockPos.offset(direction, 2), block, blockPos.offset(direction, 1));
             }
-        } else {
-            //On retraction
-            blockPos_2 = blockPos.offset(direction, 2);
-            blockState_2 = world.getBlockState(blockPos_2);
-            int int_1 = 1;
-            if (blockState_2.getBlock() == Blocks.MOVING_PISTON && blockState_2.get(PistonBlock.FACING) == direction) {
-                BlockEntity blockEntity_1 = world.getBlockEntity(blockPos_2);
-                if (blockEntity_1 instanceof PistonBlockEntity) {
-                    PistonBlockEntity pistonBlockEntity_1 = (PistonBlockEntity)blockEntity_1;
-                    if (pistonBlockEntity_1.isExtending() && (pistonBlockEntity_1.getProgress(0.0F) < 0.5F || world.getTime() == pistonBlockEntity_1.getSavedWorldTime() || ((ServerWorld)world).isInsideTick())) {
-                        int_1 = 2;
-                    }
-                }
-            }
-
-            world.addBlockAction(blockPos, block, int_1, direction.getId());
-            world.updateNeighbor(blockPos.offset(direction, 1), block, blockPos);
         }
     }
 

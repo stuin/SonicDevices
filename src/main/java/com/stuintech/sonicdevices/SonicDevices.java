@@ -1,5 +1,6 @@
 package com.stuintech.sonicdevices;
 
+import com.stuintech.sonicdevices.items.ModItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.item.ItemGroup;

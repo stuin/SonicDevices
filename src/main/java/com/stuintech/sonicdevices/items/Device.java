@@ -1,6 +1,5 @@
 package com.stuintech.sonicdevices.items;
 
-import com.stuintech.sonicdevices.ModItems;
 import com.stuintech.sonicdevices.PropertyMap;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
