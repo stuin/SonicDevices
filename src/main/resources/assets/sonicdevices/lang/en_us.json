@@ -1,6 +1,23 @@
 {
     "itemGroup.sonicdevices.group": "Sonic Devices",
-    "item.sonicdevices.mark1case": "Mark I Screwdriver Casing",
-    "item.sonicdevices.mark1b": "Mark I Sonic Screwdriver",
-    "item.sonicdevices.mark1g": "Mark I Sonic Screwdriver"
+    "item.sonicdevices.cane.casing": "Sonic Cane Casing",
+    "item.sonicdevices.cane.blue": "Sonic Cane",
+    "item.sonicdevices.cane.green": "Sonic Cane",
+    "item.sonicdevices.cane.red": "Sonic Cane",
+    "item.sonicdevices.mark1.casing": "Mark I Screwdriver Casing",
+    "item.sonicdevices.mark1.blue": "Mark I Sonic Screwdriver",
+    "item.sonicdevices.mark1.green": "Mark I Sonic Screwdriver",
+    "item.sonicdevices.mark1.red": "Mark I Sonic Screwdriver",
+    "item.sonicdevices.mark5.casing": "Mark V Screwdriver Casing",
+    "item.sonicdevices.mark5.blue": "Mark V Sonic Screwdriver",
+    "item.sonicdevices.mark5.green": "Mark V Sonic Screwdriver",
+    "item.sonicdevices.mark5.red": "Mark V Sonic Screwdriver",
+    "item.sonicdevices.mark7.casing": "Mark VII Screwdriver Casing",
+    "item.sonicdevices.mark7.blue": "Mark VII Sonic Screwdriver",
+    "item.sonicdevices.mark7.green": "Mark VII Sonic Screwdriver",
+    "item.sonicdevices.mark7.red": "Mark VII Sonic Screwdriver",
+    "item.sonicdevices.river.casing": "River's Screwdriver Casing",
+    "item.sonicdevices.river.blue": "River's Sonic Screwdriver",
+    "item.sonicdevices.river.green": "River's Sonic Screwdriver",
+    "item.sonicdevices.river.red": "River's Sonic Screwdriver"
 }

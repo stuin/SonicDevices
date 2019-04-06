@@ -8,13 +8,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 /*
  * Created by Stuart Irwin on 4/4/2019.
  */
 
-public class Device extends Item {
+public abstract class Device extends Item {
     private final int maxLevel;
 
     public Device(int maxLevel) {
@@ -56,6 +57,7 @@ public class Device extends Item {
         PlayerEntity player = context.getPlayer();
         World world = context.getWorld();
         BlockPos pos = context.getBlockPos();
+        Direction dir = context.getFacing();
 
         //Override sneaking for interactive blocks
         boolean override = false;
@@ -69,7 +71,7 @@ public class Device extends Item {
             itemStack.getOrCreateTag().putInt("on", 1);
 
             //Activate use
-            interact(itemStack.getOrCreateTag().getInt("level") + 1, context.getWorld(), pos);
+            interact(itemStack.getOrCreateTag().getInt("level") + 1, context.getWorld(), pos, dir);
         }
 
         return ActionResult.SUCCESS;
@@ -95,11 +97,6 @@ public class Device extends Item {
     }
 
     //Overridable functions for specific device use
-    public void interact(int level, World world) {
-
-    }
-
-    public void interact(int level, World world, BlockPos pos) {
-
-    }
+    public abstract void interact(int level, World world);
+    public abstract void interact(int level, World world, BlockPos pos, Direction dir);
 }

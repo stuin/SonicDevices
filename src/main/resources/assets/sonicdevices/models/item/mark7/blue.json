@@ -1,0 +1,71 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "sonicdevices:item/mark7/blue10"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "level": 1,
+        "on": 1
+      },
+      "model": "sonicdevices:item/mark7/blue11"
+    },
+    {
+      "predicate": {
+        "level": 2,
+        "on": 0
+      },
+      "model": "sonicdevices:item/mark7/blue20"
+    },
+    {
+      "predicate": {
+        "level": 2,
+        "on": 1
+      },
+      "model": "sonicdevices:item/mark7/blue21"
+    },
+    {
+      "predicate": {
+        "level": 3,
+        "on": 0
+      },
+      "model": "sonicdevices:item/mark7/blue30"
+    },
+    {
+      "predicate": {
+        "level": 3,
+        "on": 1
+      },
+      "model": "sonicdevices:item/mark7/blue31"
+    },
+    {
+      "predicate": {
+        "level": 4,
+        "on": 0
+      },
+      "model": "sonicdevices:item/mark7/blue40"
+    },
+    {
+      "predicate": {
+        "level": 4,
+        "on": 1
+      },
+      "model": "sonicdevices:item/mark7/blue41"
+    },
+    {
+      "predicate": {
+        "level": 5,
+        "on": 0
+      },
+      "model": "sonicdevices:item/mark7/blue50"
+    },
+    {
+      "predicate": {
+        "level": 5,
+        "on": 1
+      },
+      "model": "sonicdevices:item/mark7/blue51"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "sonicdevices:item/mark1/green10"
+    "layer0": "sonicdevices:item/mark5/red10"
   },
   "overrides": [
     {
@@ -9,49 +9,63 @@
         "level": 1,
         "on": 1
       },
-      "model": "sonicdevices:item/mark1/green11"
+      "model": "sonicdevices:item/mark5/red11"
     },
     {
       "predicate": {
         "level": 2,
         "on": 0
       },
-      "model": "sonicdevices:item/mark1/green20"
+      "model": "sonicdevices:item/mark5/red20"
     },
     {
       "predicate": {
         "level": 2,
         "on": 1
       },
-      "model": "sonicdevices:item/mark1/green21"
+      "model": "sonicdevices:item/mark5/red21"
     },
     {
       "predicate": {
         "level": 3,
         "on": 0
       },
-      "model": "sonicdevices:item/mark1/green30"
+      "model": "sonicdevices:item/mark5/red30"
     },
     {
       "predicate": {
         "level": 3,
         "on": 1
       },
-      "model": "sonicdevices:item/mark1/green31"
+      "model": "sonicdevices:item/mark5/red31"
     },
     {
       "predicate": {
         "level": 4,
         "on": 0
       },
-      "model": "sonicdevices:item/mark1/green40"
+      "model": "sonicdevices:item/mark5/red40"
     },
     {
       "predicate": {
         "level": 4,
         "on": 1
       },
-      "model": "sonicdevices:item/mark1/green41"
+      "model": "sonicdevices:item/mark5/red41"
+    },
+    {
+      "predicate": {
+        "level": 5,
+        "on": 0
+      },
+      "model": "sonicdevices:item/mark5/red50"
+    },
+    {
+      "predicate": {
+        "level": 5,
+        "on": 1
+      },
+      "model": "sonicdevices:item/mark5/red51"
     }
   ]
 }
