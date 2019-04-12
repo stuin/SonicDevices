@@ -1,21 +1,16 @@
 package com.stuintech.sonicdevices.items;
 
-import com.stuintech.sonicdevices.FakePoweredState;
+import com.stuintech.sonicdevices.blocks.WeakPoweredState;
 import com.stuintech.sonicdevices.PropertyMap;
 import com.sun.istack.internal.Nullable;
 import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.PistonBlockEntity;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.block.piston.PistonHandler;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateFactory;
 import net.minecraft.state.property.Property;
 import net.minecraft.text.StringTextComponent;
-import net.minecraft.text.TranslatableTextComponent;
 import net.minecraft.util.SystemUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -92,38 +87,42 @@ public class Screwdriver extends Device {
                     world.setBlockState(blockPos_2, blockState_2, 18);
                     break;
                 case "block.minecraft.piston": case "block.minecraft.sticky_piston":
-                    //Activate proper piston mechanics
-                    if(blockState.get(PistonBlock.FACING) != dir)
-                        method_11483(world, pos, blockState_2);
-                    else
-                        world.setBlockState(pos, blockState, 18);
+                    method_11483(world, pos, blockState_2);
+                    break;
+                case "block.minecraft.piston_head":
+                    //Activate connected piston
+                    interact(level, world, pos.offset(blockState.get(PistonHeadBlock.FACING).getOpposite()), dir);
                     break;
                 case "block.minecraft.tnt":
+                    //Run tnt activation
                     TntBlock.primeTnt(world, pos);
                     world.breakBlock(pos, false);
                     break;
-                case "block.minecraft.repeater": case "block.minecraft.comparator":
+                case "block.minecraft.repeater":
+                    //Update output block
                     world.updateNeighbor(pos.offset(blockState.get(HorizontalFacingBlock.field_11177)), block, pos);
                     break;
-                case "block.minecraft.redstone_torch": case "block.minecraft.daylight_detector":
+                case "block.minecraft.daylight_detector": case "block.minecraft.redstone_torch":
+                    //Update output blocks
                     world.updateNeighbors(pos, block);
                     break;
                 case "block.minecraft.dispenser": case "block.minecraft.dropper":
+                    //Activate with fake redstone source
                     if(level == 1) {
-                        world.setBlockState(pos.down(), new FakePoweredState(world, pos.down(), Direction.UP));
+                        world.setBlockState(pos.down(), new WeakPoweredState(world, pos.down(), Direction.UP));
                         world.updateNeighbor(pos, block, pos.down());
                     }
                     break;
                 case "block.minecraft.observer":
+                    //Run tick update
                     if(level == 1) {
-                        Direction direction_2 = blockState.get(FacingBlock.FACING);
-                        blockPos_2 = pos.offset(direction_2);
-                        world.setBlockState(blockPos_2, new FakePoweredState(world, blockPos_2, direction_2));
+                        world.getBlockTickScheduler().schedule(pos, block, 1);
                     }
                     break;
                 /*case "block.minecraft.redstone_wire": case "block.minecraft.powered_rail": case "block.minecraft.activator_rail":
+                    //Activate with fake redstone source
                     if(level == 1) {
-                        world.setBlockState(pos.down(), new FakePoweredState(world, pos.down(), Direction.UP));
+                        world.setBlockState(pos.down(), new StrongPoweredState(world, pos.down(), Direction.UP));
                         world.updateNeighbor(pos, block, pos.down());
                     }
                     break;*/
@@ -159,7 +158,7 @@ public class Screwdriver extends Device {
             //On extension
             PistonHandler pistonHandler = new PistonHandler(world, blockPos, direction, true);
             if(pistonHandler.calculatePush()) {
-                world.setBlockState(blockPos.offset(direction, -1), new FakePoweredState(world, blockPos.offset(direction, -1), direction));
+                world.setBlockState(blockPos.offset(direction, -1), new WeakPoweredState(world, blockPos.offset(direction, -1), direction));
                 world.addBlockAction(blockPos, block, 0, direction.getId());
             }
         }

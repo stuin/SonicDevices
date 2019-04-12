@@ -1,4 +1,4 @@
-package com.stuintech.sonicdevices.integration;
+package com.stuintech.sonicdevices.extensions;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;

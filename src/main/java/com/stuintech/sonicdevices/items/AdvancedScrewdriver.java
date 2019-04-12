@@ -24,19 +24,18 @@ public class AdvancedScrewdriver extends Screwdriver {
         if(level == 3) {
             if(super.interact(level, player, entity)) {
                 //Check for potion effects
-                if(entity.getPotionEffects().size() > 0) {
-                    Collection<StatusEffectInstance> effects = entity.getPotionEffects();
+                if(entity.getStatusEffects().size() > 0) {
+                    Collection<StatusEffectInstance> effects = entity.getStatusEffects();
                     player.addChatMessage(new StringTextComponent("Potion Effects:"), false);
 
                     //List effects
                     for(StatusEffectInstance effect : effects) {
                         //Get time
-                        int seconds = effect.getDuration() % 60;
-                        int minutes = effect.getDuration() / 60;
+                        int seconds = effect.getDuration() / 10;
 
                         //Display status
                         String message = "  " + new TranslatableTextComponent(effect.getTranslationKey()).getText();
-                        message += " " + (effect.getAmplifier() + 1) + " (" + minutes + ':' + seconds + ')';
+                        message += " " + (effect.getAmplifier() + 1) + " (" + seconds + ')';
                         player.addChatMessage(new StringTextComponent(message), false);
                     }
                     player.addChatMessage(new StringTextComponent(""), false);
