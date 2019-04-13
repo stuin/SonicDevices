@@ -1,5 +1,6 @@
 package com.stuintech.sonicdevices.items;
 
+import com.stuintech.sonicdevices.ModSounds;
 import com.stuintech.sonicdevices.PropertyMap;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
@@ -8,6 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.StringTextComponent;
 import net.minecraft.text.TextComponent;
 import net.minecraft.text.TranslatableTextComponent;
@@ -45,6 +47,12 @@ public abstract class Device extends Item {
         this.addProperty(new Identifier("on"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("on"));
     }
 
+    //Run sound and light
+    private void activate(ItemStack itemStack, World world, PlayerEntity playerEntity) {
+        itemStack.getOrCreateTag().putInt("on", 1);
+        world.playSoundFromEntity(null, playerEntity, ModSounds.sonicSound, SoundCategory.PLAYERS, 1, 0);
+    }
+
     @Override
     public UseAction getUseAction(ItemStack itemStack_1) {
         return UseAction.NONE;
@@ -57,7 +65,7 @@ public abstract class Device extends Item {
         //Change level or run
         if(!setLevel(playerEntity, itemStack)) {
             //Enable item
-            itemStack.getOrCreateTag().putInt("on", 1);
+            activate(itemStack, world, playerEntity);
 
             //Activate use
             interact(itemStack.getOrCreateTag().getInt("level") + offset, playerEntity, world);
@@ -84,7 +92,7 @@ public abstract class Device extends Item {
         //Change level or run
         if(player != null && (override || !setLevel(player, itemStack))) {
             //Enable item
-            itemStack.getOrCreateTag().putInt("on", 1);
+            activate(itemStack, world, player);
 
             //Activate use
             interact(itemStack.getOrCreateTag().getInt("level") + offset, context.getWorld(), pos, dir);
@@ -98,7 +106,7 @@ public abstract class Device extends Item {
         //Change level or run
         if(!setLevel(playerEntity, itemStack)) {
             //Enable item
-            itemStack.getOrCreateTag().putInt("on", 1);
+            activate(itemStack, playerEntity.getEntityWorld(), playerEntity);
 
             //Activate use
             return interact(itemStack.getOrCreateTag().getInt("level") + offset, playerEntity, livingEntity);
