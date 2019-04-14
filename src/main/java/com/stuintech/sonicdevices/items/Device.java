@@ -50,7 +50,7 @@ public abstract class Device extends Item {
     //Run sound and light
     private void activate(ItemStack itemStack, World world, PlayerEntity playerEntity) {
         itemStack.getOrCreateTag().putInt("on", 1);
-        world.playSoundFromEntity(null, playerEntity, ModSounds.sonicSound, SoundCategory.PLAYERS, 1, 0);
+        world.playSound(null, playerEntity.getBlockPos(), ModSounds.sonicSound, SoundCategory.PLAYERS, 1, 1);
     }
 
     @Override

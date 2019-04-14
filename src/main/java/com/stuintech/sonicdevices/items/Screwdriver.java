@@ -2,7 +2,6 @@ package com.stuintech.sonicdevices.items;
 
 import com.stuintech.sonicdevices.blocks.WeakPoweredState;
 import com.stuintech.sonicdevices.PropertyMap;
-import com.sun.istack.internal.Nullable;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.block.piston.PistonHandler;
@@ -145,7 +144,7 @@ public class Screwdriver extends Device {
 
         return blockState_1.with(property_1, method_7760(property_1.getValues(), blockState_1.get(property_1), value));
     }
-    private static <T> T method_7760(Iterable<T> iterable_1, @Nullable T object_1, boolean boolean_1) {
+    private static <T> T method_7760(Iterable<T> iterable_1, T object_1, boolean boolean_1) {
         return boolean_1 ? SystemUtil.previous(iterable_1, object_1) : SystemUtil.next(iterable_1, object_1);
     }
 
