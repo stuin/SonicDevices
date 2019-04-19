@@ -136,7 +136,6 @@ public abstract class Device extends Item {
     @Override
     public void buildTooltip(ItemStack itemStack, World world, List<TextComponent> list, TooltipContext tooltipContext) {
         super.buildTooltip(itemStack, world, list, tooltipContext);
-        System.out.println(itemStack.getTranslationKey());
 
         //Get text features
         String[] key = itemStack.getTranslationKey().replace('.', ',').split(",");

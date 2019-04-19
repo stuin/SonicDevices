@@ -99,7 +99,7 @@ public class Screwdriver extends Device {
                     break;
                 case "block.minecraft.repeater":
                     //Update output block
-                    world.updateNeighbor(pos.offset(blockState.get(HorizontalFacingBlock.field_11177)), block, pos);
+                    world.updateNeighbor(pos.offset(blockState.get(HorizontalFacingBlock.FACING)), block, pos);
                     break;
                 case "block.minecraft.daylight_detector": case "block.minecraft.redstone_torch":
                     //Update output blocks
