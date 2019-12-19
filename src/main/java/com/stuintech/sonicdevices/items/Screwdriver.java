@@ -7,13 +7,16 @@ import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.block.piston.PistonHandler;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.state.StateFactory;
+import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Property;
-import net.minecraft.text.StringTextComponent;
-import net.minecraft.util.SystemUtil;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+
+import javax.naming.spi.StateFactory;
 
 /*
  * Created by Stuart Irwin on 4/4/2019.
@@ -35,10 +38,9 @@ public class Screwdriver extends Device {
     public boolean interact(int level, PlayerEntity player, LivingEntity entity) {
         //Scan mob
         if(level == 3 && entity.getEntityWorld().isClient) {
-            player.addChatMessage(new StringTextComponent("Scanning Entity:"), false);
-            player.addChatMessage(new StringTextComponent("  Type: " + entity.getType().getTextComponent().getText()), false);
-            player.addChatMessage(new StringTextComponent("  Health: " + entity.getHealth() + " / " + entity.getHealthMaximum()), false);
-            player.addChatMessage(new StringTextComponent(""), false);
+            player.addChatMessage(new TranslatableText(entity.getType().getTranslationKey()), false);
+            player.addChatMessage(new LiteralText("  Health: " + entity.getHealth() + " / " + entity.getMaximumHealth()), false);
+            player.addChatMessage(new LiteralText(""), false);
             return true;
         }
         return false;
@@ -52,7 +54,7 @@ public class Screwdriver extends Device {
             //Get block variables
             BlockState blockState = world.getBlockState(pos);
             Block block = blockState.getBlock();
-            StateFactory<Block, BlockState> stateFactory = block.getStateFactory();
+            StateManager<Block, BlockState> stateFactory = block.getStateManager();
 
             //Get relevant variable
             String code = PropertyMap.getCode(block.getTranslationKey());
@@ -62,7 +64,7 @@ public class Screwdriver extends Device {
             BlockState blockState_2 = blockState;
             Property<?> property = stateFactory.getProperty(code);
             if(property != null) {
-                blockState_2 = method_7758(blockState, property, level == 1);
+                blockState_2 = cycle(blockState, property, level == 1);
                 if(blockState_2 != blockState) {
                     world.setBlockState(pos, blockState_2, 18);
                     used++;
@@ -86,7 +88,7 @@ public class Screwdriver extends Device {
                     world.setBlockState(blockPos_2, blockState_2, 18);
                     break;
                 case "block.minecraft.piston": case "block.minecraft.sticky_piston":
-                    method_11483(world, pos, blockState_2);
+                    method_11483(world, pos, blockState_2, level == 2);
                     break;
                 case "block.minecraft.piston_head":
                     //Activate connected piston
@@ -134,33 +136,41 @@ public class Screwdriver extends Device {
     }
 
     //Based off of DebugStickItem
-    private static <T extends Comparable<T>> BlockState method_7758(BlockState blockState_1, Property<T> property_1, boolean value) {
-        if(property_1.getValueClass() == Boolean.class) {
+    private static <T extends Comparable<T>> BlockState cycle(BlockState blockState_1, Property<T> property_1, boolean value) {
+        if(property_1.getType() == Boolean.class) {
             if(!blockState_1.get(property_1).equals(value))
-                return blockState_1.with(property_1, method_7760(property_1.getValues(), blockState_1.get(property_1), true));
+                return blockState_1.with(property_1, cycle(property_1.getValues(), blockState_1.get(property_1), true));
             else
                 return blockState_1;
         }
 
-        return blockState_1.with(property_1, method_7760(property_1.getValues(), blockState_1.get(property_1), value));
+        return blockState_1.with(property_1, cycle(property_1.getValues(), blockState_1.get(property_1), value));
     }
-    private static <T> T method_7760(Iterable<T> iterable_1, T object_1, boolean boolean_1) {
-        return boolean_1 ? SystemUtil.previous(iterable_1, object_1) : SystemUtil.next(iterable_1, object_1);
+    private static <T> T cycle(Iterable<T> iterable_1, T object_1, boolean boolean_1) {
+        return boolean_1 ? Util.previous(iterable_1, object_1) : Util.next(iterable_1, object_1);
     }
 
     //Based off PistonBlock
-    private void method_11483(World world, BlockPos blockPos, BlockState blockState) {
+    private void method_11483(World world, BlockPos blockPos, BlockState blockState, boolean changed) {
         Direction direction = blockState.get(PistonBlock.FACING);
         Block block = blockState.getBlock();
 
-        if(blockState.get(PistonBlock.EXTENDED)) {
-            //On extension
-            PistonHandler pistonHandler = new PistonHandler(world, blockPos, direction, true);
-            if(pistonHandler.calculatePush()) {
-                world.setBlockState(blockPos.offset(direction, -1), new WeakPoweredState(world, blockPos.offset(direction, -1), direction));
-                world.addBlockAction(blockPos, block, 0, direction.getId());
-            }
-        }
-    }
+        //On extension
+        PistonHandler pistonHandler = new PistonHandler(world, blockPos, direction, true);
+        if(!blockState.get(PistonBlock.EXTENDED) && pistonHandler.calculatePush()) {
 
+            //One tick pulse
+            if(changed) {
+                String s = world.getBlockState(blockPos.offset(direction, -1)).getBlock().getTranslationKey();
+                if(!s.contains("piston") && !s.contains("slab")) {
+                    world.setBlockState(blockPos, cycle(blockState, block.getStateManager().getProperty("extended"), true), 18);
+                }
+            }
+
+            //Actually activate piston
+            world.setBlockState(blockPos.offset(direction, -1), new WeakPoweredState(world, blockPos.offset(direction, -1), direction));
+            world.addBlockAction(blockPos, block, 0, direction.getId());
+        }
+
+    }
 }

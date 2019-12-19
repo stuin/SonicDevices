@@ -11,8 +11,8 @@ public class PropertyMap {
         put("block.minecraft.iron_door", "open");
         put("block.minecraft.iron_trapdoor", "open");
         put("block.minecraft.redstone_lamp", "lit");
-        put("block.minecraft.piston", "extended");
-        put("block.minecraft.sticky_piston", "extended");
+        //put("block.minecraft.piston", "extended");
+        //put("block.minecraft.sticky_piston", "extended");
         put("block.minecraft.dropper!", "triggered");
         put("block.minecraft.dispenser!", "triggered");
         put("block.minecraft.repeater", "powered");

@@ -3,8 +3,9 @@ package com.stuintech.sonicdevices.items;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.StringTextComponent;
-import net.minecraft.text.TranslatableTextComponent;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -26,7 +27,7 @@ public class AdvancedScrewdriver extends Screwdriver {
                 //Check for potion effects
                 if(entity.getStatusEffects().size() > 0) {
                     Collection<StatusEffectInstance> effects = entity.getStatusEffects();
-                    player.addChatMessage(new StringTextComponent("Potion Effects:"), false);
+                    player.addChatMessage(new LiteralText("Potion Effects:"), false);
 
                     //List effects
                     for(StatusEffectInstance effect : effects) {
@@ -34,11 +35,11 @@ public class AdvancedScrewdriver extends Screwdriver {
                         int seconds = effect.getDuration() / 10;
 
                         //Display status
-                        String message = "  " + new TranslatableTextComponent(effect.getTranslationKey()).getText();
+                        String message = "  " + new TranslatableText(effect.getTranslationKey()).asString();
                         message += " " + (effect.getAmplifier() + 1) + " (" + seconds + ')';
-                        player.addChatMessage(new StringTextComponent(message), false);
+                        player.addChatMessage(new LiteralText(message), false);
                     }
-                    player.addChatMessage(new StringTextComponent(""), false);
+                    player.addChatMessage(new LiteralText(""), false);
                 }
                 return true;
             }

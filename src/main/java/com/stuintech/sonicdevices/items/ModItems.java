@@ -11,7 +11,7 @@ import net.minecraft.util.registry.Registry;
  */
 
 public class ModItems {
-    public static final Item.Settings SETTINGS = new Item.Settings().stackSize(1).itemGroup(SonicDevices.SONIC_GROUP);
+    public static final Item.Settings SETTINGS = new Item.Settings().maxCount(1).group(SonicDevices.SONIC_GROUP);
 
     //Device parts
     public static final Item slide_circuit = new Item(SETTINGS);

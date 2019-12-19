@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "sonicdevices",
-  "version": "1.0.0",
+  "version": "1.0.3",
 
   "name": "Sonic Devices",
   "description": "Sonic Screwdrivers in many styles.",
@@ -23,11 +23,8 @@
     ]
   },
 
-  "requires": {
-    "fabricloader": ">=0.4.0",
+  "depends": {
+    "fabricloader": ">=0.4.8",
     "fabric": "*"
-  },
-  "suggests": {
-    "computercraft": "*"
   }
 }

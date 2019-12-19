@@ -2,6 +2,8 @@ package com.stuintech.sonicdevices.items;
 
 import com.stuintech.sonicdevices.ModSounds;
 import com.stuintech.sonicdevices.PropertyMap;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -10,15 +12,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.text.StringTextComponent;
-import net.minecraft.text.TextComponent;
-import net.minecraft.text.TranslatableTextComponent;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,14 +44,14 @@ public abstract class Device extends Item {
         this.offset = cane ? 0 : 1;
 
         //Set animation variables
-        this.addProperty(new Identifier("level"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("level") + 1);
-        this.addProperty(new Identifier("on"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("on"));
+        this.addPropertyGetter(new Identifier("level"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("level") + 1);
+        this.addPropertyGetter(new Identifier("on"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("on"));
     }
 
     //Run sound and light
     private void activate(ItemStack itemStack, World world, PlayerEntity playerEntity) {
         itemStack.getOrCreateTag().putInt("on", 1);
-        world.playSound(null, playerEntity.getBlockPos(), ModSounds.sonicSound, SoundCategory.PLAYERS, 1, 1);
+        //world.playSound(null, playerEntity.getBlockPos(), ModSounds.sonicSound, SoundCategory.PLAYERS, 1, 1);
     }
 
     @Override
@@ -77,11 +78,11 @@ public abstract class Device extends Item {
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
         //Get item properties
-        ItemStack itemStack = context.getItemStack();
+        ItemStack itemStack = context.getStack();
         PlayerEntity player = context.getPlayer();
         World world = context.getWorld();
         BlockPos pos = context.getBlockPos();
-        Direction dir = context.getFacing();
+        Direction dir = context.getPlayerFacing();
 
         //Override sneaking for interactive blocks
         boolean override = false;
@@ -102,7 +103,7 @@ public abstract class Device extends Item {
     }
 
     @Override
-    public boolean interactWithEntity(ItemStack itemStack, PlayerEntity playerEntity, LivingEntity livingEntity, Hand hand) {
+    public boolean useOnEntity(ItemStack itemStack, PlayerEntity playerEntity, LivingEntity livingEntity, Hand hand) {
         //Change level or run
         if(!setLevel(playerEntity, itemStack)) {
             //Enable item
@@ -133,21 +134,19 @@ public abstract class Device extends Item {
         return player.isSneaking();
     }
 
-    @Override
-    public void buildTooltip(ItemStack itemStack, World world, List<TextComponent> list, TooltipContext tooltipContext) {
-        super.buildTooltip(itemStack, world, list, tooltipContext);
+    public void appendTooltip(ItemStack itemStack, World world, List<Text> list, TooltipContext tooltipContext) {
 
         //Get text features
         String[] key = itemStack.getTranslationKey().replace('.', ',').split(",");
         String color = key[3].toUpperCase().substring(0, 1) + key[3].substring(1);
-        String model = new TranslatableTextComponent(itemStack.getTranslationKey().replace(key[3], "model")).getText();
+        String model = new TranslatableText(itemStack.getTranslationKey().replace(key[3], "model")).asString();
 
         //Add text to item
-        list.add(new StringTextComponent(color + " " + model));
+        list.add(new LiteralText(color + " " + model));
     }
 
     @Override
-    public void onEntityTick(ItemStack itemStack, World world, Entity entity, int i, boolean bool) {
+    public void inventoryTick(ItemStack itemStack, World world, Entity entity, int i, boolean bool) {
         //Get countdown clock
         if (itemStack.getOrCreateTag().getInt("on") == 1) {
             int timer = itemStack.getOrCreateTag().getInt("timer") - 1;
