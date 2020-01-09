@@ -28,7 +28,7 @@ public class SonicDevices implements ModInitializer {
 	public void onInitialize() {
 		//Register mod resources
 		ModItems.register();
-		ModSounds.register();
+		//ModSounds.register();
 
 		//Check for dependencies
 
