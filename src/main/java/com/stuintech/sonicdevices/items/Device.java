@@ -40,7 +40,7 @@ public abstract class Device extends Item {
         super(ModItems.SETTINGS);
 
         //Set device stats
-        this.maxLevel = maxLevel;
+        this.maxLevel = cane ? maxLevel + 1 : maxLevel;
         this.offset = cane ? 0 : 1;
 
         //Set animation variables
@@ -82,7 +82,7 @@ public abstract class Device extends Item {
         PlayerEntity player = context.getPlayer();
         World world = context.getWorld();
         BlockPos pos = context.getBlockPos();
-        Direction dir = context.getPlayerFacing();
+        Direction dir = context.getSide();
 
         //Override sneaking for interactive blocks
         boolean override = false;
@@ -96,7 +96,7 @@ public abstract class Device extends Item {
             activate(itemStack, world, player);
 
             //Activate use
-            interact(itemStack.getOrCreateTag().getInt("level") + offset, context.getWorld(), pos, dir);
+            interact(itemStack.getOrCreateTag().getInt("level") + offset, player, context.getWorld(), pos, dir);
         }
 
         return ActionResult.SUCCESS;
@@ -189,5 +189,5 @@ public abstract class Device extends Item {
     //Overridable functions for specific device use
     public abstract boolean interact(int level, PlayerEntity player, World world);
     public abstract boolean interact(int level, PlayerEntity player, LivingEntity entity);
-    public abstract boolean interact(int level, World world, BlockPos pos, Direction dir);
+    public abstract boolean interact(int level, PlayerEntity player, World world, BlockPos pos, Direction dir);
 }

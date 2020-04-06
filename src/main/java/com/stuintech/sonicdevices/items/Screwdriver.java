@@ -7,6 +7,8 @@ import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.block.piston.PistonHandler;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Property;
 import net.minecraft.text.LiteralText;
@@ -17,6 +19,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import javax.naming.spi.StateFactory;
+import javax.sound.midi.Soundbank;
 
 /*
  * Created by Stuart Irwin on 4/4/2019.
@@ -24,11 +27,11 @@ import javax.naming.spi.StateFactory;
  */
 
 public class Screwdriver extends Device {
-    public Screwdriver(boolean cane) { this(cane, 3); }
+    public Screwdriver(boolean cane) { this(cane, 2); }
 
     //Actual constructor
     public Screwdriver(boolean cane, int maxLevel) {
-        super(cane, cane ? maxLevel + 1 : maxLevel);
+        super(cane, maxLevel);
     }
 
     public boolean interact(int level, PlayerEntity player, World world) {
@@ -36,17 +39,10 @@ public class Screwdriver extends Device {
     }
 
     public boolean interact(int level, PlayerEntity player, LivingEntity entity) {
-        //Scan mob
-        if(level == 3 && entity.getEntityWorld().isClient) {
-            player.addChatMessage(new TranslatableText(entity.getType().getTranslationKey()), false);
-            player.addChatMessage(new LiteralText("  Health: " + entity.getHealth() + " / " + entity.getMaximumHealth()), false);
-            player.addChatMessage(new LiteralText(""), false);
-            return true;
-        }
         return false;
     }
 
-    public boolean interact(int level, World world, BlockPos pos, Direction dir) {
+    public boolean interact(int level, PlayerEntity player, World world, BlockPos pos, Direction dir) {
         int used = 1;
 
         //Activate and deactivate
@@ -86,13 +82,30 @@ public class Screwdriver extends Device {
                     blockState_2 = world.getBlockState(blockPos_2);
                     blockState_2 = blockState_2.with(DoorBlock.OPEN, level == 1);
                     world.setBlockState(blockPos_2, blockState_2, 18);
+                    if(used > 1)
+                        world.playLevelEvent(null, level == 1 ? 1011 : 1005, pos, 0);
+                    break;
+                case "block.minecraft.iron_trapdoor":
+                    if(used > 1)
+                        world.playLevelEvent(null, level == 1 ? 1037 : 1036, pos, 0);
+                    break;
+                case "block.minecraft.obsidian":
+                    if(level == 1)
+                        if(!((NetherPortalBlock)Blocks.NETHER_PORTAL).createPortalAt(world, pos.offset(dir)))
+                            used--;
+                        else
+                            world.playSound(null, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, RANDOM.nextFloat() * 0.4F + 0.8F);
+                    break;
+                case "block.minecraft.nether_portal":
+                    if(level == 2)
+                        world.breakBlock(pos, false);
                     break;
                 case "block.minecraft.piston": case "block.minecraft.sticky_piston":
                     method_11483(world, pos, blockState_2, level == 2);
                     break;
                 case "block.minecraft.piston_head":
                     //Activate connected piston
-                    interact(level, world, pos.offset(blockState.get(PistonHeadBlock.FACING).getOpposite()), dir);
+                    interact(level, player, world, pos.offset(blockState.get(PistonHeadBlock.FACING).getOpposite()), dir);
                     break;
                 case "block.minecraft.tnt":
                     //Run tnt activation
@@ -116,9 +129,8 @@ public class Screwdriver extends Device {
                     break;
                 case "block.minecraft.observer":
                     //Run tick update
-                    if(level == 1) {
+                    if(level == 1)
                         world.getBlockTickScheduler().schedule(pos, block, 1);
-                    }
                     break;
                 /*case "block.minecraft.redstone_wire": case "block.minecraft.powered_rail": case "block.minecraft.activator_rail":
                     //Activate with fake redstone source
