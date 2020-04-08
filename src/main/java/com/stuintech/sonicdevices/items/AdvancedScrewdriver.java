@@ -1,12 +1,10 @@
 package com.stuintech.sonicdevices.items;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -15,7 +13,7 @@ import net.minecraft.world.World;
 import java.util.Collection;
 
 public class AdvancedScrewdriver extends Screwdriver {
-    public AdvancedScrewdriver(boolean cane) { this(cane, 3); }
+    public AdvancedScrewdriver(boolean cane) { this(cane, 4); }
 
     //Actual constructor
     public AdvancedScrewdriver(boolean cane, int maxLevel) {
@@ -24,7 +22,7 @@ public class AdvancedScrewdriver extends Screwdriver {
 
     public boolean interact(int level, PlayerEntity player, LivingEntity entity) {
         //Run scan
-        if(level == 3 && !player.getEntityWorld().isClient) {
+        if(level == 4 && !player.getEntityWorld().isClient) {
             //Scan mob
             player.addChatMessage(new TranslatableText(entity.getType().getTranslationKey()), false);
             player.addChatMessage(new LiteralText("  Health: " + entity.getHealth() + " / " + entity.getMaximumHealth()), false);
@@ -66,7 +64,7 @@ public class AdvancedScrewdriver extends Screwdriver {
             return true;
 
         //Scan Block
-        if(level == 3 && player.getEntityWorld().isClient) {
+        if(level == 4 && player.getEntityWorld().isClient) {
             BlockState blockState = world.getBlockState(pos.offset(dir.getOpposite()));
             player.addChatMessage(new TranslatableText(blockState.getBlock().getTranslationKey()), false);
             return true;

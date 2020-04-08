@@ -2,8 +2,8 @@ package com.stuintech.sonicdevices.items;
 
 import com.stuintech.sonicdevices.ModSounds;
 import com.stuintech.sonicdevices.PropertyMap;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -49,9 +49,10 @@ public abstract class Device extends Item {
     }
 
     //Run sound and light
-    private void activate(ItemStack itemStack, World world, PlayerEntity playerEntity) {
+    public void activate(ItemStack itemStack, World world, PlayerEntity playerEntity) {
         itemStack.getOrCreateTag().putInt("on", 1);
-        //world.playSound(null, playerEntity.getBlockPos(), ModSounds.sonicSound, SoundCategory.PLAYERS, 1, 1);
+        if(!world.isClient)
+            world.playSound(null, playerEntity.getBlockPos(), ModSounds.sonicSound, SoundCategory.PLAYERS, 0.6f, 1);
     }
 
     @Override
@@ -65,11 +66,9 @@ public abstract class Device extends Item {
 
         //Change level or run
         if(!setLevel(playerEntity, itemStack)) {
-            //Enable item
-            activate(itemStack, world, playerEntity);
-
             //Activate use
-            interact(itemStack.getOrCreateTag().getInt("level") + offset, playerEntity, world);
+            if(interact(getLevel(itemStack), playerEntity, world))
+                activate(itemStack, world, playerEntity);
         }
 
         return super.use(world, playerEntity, hand);
@@ -86,17 +85,16 @@ public abstract class Device extends Item {
 
         //Override sneaking for interactive blocks
         boolean override = false;
-        String blockName = world.getBlockState(pos).getBlock().getTranslationKey();
-        if(PropertyMap.isOverride(blockName))
+        Block block = world.getBlockState(pos).getBlock();
+        String blockName = block.getTranslationKey();
+        if(PropertyMap.isOverride(blockName) || block instanceof BlockWithEntity)
             override = true;
 
         //Change level or run
         if(player != null && (override || !setLevel(player, itemStack))) {
-            //Enable item
-            activate(itemStack, world, player);
-
             //Activate use
-            interact(itemStack.getOrCreateTag().getInt("level") + offset, player, context.getWorld(), pos, dir);
+            if(interact(getLevel(itemStack), player, context.getWorld(), pos, dir))
+                activate(itemStack, world, player);
         }
 
         return ActionResult.SUCCESS;
@@ -106,13 +104,17 @@ public abstract class Device extends Item {
     public boolean useOnEntity(ItemStack itemStack, PlayerEntity playerEntity, LivingEntity livingEntity, Hand hand) {
         //Change level or run
         if(!setLevel(playerEntity, itemStack)) {
-            //Enable item
-            activate(itemStack, playerEntity.getEntityWorld(), playerEntity);
-
             //Activate use
-            return interact(itemStack.getOrCreateTag().getInt("level") + offset, playerEntity, livingEntity);
+            if(interact(getLevel(itemStack), playerEntity, livingEntity)) {
+                activate(itemStack, playerEntity.getEntityWorld(), playerEntity);
+                return true;
+            }
         }
         return false;
+    }
+
+    public int getLevel(ItemStack itemStack) {
+        return itemStack.getOrCreateTag().getInt("level") + offset;
     }
 
     //Set level of screwdriver
