@@ -1,12 +1,15 @@
 package com.stuintech.sonicdevices;
 
 import com.stuintech.sonicdevices.extensions.IAction;
+import com.stuintech.sonicdevices.extensions.ILoader;
 import com.stuintech.sonicdevices.items.ModItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
@@ -16,23 +19,34 @@ import java.util.ArrayList;
 
 public class SonicDevices implements ModInitializer {
 	public static final String MODID = "sonicdevices";
+	public static final Logger LOGGER = LogManager.getLogger("sonicdevices");
 
 	public static final ItemGroup SONIC_GROUP = FabricItemGroupBuilder.create(
 			new Identifier(MODID, "group"))
 			.icon(() -> new ItemStack(ModItems.mark7[0]))
 			.build();
 
-	public static ArrayList<IAction> extensions = new ArrayList<>();
+	//Mod integration
+	public static ArrayList<IAction> useExtensions = new ArrayList<>();
+	private static final String[][] loadExtensions = new String[][] {
+			{"reborncore.RebornCore", "com.stuintech.sonicdevices.extensions.reborn.RebornCore"}
+	};
 
 	@Override
 	public void onInitialize() {
 		//Register mod resources
 		ModItems.register();
-		//ModSounds.register();
+		ModSounds.register();
 
-		//Check for dependencies
-
+		//Try loading extensions
+		for(String[] s : loadExtensions) {
+			try {
+				Class.forName(s[0]);
+				((ILoader) Class.forName(s[1]).newInstance()).onInitialize();
+				LOGGER.info(s[0] + " extension successfully initialized");
+			} catch (Exception e) {
+				LOGGER.debug(s[0] + "extension not found");
+			}
+		}
 	}
-
-
 }

@@ -2,7 +2,7 @@
   "sonic_sound": {
     "category": "player",
     "sounds": [
-      "sonicdevices:sonic_sound"
+      "sonicdevices:sonic_cut_sound"
     ]
   }
 }

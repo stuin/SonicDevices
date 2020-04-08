@@ -13,6 +13,13 @@ group = project.maven_group
 minecraft {
 }
 
+repositories {
+	maven {
+		name = "Modmuss50"
+		url = "https://maven.modmuss50.me/"
+	}
+}
+
 dependencies {
 	//to change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -22,7 +29,14 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	//compileOnly project('CC-Tweaked')
+	def rcVersion = 'RebornCore:RebornCore-1.15:+'
+	modRuntime (rcVersion) {
+		exclude group: "net.fabricmc"
+	}
+	modCompileOnly (rcVersion) {
+		exclude group: "net.fabricmc"
+	}
+
 }
 
 processResources {

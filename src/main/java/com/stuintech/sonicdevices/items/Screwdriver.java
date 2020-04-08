@@ -52,7 +52,6 @@ public class Screwdriver extends Device {
         if((level == 1 || level == 2) && !world.isClient) {
             //Get relevant variable
             String code = PropertyMap.getCode(block.getTranslationKey());
-            //System.out.println("Sonic used on: " + block.getTranslationKey() + " with variable " + code);
 
             //Check block tags
             Property<?> property = stateFactory.getProperty(code);

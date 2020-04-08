@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "sonicdevices",
-  "version": "1.0.3",
+  "version": "1.1.1",
 
   "name": "Sonic Devices",
   "description": "Sonic Screwdrivers in many styles.",
@@ -26,5 +26,8 @@
   "depends": {
     "fabricloader": ">=0.4.8",
     "fabric": "*"
+  },
+  "suggests": {
+    "reborncore": "*"
   }
 }
