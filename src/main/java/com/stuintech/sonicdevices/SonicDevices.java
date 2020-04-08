@@ -1,6 +1,5 @@
 package com.stuintech.sonicdevices;
 
-import com.stuintech.sonicdevices.extensions.IAction;
 import com.stuintech.sonicdevices.extensions.ILoader;
 import com.stuintech.sonicdevices.items.ModItems;
 import net.fabricmc.api.ModInitializer;
@@ -27,7 +26,6 @@ public class SonicDevices implements ModInitializer {
 			.build();
 
 	//Mod integration
-	public static ArrayList<IAction> useExtensions = new ArrayList<>();
 	private static final String[][] loadExtensions = new String[][] {
 			{"reborncore.RebornCore", "com.stuintech.sonicdevices.extensions.reborn.RebornCore"}
 	};

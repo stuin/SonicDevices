@@ -2,6 +2,7 @@ package com.stuintech.sonicdevices.items;
 
 import com.stuintech.sonicdevices.ModSounds;
 import com.stuintech.sonicdevices.PropertyMap;
+import com.stuintech.sonicdevices.actions.IAction;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.client.item.TooltipContext;
@@ -36,12 +37,21 @@ public abstract class Device extends Item {
     private static int nextTimer = -1;
     private static ArrayList<Integer> timers = new ArrayList<>();
 
-    public Device(boolean cane, int maxLevel) {
+    //Action list
+    protected ArrayList<IAction>[] actions;
+
+    public Device(boolean hidden, int maxLevel) {
         super(ModItems.SETTINGS);
 
         //Set device stats
-        this.maxLevel = cane ? maxLevel + 1 : maxLevel;
-        this.offset = cane ? 0 : 1;
+        this.maxLevel = hidden ? maxLevel + 1 : maxLevel;
+        this.offset = hidden ? 0 : 1;
+
+        //Make action lists for each level
+        actions = new ArrayList[this.maxLevel + 1];
+        for(int i = 0; i < this.maxLevel; i++) {
+            actions[i + 1] = new ArrayList<>();
+        }
 
         //Set animation variables
         this.addPropertyGetter(new Identifier("level"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("level") + 1);
@@ -52,7 +62,8 @@ public abstract class Device extends Item {
     public void activate(ItemStack itemStack, World world, PlayerEntity playerEntity) {
         itemStack.getOrCreateTag().putInt("on", 1);
         if(!world.isClient)
-            world.playSound(null, playerEntity.getBlockPos(), ModSounds.sonicSound, SoundCategory.PLAYERS, 0.6f, 1);
+            world.playSound(null, playerEntity.getBlockPos(), ModSounds.sonicSound,
+                    SoundCategory.PLAYERS, 0.6f, getLevel(itemStack) * 0.25f + 0.5f);
     }
 
     @Override
@@ -64,12 +75,8 @@ public abstract class Device extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
         ItemStack itemStack = playerEntity.getStackInHand(hand);
 
-        //Change level or run
-        if(!setLevel(playerEntity, itemStack)) {
-            //Activate use
-            if(interact(getLevel(itemStack), playerEntity, world))
-                activate(itemStack, world, playerEntity);
-        }
+        //Change level
+        setLevel(playerEntity, itemStack,true);
 
         return super.use(world, playerEntity, hand);
     }
@@ -91,7 +98,7 @@ public abstract class Device extends Item {
             override = true;
 
         //Change level or run
-        if(player != null && (override || !setLevel(player, itemStack))) {
+        if(player != null && (override || !setLevel(player, itemStack,false))) {
             //Activate use
             if(interact(getLevel(itemStack), player, context.getWorld(), pos, dir))
                 activate(itemStack, world, player);
@@ -103,7 +110,7 @@ public abstract class Device extends Item {
     @Override
     public boolean useOnEntity(ItemStack itemStack, PlayerEntity playerEntity, LivingEntity livingEntity, Hand hand) {
         //Change level or run
-        if(!setLevel(playerEntity, itemStack)) {
+        if(!setLevel(playerEntity, itemStack, false)) {
             //Activate use
             if(interact(getLevel(itemStack), playerEntity, livingEntity)) {
                 activate(itemStack, playerEntity.getEntityWorld(), playerEntity);
@@ -113,13 +120,28 @@ public abstract class Device extends Item {
         return false;
     }
 
+    public boolean interact(int level, PlayerEntity player, LivingEntity entity) {
+        for(IAction action : actions[level]) {
+            if(action.interact(player, entity))
+                return true;
+        }
+        return false;
+    }
+    public boolean interact(int level, PlayerEntity player, World world, BlockPos pos, Direction dir) {
+        for(IAction action : actions[level]) {
+            if(action.interact(player, world, pos, dir))
+                return true;
+        }
+        return false;
+    }
+
     public int getLevel(ItemStack itemStack) {
         return itemStack.getOrCreateTag().getInt("level") + offset;
     }
 
     //Set level of screwdriver
-    private boolean setLevel(PlayerEntity player, ItemStack itemStack) {
-        if(player.isSneaking()) {
+    private boolean setLevel(PlayerEntity player, ItemStack itemStack, boolean air) {
+        if(player.isSneaking() || air) {
             int level = itemStack.getOrCreateTag().getInt("level");
 
             //Basic level loop
@@ -131,6 +153,7 @@ public abstract class Device extends Item {
             //Update item variables
             itemStack.getOrCreateTag().putInt("level", level);
             itemStack.getOrCreateTag().putInt("on", 0);
+            activate(itemStack, player.world, player);
         }
 
         return player.isSneaking();
@@ -187,9 +210,4 @@ public abstract class Device extends Item {
             }
         }
     }
-
-    //Overridable functions for specific device use
-    public abstract boolean interact(int level, PlayerEntity player, World world);
-    public abstract boolean interact(int level, PlayerEntity player, LivingEntity entity);
-    public abstract boolean interact(int level, PlayerEntity player, World world, BlockPos pos, Direction dir);
 }

@@ -1,8 +1,6 @@
 package com.stuintech.sonicdevices.items;
 
 import com.stuintech.sonicdevices.SonicDevices;
-import com.stuintech.sonicdevices.items.Device;
-import com.stuintech.sonicdevices.items.Screwdriver;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
 
