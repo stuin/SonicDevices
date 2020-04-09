@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "IS ",
+    "I  "
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "S": {
+      "item": "sonicdevices:slide_circuit"
+    }
+  },
+  "result": {
+    "item": "sonicdevices:blaster/casing"
+  }
+}

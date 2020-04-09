@@ -1,0 +1,29 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "sonicdevices:item/blaster/green10"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "level": 1,
+        "on": 1
+      },
+      "model": "sonicdevices:item/blaster/green11"
+    },
+    {
+      "predicate": {
+        "level": 2,
+        "on": 0
+      },
+      "model": "sonicdevices:item/blaster/green20"
+    },
+    {
+      "predicate": {
+        "level": 2,
+        "on": 1
+      },
+      "model": "sonicdevices:item/blaster/green21"
+    }
+  ]
+}

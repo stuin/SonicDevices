@@ -1,6 +1,8 @@
 package com.stuintech.sonicdevices.blocks;
 
 import com.google.common.collect.ImmutableMap;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.math.BlockPos;
@@ -30,5 +32,15 @@ public abstract class FakeBlockState extends BlockState {
     @Override
     public <T extends Comparable<T>, V extends T> BlockState with(Property<T> property_1, V comparable_1) {
         return oldState.with(property_1, comparable_1);
+    }
+
+    @Override
+    public BlockRenderType getRenderType() {
+        return oldState.getRenderType();
+    }
+
+    @Override
+    public void neighborUpdate(World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean bl) {
+        oldState.neighborUpdate(world, pos, neighborBlock, neighborPos, bl);
     }
 }

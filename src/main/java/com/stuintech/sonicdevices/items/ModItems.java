@@ -26,6 +26,7 @@ public class ModItems {
     public static final Item mark5_case = new Item(SETTINGS);
     public static final Item mark7_case = new Item(SETTINGS);
     public static final Item river_case = new Item(SETTINGS);
+    public static final Item blaster_case = new Item(SETTINGS);
 
     //Sonic Screwdrivers
     public static ArrayList<Device> allDevices;
@@ -34,6 +35,7 @@ public class ModItems {
     public static final Device[] mark5 = initializeDevice(false);
     public static final Device[] mark7 = initializeDevice(false);
     public static final Device[] river = initializeDevice(false);
+    public static final Device[] blaster = {new Blaster(), new Blaster(), new Blaster()};
 
     private static Device[] initializeDevice(boolean cane) {
         Device[] array = {new Screwdriver(cane), new Screwdriver(cane), new AdvancedScrewdriver(cane)};
@@ -52,12 +54,14 @@ public class ModItems {
         registerItem("mark5/casing", mark5_case);
         registerItem("mark7/casing", mark7_case);
         registerItem("river/casing", river_case);
+        registerItem("blaster/casing", blaster_case);
 
         registerDevice("cane", cane);
         registerDevice("mark1", mark1);
         registerDevice("mark5", mark5);
         registerDevice("mark7", mark7);
         registerDevice("river", river);
+        registerDevice("blaster", blaster);
     }
 
     private static void registerDevice(String name, Item[] items) {
