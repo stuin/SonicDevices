@@ -46,11 +46,6 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	//ModMenu
-	def menuVersion = 'io.github.prospector:modmenu:v1.10.0'
-	modImplementation menuVersion
-	include menuVersion
-
 	//Wrenchable api
 	def wrenchVersion = 'com.github.Zundrel:wrenchable:0.2.2'
 	modImplementation (wrenchVersion) {

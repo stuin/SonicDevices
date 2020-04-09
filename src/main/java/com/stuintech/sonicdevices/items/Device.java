@@ -56,6 +56,8 @@ public abstract class Device extends Item {
         }
 
         //Add to device list
+        if(ModItems.allDevices == null)
+            ModItems.allDevices = new ArrayList<>();
         ModItems.allDevices.add(this);
 
         //Set animation variables

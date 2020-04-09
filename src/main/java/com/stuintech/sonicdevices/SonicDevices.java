@@ -59,8 +59,8 @@ public class SonicDevices implements ModInitializer {
 
 		//Check for additional entrypoints
 		List<ILoader> entries = FabricLoader.getInstance().getEntrypoints(MODID, ILoader.class);
-		for(ILoader loader : entries) {
+		for(ILoader loader : entries)
 			loader.onInitialize();
-		}
+
 	}
 }

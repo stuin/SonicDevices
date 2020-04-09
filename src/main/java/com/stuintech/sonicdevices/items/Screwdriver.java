@@ -2,6 +2,12 @@ package com.stuintech.sonicdevices.items;
 
 import com.stuintech.sonicdevices.actions.*;
 import com.stuintech.sonicdevices.extensions.Wrenchable;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentTarget;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 /*
  * Created by Stuart Irwin on 4/4/2019.

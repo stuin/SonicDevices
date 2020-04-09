@@ -28,12 +28,12 @@ public class ModItems {
     public static final Item river_case = new Item(SETTINGS);
 
     //Sonic Screwdrivers
+    public static ArrayList<Device> allDevices;
     public static final Device[] cane = initializeDevice(true);
     public static final Device[] mark1 = initializeDevice(false);
     public static final Device[] mark5 = initializeDevice(false);
     public static final Device[] mark7 = initializeDevice(false);
     public static final Device[] river = initializeDevice(false);
-    public static ArrayList<Device> allDevices;
 
     private static Device[] initializeDevice(boolean cane) {
         Device[] array = {new Screwdriver(cane), new Screwdriver(cane), new AdvancedScrewdriver(cane)};
