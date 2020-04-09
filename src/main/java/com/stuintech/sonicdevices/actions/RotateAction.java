@@ -28,7 +28,8 @@ public class RotateAction extends IAction.IBlockAction {
 
             //Proper blacklist
             if (block instanceof NetherPortalBlock ||
-                    block instanceof PistonHeadBlock)
+                    block instanceof PistonHeadBlock ||
+                    (block instanceof CommandBlock && !player.isCreativeLevelTwoOp()))
                 throw new CancelActionException();
 
             //Rotate block
