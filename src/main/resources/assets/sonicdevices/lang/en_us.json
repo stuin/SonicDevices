@@ -39,5 +39,6 @@
     "item.sonicdevices.blaster.blue": "Sonic Blaster",
     "item.sonicdevices.blaster.green": "Sonic Blaster",
     "item.sonicdevices.blaster.red": "Adv. Sonic Blaster",
-    "block.sonicdevices.shifted": "Shifted Space"
+    "block.sonicdevices.shifted": "Shifted Space",
+    "block.sonicdevices.clear": "Shifted Space"
 }

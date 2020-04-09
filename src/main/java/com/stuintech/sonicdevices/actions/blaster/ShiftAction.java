@@ -31,7 +31,7 @@ public class ShiftAction extends IAction.IBlockAction {
             for(int x = 0; x < 3; x++) {
                 for(int y = 0; y < 3; y++) {
                     if(!world.getBlockState(pos).isAir()) {
-                        state[i] = new ShiftedState(world, pos);
+                        state[i] = new ShiftedState(world, pos, false);
                         world.setBlockState(pos, state[i]);
                         i++;
                     }

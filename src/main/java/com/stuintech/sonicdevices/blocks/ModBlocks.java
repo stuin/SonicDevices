@@ -7,8 +7,10 @@ import net.minecraft.util.registry.Registry;
 
 public class ModBlocks {
     public static final Block shifted = new ShiftedBlock(Block.Settings.of(Material.PORTAL).noCollision());
+    public static final Block clear = new ShiftedBlock(Block.Settings.of(Material.PORTAL));
 
     public static void register() {
         Registry.register(Registry.BLOCK, SonicDevices.MODID + ":shifted", shifted);
+        Registry.register(Registry.BLOCK, SonicDevices.MODID + ":clear", clear);
     }
 }

@@ -5,7 +5,6 @@ import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -15,13 +14,13 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-import java.util.Random;
-
 public class ShiftedState extends FakeBlockState {
     private boolean setup = false;
+    private boolean clear;
 
-    public ShiftedState(World world, BlockPos pos) {
+    public ShiftedState(World world, BlockPos pos, boolean clear) {
         super(world, pos);
+        this.clear = clear;
     }
 
     public void done() {
@@ -35,6 +34,8 @@ public class ShiftedState extends FakeBlockState {
 
     @Override
     public Block getBlock() {
+        if(clear)
+            return ModBlocks.clear;
         return ModBlocks.shifted;
     }
 
@@ -69,7 +70,7 @@ public class ShiftedState extends FakeBlockState {
         super.neighborUpdate(world, pos, neighborBlock, neighborPos, bl);
         if(setup) {
             restore(pos);
-            world.updateNeighbors(pos, ModBlocks.shifted);
+            world.updateNeighbors(pos, getBlock());
         }
     }
 }
