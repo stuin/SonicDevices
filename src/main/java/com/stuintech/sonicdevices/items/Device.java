@@ -4,7 +4,6 @@ import com.stuintech.sonicdevices.ModSounds;
 import com.stuintech.sonicdevices.PropertyMap;
 import com.stuintech.sonicdevices.actions.CancelActionException;
 import com.stuintech.sonicdevices.actions.IAction;
-import com.zundrel.wrenchable.wrench.Wrench;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.client.item.TooltipContext;
@@ -21,6 +20,7 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -60,6 +60,10 @@ public abstract class Device extends Item {
         this.addPropertyGetter(new Identifier("on"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("on"));
     }
 
+    public void addAction(int level, IAction action) {
+        actions[level].add(action);
+    }
+
     //Run sound and light
     public void activate(ItemStack itemStack, World world, PlayerEntity playerEntity) {
         itemStack.getOrCreateTag().putInt("on", 1);
@@ -78,7 +82,7 @@ public abstract class Device extends Item {
         ItemStack itemStack = playerEntity.getStackInHand(hand);
 
         //Change level
-        setLevel(playerEntity, itemStack,true);
+        setLevel(playerEntity, itemStack, true);
 
         return super.use(world, playerEntity, hand);
     }
@@ -91,6 +95,7 @@ public abstract class Device extends Item {
         World world = context.getWorld();
         BlockPos pos = context.getBlockPos();
         Direction dir = context.getSide();
+        Vec3d hit = context.getHitPos();
 
         //Override sneaking for interactive blocks
         boolean override = false;
@@ -102,11 +107,13 @@ public abstract class Device extends Item {
         //Change level or run
         if(player != null && (override || !setLevel(player, itemStack,false))) {
             //Activate use
-            if(interact(getLevel(itemStack), player, context.getWorld(), pos, dir))
+            if(interact(getLevel(itemStack), player, context.getWorld(), pos, hit, dir)) {
                 activate(itemStack, world, player);
+                return ActionResult.SUCCESS;
+            }
         }
 
-        return ActionResult.SUCCESS;
+        return ActionResult.FAIL;
     }
 
     @Override
@@ -133,10 +140,10 @@ public abstract class Device extends Item {
         }
         return false;
     }
-    public boolean interact(int level, PlayerEntity player, World world, BlockPos pos, Direction dir) {
+    public boolean interact(int level, PlayerEntity player, World world, BlockPos pos, Vec3d hit, Direction dir) {
         try {
             for(IAction action : actions[level]) {
-                if(action.interact(player, world, pos, dir))
+                if(action.interact(player, world, pos, hit, dir))
                     return true;
             }
         } catch (CancelActionException e) {
@@ -164,9 +171,9 @@ public abstract class Device extends Item {
             itemStack.getOrCreateTag().putInt("level", level);
             itemStack.getOrCreateTag().putInt("on", 0);
             activate(itemStack, player.world, player);
+            return true;
         }
-
-        return player.isSneaking();
+        return false;
     }
 
     public void appendTooltip(ItemStack itemStack, World world, List<Text> list, TooltipContext tooltipContext) {
@@ -183,9 +190,9 @@ public abstract class Device extends Item {
     @Override
     public void inventoryTick(ItemStack itemStack, World world, Entity entity, int i, boolean bool) {
         //Get countdown clock
-        if (itemStack.getOrCreateTag().getInt("on") == 1) {
+        if(itemStack.getOrCreateTag().getInt("on") == 1) {
             int timer = itemStack.getOrCreateTag().getInt("timer") - 1;
-            if (timer == -1 || timer >= timers.size()) {
+            if(timer == -1 || timer >= timers.size()) {
                 //Add new timer
                 if(nextTimer > -1) {
                     itemStack.getOrCreateTag().putInt("timer", nextTimer + 1);
@@ -208,7 +215,7 @@ public abstract class Device extends Item {
             } else {
                 //Check existing timer
                 int time = timers.get(timer);
-                if (time > 0) {
+                if(time > 0) {
                     timers.set(timer, time - 1);
                 } else {
                     //End timer

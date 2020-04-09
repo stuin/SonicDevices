@@ -8,7 +8,6 @@ import reborncore.api.ToolManager;
  */
 
 public class RebornCore implements ILoader {
-    @Override
     public void onInitialize() {
         ToolManager.INSTANCE.customToolHandlerList.add(new SonicToolHandler());
     }

@@ -1,4 +1,4 @@
-package com.stuintech.sonicdevices.extensions.wrenchable;
+package com.stuintech.sonicdevices.extensions;
 
 import com.stuintech.sonicdevices.actions.IAction;
 import com.zundrel.wrenchable.WrenchableRegistry;
@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 
 import java.util.Iterator;
 
-public class WrenchAction extends IAction.IBlockAction {
+public class Wrenchable extends IAction.IBlockAction {
     @Override
     public boolean interact(PlayerEntity player, World world, BlockPos pos, Direction dir) {
         BlockEntity blockEntity = world.getBlockEntity(pos);

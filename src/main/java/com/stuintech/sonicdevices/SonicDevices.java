@@ -25,8 +25,16 @@ public class SonicDevices implements ModInitializer {
 
 	//Mod integration
 	private static final String[][] loadExtensions = new String[][] {
-			{"RebornCore",
-					"reborncore.api.ICustomToolHandler", "com.stuintech.sonicdevices.extensions.reborn.RebornCore"}
+			{
+					"RebornCore",
+					"reborncore.api.ICustomToolHandler",
+					"com.stuintech.sonicdevices.extensions.reborn.RebornCore"
+			},
+			{
+					"Simple Drawers",
+					"me.benfah.simpledrawers.api.drawer.BlockEntityAbstractDrawer",
+					"com.stuintech.sonicdevices.extensions.SimpleDrawers"
+			}
 	};
 
 	@Override

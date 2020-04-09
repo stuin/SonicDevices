@@ -64,10 +64,15 @@ dependencies {
 	modCompileOnly (rcVersion) {
 		exclude group: "net.fabricmc"
 	}
-
-	//modRuntime (rcVersion) {
-	//	exclude group: "net.fabricmc"
-	//}
+	
+	//Simple Drawers
+	def sdVersion = 'com.github.benfah:simpledrawers:v1.6.0'
+	modCompileOnly (rmVersion) {
+		exclude group: "net.fabricmc"
+	}
+	modRuntime (rmVersion) {
+		exclude group: "net.fabricmc"
+	}
 }
 
 processResources {

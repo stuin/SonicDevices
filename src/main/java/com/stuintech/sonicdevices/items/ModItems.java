@@ -1,6 +1,7 @@
 package com.stuintech.sonicdevices.items;
 
 import com.stuintech.sonicdevices.SonicDevices;
+import com.stuintech.sonicdevices.actions.IAction;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
 
@@ -54,7 +55,6 @@ public class ModItems {
         registerDevice("mark5", mark5);
         registerDevice("mark7", mark7);
         registerDevice("river", river);
-
     }
 
     private static void registerDevice(String name, Item[] items) {
@@ -65,5 +65,18 @@ public class ModItems {
 
     private static void registerItem(String name, Item item) {
         Registry.register(Registry.ITEM, SonicDevices.MODID + ":" + name, item);
+    }
+
+    private static void addToDevice(Device[] device, int level, IAction action) {
+        for(int i = 0; i < 3; i++)
+            device[i].addAction(level, action);
+    }
+
+    public static void addToScrewdrivers(int level, IAction action) {
+        addToDevice(cane, level, action);
+        addToDevice(mark1, level, action);
+        addToDevice(mark5, level, action);
+        addToDevice(mark7, level, action);
+        addToDevice(river, level, action);
     }
 }

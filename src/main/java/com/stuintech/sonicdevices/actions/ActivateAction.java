@@ -19,7 +19,7 @@ import net.minecraft.world.World;
  */
 
 public class ActivateAction extends IAction.IBlockAction {
-    private boolean deactivate;
+    private final boolean deactivate;
 
     public ActivateAction(boolean deactivate) {
         this.deactivate = deactivate;
