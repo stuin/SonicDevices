@@ -185,6 +185,7 @@ public abstract class Device extends Item {
 
         //Add text to item
         list.add(new LiteralText(color + " " + model));
+        list.add(new TranslatableText("item.sonicdevices.mode." + getLevel(itemStack)));
     }
 
     @Override

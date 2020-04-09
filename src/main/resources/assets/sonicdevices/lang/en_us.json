@@ -28,5 +28,10 @@
     "item.sonicdevices.river.model": "River's Sonic",
     "item.sonicdevices.river.blue": "Sonic Screwdriver",
     "item.sonicdevices.river.green": "Sonic Screwdriver",
-    "item.sonicdevices.river.red": "Adv. Sonic Screwdriver"
+    "item.sonicdevices.river.red": "Adv. Sonic Screwdriver",
+    "item.sonicdevices.mode.0": "Hidden",
+    "item.sonicdevices.mode.1": "Activation Mode",
+    "item.sonicdevices.mode.2": "Deactivation Mode",
+    "item.sonicdevices.mode.3": "Wrench Mode",
+    "item.sonicdevices.mode.4": "Scanner Mode"
 }

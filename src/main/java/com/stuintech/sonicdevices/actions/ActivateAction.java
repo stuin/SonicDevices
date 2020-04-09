@@ -104,7 +104,7 @@ public class ActivateAction extends IAction.IBlockAction {
                         world.breakBlock(pos, false);
                     }
                     break;
-                case "block.minecraft.repeater":
+                case "block.minecraft.repeater": case "block.minecraft.comparator":
                     //Update output block
                     world.updateNeighbor(pos.offset(blockState.get(HorizontalFacingBlock.FACING)), block, pos);
                     break;
