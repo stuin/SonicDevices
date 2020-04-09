@@ -1,4 +1,4 @@
-package com.stuintech.sonicdevices.extensions.reborn;
+package com.stuintech.sonicdevices.extensions;
 
 import com.stuintech.sonicdevices.items.Screwdriver;
 import net.minecraft.entity.player.PlayerEntity;
@@ -7,12 +7,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import reborncore.api.ICustomToolHandler;
+import reborncore.api.ToolManager;
 
 /*
  * Created by Stuart Irwin on 4/7/2020.
  */
 
-public class SonicToolHandler implements ICustomToolHandler {
+public class RebornCore implements ICustomToolHandler, ILoader {
     public boolean canHandleTool(ItemStack var1) {
         if(var1.getItem() instanceof Screwdriver)
             return ((Screwdriver) var1.getItem()).getLevel(var1) == 3;
@@ -28,5 +29,9 @@ public class SonicToolHandler implements ICustomToolHandler {
             }
         }
         return false;
+    }
+
+    public void onInitialize() {
+        ToolManager.INSTANCE.customToolHandlerList.add(this);
     }
 }

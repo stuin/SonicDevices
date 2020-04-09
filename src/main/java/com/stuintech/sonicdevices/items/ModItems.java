@@ -5,6 +5,8 @@ import com.stuintech.sonicdevices.actions.IAction;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
 
+import java.util.ArrayList;
+
 /*
  * Created by Stuart Irwin on 4/4/2019.
  */
@@ -31,6 +33,7 @@ public class ModItems {
     public static final Device[] mark5 = initializeDevice(false);
     public static final Device[] mark7 = initializeDevice(false);
     public static final Device[] river = initializeDevice(false);
+    public static ArrayList<Device> allDevices;
 
     private static Device[] initializeDevice(boolean cane) {
         Device[] array = {new Screwdriver(cane), new Screwdriver(cane), new AdvancedScrewdriver(cane)};
@@ -67,16 +70,10 @@ public class ModItems {
         Registry.register(Registry.ITEM, SonicDevices.MODID + ":" + name, item);
     }
 
-    private static void addToDevice(Device[] device, int level, IAction action) {
-        for(int i = 0; i < 3; i++)
-            device[i].addAction(level, action);
-    }
-
     public static void addToScrewdrivers(int level, IAction action) {
-        addToDevice(cane, level, action);
-        addToDevice(mark1, level, action);
-        addToDevice(mark5, level, action);
-        addToDevice(mark7, level, action);
-        addToDevice(river, level, action);
+        for(Device device : allDevices) {
+            if(device instanceof Screwdriver)
+                device.addAction(level, action);
+        }
     }
 }

@@ -55,6 +55,9 @@ public abstract class Device extends Item {
             actions[i + 1] = new ArrayList<>();
         }
 
+        //Add to device list
+        ModItems.allDevices.add(this);
+
         //Set animation variables
         this.addPropertyGetter(new Identifier("level"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("level") + 1);
         this.addPropertyGetter(new Identifier("on"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("on"));

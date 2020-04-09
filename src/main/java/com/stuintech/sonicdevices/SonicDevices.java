@@ -4,11 +4,14 @@ import com.stuintech.sonicdevices.extensions.ILoader;
 import com.stuintech.sonicdevices.items.ModItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.List;
 
 /*
  * Created by Stuart Irwin on 4/4/2019.
@@ -28,7 +31,7 @@ public class SonicDevices implements ModInitializer {
 			{
 					"RebornCore",
 					"reborncore.api.ICustomToolHandler",
-					"com.stuintech.sonicdevices.extensions.reborn.RebornCore"
+					"com.stuintech.sonicdevices.extensions.RebornCore"
 			},
 			{
 					"Simple Drawers",
@@ -52,6 +55,12 @@ public class SonicDevices implements ModInitializer {
 			} catch (Exception e) {
 				LOGGER.debug(s[0] + "extension not found");
 			}
+		}
+
+		//Check for additional entrypoints
+		List<ILoader> entries = FabricLoader.getInstance().getEntrypoints(MODID, ILoader.class);
+		for(ILoader loader : entries) {
+			loader.onInitialize();
 		}
 	}
 }
