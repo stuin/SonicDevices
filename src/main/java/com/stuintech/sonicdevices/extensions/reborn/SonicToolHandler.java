@@ -8,6 +8,10 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import reborncore.api.ICustomToolHandler;
 
+/*
+ * Created by Stuart Irwin on 4/7/2020.
+ */
+
 public class SonicToolHandler implements ICustomToolHandler {
     public boolean canHandleTool(ItemStack var1) {
         if(var1.getItem() instanceof Screwdriver)

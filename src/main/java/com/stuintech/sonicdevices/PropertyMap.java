@@ -1,8 +1,5 @@
 package com.stuintech.sonicdevices;
 
-import net.minecraft.block.AbstractChestBlock;
-import net.minecraft.block.Block;
-
 import java.util.HashMap;
 
 /*
@@ -29,7 +26,8 @@ public class PropertyMap {
             "block.minecraft.loom",
             "block.minecraft.grindstone",
             "block.minecraft.stonecutter",
-            "block.minecraft.anvil"
+            "block.minecraft.anvil",
+            "block.minecraft.bed"
     };
 
     public static String getCode(String block) {

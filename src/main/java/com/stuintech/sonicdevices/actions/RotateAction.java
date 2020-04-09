@@ -1,5 +1,6 @@
 package com.stuintech.sonicdevices.actions;
 
+import grondag.fermion.modkeys.api.ModKeys;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.StateManager;
@@ -10,6 +11,10 @@ import net.minecraft.world.World;
 
 import static net.minecraft.util.math.Direction.Axis.*;
 
+/*
+ * Created by Stuart Irwin on 4/8/2020.
+ */
+
 public class RotateAction extends IAction.IBlockAction {
     public boolean interact(PlayerEntity player, World world, BlockPos pos, Direction dir) {
         //Rotate block
@@ -19,42 +24,30 @@ public class RotateAction extends IAction.IBlockAction {
             Block block = blockState.getBlock();
             BlockState blockState_2 = blockState;
             StateManager<Block, BlockState> stateFactory = block.getStateManager();
+            boolean reverse = ModKeys.isSecondaryPressed(player);
 
             Property<?> property = stateFactory.getProperty("facing");
             if (property != null) {
                 if (block instanceof PistonHeadBlock ||
                         block instanceof WallMountedBlock ||
-                        block instanceof AbstractSignBlock ||
-                        block instanceof CommandBlock)
+                        block instanceof AbstractSignBlock)
                     return false;
                 else if (block instanceof PistonBlock) {
                     if (!blockState.get(PistonBlock.EXTENDED))
-                        blockState_2 = rotate(blockState, property, dir.getAxis());
+                        blockState_2 = rotate(blockState, property, dir.getAxis(), reverse);
                 } else if (block instanceof HorizontalFacingBlock ||
                         block instanceof AnvilBlock ||
                         block instanceof StonecutterBlock ||
                         block instanceof StairsBlock)
-                    blockState_2 = rotate(blockState, property, Y);
+                    blockState_2 = rotate(blockState, property, Y, reverse);
                 else if (block instanceof DispenserBlock ||
                         block instanceof BarrelBlock ||
                         block instanceof ShulkerBoxBlock)
-                    blockState_2 = rotate(blockState, property, dir.getAxis());
+                    blockState_2 = rotate(blockState, property, dir.getAxis(), reverse);
                 else if (block instanceof BlockEntityProvider)
-                    blockState_2 = rotate(blockState, property, Y);
+                    blockState_2 = rotate(blockState, property, Y, reverse);
                 else if (block instanceof FacingBlock)
-                    blockState_2 = rotate(blockState, property, dir.getAxis());
-
-
-                //Apply rotation
-                if (blockState != blockState_2) {
-                    world.setBlockState(pos, blockState_2);
-                    return true;
-                }
-            } else if ((property = stateFactory.getProperty("axis")) != null) {
-                if (block instanceof NetherPortalBlock)
-                    return false;
-                else
-                    blockState_2 = rotate(blockState, property, Y);
+                    blockState_2 = rotate(blockState, property, dir.getAxis(), reverse);
 
                 //Apply rotation
                 if (blockState != blockState_2) {
@@ -67,25 +60,20 @@ public class RotateAction extends IAction.IBlockAction {
     }
 
     //Based off of Botania Wand
-    private static <T extends Comparable<T>> BlockState rotate(BlockState old, Property<T> property, Direction.Axis axis) {
+    private static <T extends Comparable<T>> BlockState rotate(BlockState old, Property<T> property, Direction.Axis axis, boolean reverse) {
         if(property.getType() == Direction.class)
-            return old.with(property, (T)rotateAround((Direction)old.get(property), axis));
-        if(property.getType() == Direction.Axis.class) {
-            switch((Direction.Axis)old.get(property)) {
-                case X:
-                    axis = Y;
-                    break;
-                case Y:
-                    axis = Z;
-                    break;
-                case Z:
-                    axis = X;
-                    break;
-            }
-            return old.with(property, (T)axis);
-        }
-
+            return old.with(property, (T)rotateAround((Direction)old.get(property), axis, reverse));
         return old;
+    }
+
+    private static Direction rotateAround(Direction old, Direction.Axis axis, boolean reverse) {
+        if(old.getAxis() == axis)
+            return old.getOpposite();
+        if(reverse) {
+            old = rotateAround(old, axis);
+            old = rotateAround(old, axis);
+        }
+        return rotateAround(old, axis);
     }
 
     private static Direction rotateAround(Direction old, Direction.Axis axis) {

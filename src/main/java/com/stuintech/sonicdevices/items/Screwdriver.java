@@ -1,10 +1,10 @@
 package com.stuintech.sonicdevices.items;
 
 import com.stuintech.sonicdevices.actions.*;
+import com.stuintech.sonicdevices.extensions.wrenchable.WrenchAction;
 
 /*
  * Created by Stuart Irwin on 4/4/2019.
- * Parts copied and adapted from minecraft debug stick and piston
  */
 
 public class Screwdriver extends Device {
@@ -16,7 +16,6 @@ public class Screwdriver extends Device {
         actions[1].add(new ActivateAction(false));
         actions[2].add(new ActivateAction(true));
         actions[3].add(new RotateAction());
+        actions[3].add(new WrenchAction());
     }
-
-
 }

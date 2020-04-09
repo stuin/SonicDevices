@@ -8,6 +8,10 @@ import net.minecraft.text.TranslatableText;
 
 import java.util.Collection;
 
+/*
+ * Created by Stuart Irwin on 4/8/2020.
+ */
+
 public class ScanEntityAction extends IAction.IEntityAction {
     @Override
     public boolean interact(PlayerEntity player, LivingEntity entity) {

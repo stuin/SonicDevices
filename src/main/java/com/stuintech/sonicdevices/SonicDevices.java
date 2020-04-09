@@ -10,8 +10,6 @@ import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-
 /*
  * Created by Stuart Irwin on 4/4/2019.
  */

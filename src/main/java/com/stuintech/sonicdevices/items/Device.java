@@ -3,6 +3,7 @@ package com.stuintech.sonicdevices.items;
 import com.stuintech.sonicdevices.ModSounds;
 import com.stuintech.sonicdevices.PropertyMap;
 import com.stuintech.sonicdevices.actions.IAction;
+import com.zundrel.wrenchable.wrench.Wrench;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.client.item.TooltipContext;
@@ -140,7 +141,7 @@ public abstract class Device extends Item {
     }
 
     //Set level of screwdriver
-    private boolean setLevel(PlayerEntity player, ItemStack itemStack, boolean air) {
+    protected boolean setLevel(PlayerEntity player, ItemStack itemStack, boolean air) {
         if(player.isSneaking() || air) {
             int level = itemStack.getOrCreateTag().getInt("level");
 
