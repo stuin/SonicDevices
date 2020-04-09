@@ -1,5 +1,6 @@
 package com.stuintech.sonicdevices;
 
+import com.stuintech.sonicdevices.blocks.ModBlocks;
 import com.stuintech.sonicdevices.extensions.ILoader;
 import com.stuintech.sonicdevices.items.ModItems;
 import net.fabricmc.api.ModInitializer;
@@ -45,6 +46,7 @@ public class SonicDevices implements ModInitializer {
 		//Register mod resources
 		ModItems.register();
 		ModSounds.register();
+		ModBlocks.register();
 
 		//Try loading extensions
 		for(String[] s : loadExtensions) {

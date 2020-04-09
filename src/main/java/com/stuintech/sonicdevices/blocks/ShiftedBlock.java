@@ -2,16 +2,17 @@ package com.stuintech.sonicdevices.blocks;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.AirBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Random;
 
-public class ShiftedBlock extends AirBlock {
-    ShiftedBlock(Settings settings) {
+public class ShiftedBlock extends Block {
+    ShiftedBlock(Block.Settings settings) {
         super(settings);
     }
 
