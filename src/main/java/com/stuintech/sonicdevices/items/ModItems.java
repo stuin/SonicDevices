@@ -35,7 +35,7 @@ public class ModItems {
     public static final Device[] mark5 = initializeDevice(false);
     public static final Device[] mark7 = initializeDevice(false);
     public static final Device[] river = initializeDevice(false);
-    public static final Device[] blaster = {new Blaster(), new Blaster(), new Blaster()};
+    public static final Device[] blaster = {new Blaster(), new Blaster()};
 
     private static Device[] initializeDevice(boolean cane) {
         Device[] array = {new Screwdriver(cane), new Screwdriver(cane), new AdvancedScrewdriver(cane)};
@@ -56,18 +56,19 @@ public class ModItems {
         registerItem("river/casing", river_case);
         registerItem("blaster/casing", blaster_case);
 
-        registerDevice("cane", cane);
-        registerDevice("mark1", mark1);
-        registerDevice("mark5", mark5);
-        registerDevice("mark7", mark7);
-        registerDevice("river", river);
-        registerDevice("blaster", blaster);
+        registerDevice("cane", cane, true);
+        registerDevice("mark1", mark1, true);
+        registerDevice("mark5", mark5, true);
+        registerDevice("mark7", mark7, true);
+        registerDevice("river", river, true);
+        registerDevice("blaster", blaster, false);
     }
 
-    private static void registerDevice(String name, Item[] items) {
+    private static void registerDevice(String name, Item[] items, boolean includeRed) {
         registerItem(name + "/blue", items[0]);
         registerItem(name + "/green", items[1]);
-        registerItem(name + "/red", items[2]);
+        if(includeRed)
+            registerItem(name + "/red", items[2]);
     }
 
     private static void registerItem(String name, Item item) {

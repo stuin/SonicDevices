@@ -1,13 +1,24 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "sonicdevices:blue_crystal"
-    },
-    {
-      "item": "sonicdevices:blaster/casing"
-    }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    " CR",
+    "  S"
   ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "R": {
+      "item": "sonicdevices:red_crystal"
+    },
+    "C": {
+      "item": "minecraft:blue_stained_glass"
+    }
+  },
   "result": {
     "item": "sonicdevices:blaster/blue"
   }

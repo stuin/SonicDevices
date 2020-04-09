@@ -14,6 +14,10 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
+/*
+ * Created by Stuart Irwin on 4/9/2020.
+ */
+
 public class ShiftedState extends FakeBlockState {
     private boolean setup = false;
     private boolean clear;

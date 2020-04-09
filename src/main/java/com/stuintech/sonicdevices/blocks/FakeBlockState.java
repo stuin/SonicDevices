@@ -6,6 +6,10 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+/*
+ * Created by Stuart Irwin on 4/4/2019.
+ */
+
 public abstract class FakeBlockState extends BlockState {
     private World world;
     private BlockState oldState;

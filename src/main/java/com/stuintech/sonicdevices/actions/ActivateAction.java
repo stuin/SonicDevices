@@ -164,12 +164,8 @@ public class ActivateAction extends IAction.IBlockAction {
         if(!blockState.get(PistonBlock.EXTENDED) && pistonHandler.calculatePush()) {
 
             //One tick pulse
-            if(tick) {
-                String s = world.getBlockState(blockPos.offset(direction, -1)).getBlock().getTranslationKey();
-                if(!s.contains("piston") && !s.contains("slab")) {
-                    world.setBlockState(blockPos, cycle(blockState, block.getStateManager().getProperty("extended"), true), 18);
-                }
-            }
+            if(tick)
+                world.setBlockState(blockPos, cycle(blockState, block.getStateManager().getProperty("extended"), true), 18);
 
             //Actually activate piston
             world.setBlockState(blockPos.offset(direction, -1), new WeakPoweredState(world, blockPos.offset(direction, -1), direction));
