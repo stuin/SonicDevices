@@ -48,6 +48,10 @@ public class ActivateAction extends IAction.IBlockAction {
                 }
             }
 
+            //Break leaves
+            if(deactivate && block instanceof LeavesBlock) {
+                world.breakBlock(pos, true);
+            }
 
             //Special cases
             BlockPos blockPos_2;

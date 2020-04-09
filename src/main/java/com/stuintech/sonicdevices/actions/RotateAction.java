@@ -16,7 +16,7 @@ import static net.minecraft.util.math.Direction.Axis.*;
  */
 
 public class RotateAction extends IAction.IBlockAction {
-    public boolean interact(PlayerEntity player, World world, BlockPos pos, Direction dir) {
+    public boolean interact(PlayerEntity player, World world, BlockPos pos, Direction dir) throws CancelActionException {
         //Rotate block
         if(player.canModifyWorld()) {
             //Get block variables
@@ -26,31 +26,53 @@ public class RotateAction extends IAction.IBlockAction {
             StateManager<Block, BlockState> stateFactory = block.getStateManager();
             boolean reverse = ModKeys.isSecondaryPressed(player);
 
+            //Proper blacklist
+            if (block instanceof NetherPortalBlock ||
+                    block instanceof PistonHeadBlock)
+                throw new CancelActionException();
+
+            //Rotate block
             Property<?> property = stateFactory.getProperty("facing");
-            if (property != null) {
-                if (block instanceof PistonHeadBlock ||
-                        block instanceof WallMountedBlock ||
-                        block instanceof AbstractSignBlock)
+            if(property != null) {
+                //Blacklist
+                if(block instanceof WallMountedBlock ||
+                        block instanceof AbstractSignBlock ||
+                        block instanceof BellBlock)
                     return false;
-                else if (block instanceof PistonBlock) {
-                    if (!blockState.get(PistonBlock.EXTENDED))
+                //Piston
+                else if(block instanceof PistonBlock) {
+                    if(!blockState.get(PistonBlock.EXTENDED))
                         blockState_2 = rotate(blockState, property, dir.getAxis(), reverse);
-                } else if (block instanceof HorizontalFacingBlock ||
+                    else
+                        throw new CancelActionException();
+                }
+                //Chest
+                else if(block instanceof ChestBlock) {
+                    if(ChestBlock.getDoubleBlockType(blockState) == DoubleBlockProperties.Type.SINGLE)
+                        blockState_2 = rotate(blockState, property, Y, reverse);
+                    else
+                        throw new CancelActionException();
+                }
+                //Horizontal Blocks
+                else if(block instanceof HorizontalFacingBlock ||
                         block instanceof AnvilBlock ||
                         block instanceof StonecutterBlock ||
                         block instanceof StairsBlock)
                     blockState_2 = rotate(blockState, property, Y, reverse);
-                else if (block instanceof DispenserBlock ||
+                //Facing block entities
+                else if(block instanceof DispenserBlock ||
                         block instanceof BarrelBlock ||
                         block instanceof ShulkerBoxBlock)
                     blockState_2 = rotate(blockState, property, dir.getAxis(), reverse);
-                else if (block instanceof BlockEntityProvider)
+                //Horizontal block entities
+                else if(block instanceof BlockEntityProvider)
                     blockState_2 = rotate(blockState, property, Y, reverse);
-                else if (block instanceof FacingBlock)
+                //Facing blocks
+                else if(block instanceof FacingBlock)
                     blockState_2 = rotate(blockState, property, dir.getAxis(), reverse);
 
                 //Apply rotation
-                if (blockState != blockState_2) {
+                if(blockState != blockState_2) {
                     world.setBlockState(pos, blockState_2);
                     return true;
                 }

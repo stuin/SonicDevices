@@ -7,8 +7,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 public interface IAction {
-    boolean interact(PlayerEntity player, LivingEntity entity);
-    boolean interact(PlayerEntity player, World world, BlockPos pos, Direction dir);
+    boolean interact(PlayerEntity player, LivingEntity entity) throws CancelActionException;
+    boolean interact(PlayerEntity player, World world, BlockPos pos, Direction dir) throws CancelActionException;
 
     abstract class IBlockAction implements IAction {
         public boolean interact(PlayerEntity player, LivingEntity entity) {

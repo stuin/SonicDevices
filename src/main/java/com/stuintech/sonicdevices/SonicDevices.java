@@ -25,7 +25,8 @@ public class SonicDevices implements ModInitializer {
 
 	//Mod integration
 	private static final String[][] loadExtensions = new String[][] {
-			{"reborncore.RebornCore", "com.stuintech.sonicdevices.extensions.reborn.RebornCore"}
+			{"RebornCore",
+					"reborncore.api.ICustomToolHandler", "com.stuintech.sonicdevices.extensions.reborn.RebornCore"}
 	};
 
 	@Override
@@ -37,8 +38,8 @@ public class SonicDevices implements ModInitializer {
 		//Try loading extensions
 		for(String[] s : loadExtensions) {
 			try {
-				Class.forName(s[0]);
-				((ILoader) Class.forName(s[1]).newInstance()).onInitialize();
+				Class.forName(s[1]);
+				((ILoader) Class.forName(s[2]).newInstance()).onInitialize();
 				LOGGER.info(s[0] + " extension successfully initialized");
 			} catch (Exception e) {
 				LOGGER.debug(s[0] + "extension not found");

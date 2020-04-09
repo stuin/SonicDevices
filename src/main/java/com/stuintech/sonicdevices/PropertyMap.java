@@ -27,7 +27,6 @@ public class PropertyMap {
             "block.minecraft.grindstone",
             "block.minecraft.stonecutter",
             "block.minecraft.anvil",
-            "block.minecraft.bed"
     };
 
     public static String getCode(String block) {

@@ -2,6 +2,7 @@ package com.stuintech.sonicdevices.items;
 
 import com.stuintech.sonicdevices.ModSounds;
 import com.stuintech.sonicdevices.PropertyMap;
+import com.stuintech.sonicdevices.actions.CancelActionException;
 import com.stuintech.sonicdevices.actions.IAction;
 import com.zundrel.wrenchable.wrench.Wrench;
 import net.minecraft.block.Block;
@@ -122,16 +123,24 @@ public abstract class Device extends Item {
     }
 
     public boolean interact(int level, PlayerEntity player, LivingEntity entity) {
-        for(IAction action : actions[level]) {
-            if(action.interact(player, entity))
-                return true;
+        try {
+            for (IAction action : actions[level]) {
+                if (action.interact(player, entity))
+                    return true;
+            }
+        } catch (CancelActionException e) {
+            //No action should be taken
         }
         return false;
     }
     public boolean interact(int level, PlayerEntity player, World world, BlockPos pos, Direction dir) {
-        for(IAction action : actions[level]) {
-            if(action.interact(player, world, pos, dir))
-                return true;
+        try {
+            for(IAction action : actions[level]) {
+                if(action.interact(player, world, pos, dir))
+                    return true;
+            }
+        } catch (CancelActionException e) {
+            //No action should be taken
         }
         return false;
     }
