@@ -9,6 +9,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+import java.util.ArrayList;
+
 /*
  * Created by Stuart Irwin on 4/9/2020.
  */
@@ -17,6 +19,7 @@ public class ShiftAction extends IAction.IBlockAction {
 
     @Override
     public boolean interact(PlayerEntity player, World world, BlockPos pos, Direction dir) {
+        int i = 0;
         if(player.canModifyWorld()) {
             //Default direction variables
             Direction first =  Direction.NORTH;
@@ -30,15 +33,14 @@ public class ShiftAction extends IAction.IBlockAction {
                 second = Direction.EAST;
 
             //Check each block in square
-            BlockPos[] positions = new BlockPos[9];
+            ArrayList<BlockPos> positions = new ArrayList<>();
             ShiftedBlockEntity[] state = new ShiftedBlockEntity[9];
             pos = pos.offset(first.getOpposite()).offset(second.getOpposite());
-            int i = 0;
             for(int x = 0; x < 3; x++) {
                 for(int y = 0; y < 3; y++) {
                     if(PropertyMap.canShift(world.getBlockState(pos))) {
                         state[i] = new ShiftedBlockEntity(world, pos, false);
-                        positions[i] = pos;
+                        positions.add(pos);
                         i++;
                     }
                     pos = pos.offset(first);
@@ -47,15 +49,16 @@ public class ShiftAction extends IAction.IBlockAction {
                 pos = pos.offset(first).offset(second);
             }
 
-            //Inform changed blocks that task is complete
-            for(int j = 0; j < i; j++)
-                state[j].done();
-
             //Save positions for future cancelling
+            int group = ResetAction.shiftedBlocks.addNext(positions);
             ItemStack itemStack = ResetAction.getDevice(player);
             if(itemStack != null && i > 0)
-                itemStack.getOrCreateTag().putInt("shifter", ResetAction.shiftedBlocks.addNext(positions));
+                itemStack.getOrCreateTag().putInt("shifter", group);
+
+            //Inform changed blocks that task is complete
+            for(int j = 0; j < i; j++)
+                state[j].done(group);
         }
-        return true;
+        return i > 0;
     }
 }

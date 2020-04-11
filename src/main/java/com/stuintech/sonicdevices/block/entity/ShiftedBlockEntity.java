@@ -1,8 +1,8 @@
 package com.stuintech.sonicdevices.block.entity;
 
+import com.stuintech.sonicdevices.action.blaster.ResetAction;
 import com.stuintech.sonicdevices.block.ModBlocks;
 import com.stuintech.sonicdevices.block.ShiftedBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
@@ -14,6 +14,8 @@ import net.minecraft.world.World;
 
 public class ShiftedBlockEntity extends BlockEntity {
     private BlockState oldState = null;
+    private int group = -1;
+    private boolean done = false;
 
     public ShiftedBlockEntity() {
         super(ModBlocks.shiftedEntity);
@@ -30,30 +32,35 @@ public class ShiftedBlockEntity extends BlockEntity {
     }
 
     public void restore() {
-        if(getWorld() != null) {
+        if(world != null && done) {
             if(oldState != null)
-                getWorld().setBlockState(getPos(), oldState);
+                world.setBlockState(pos, oldState);
             else
-                getWorld().setBlockState(getPos(), Blocks.AIR.getDefaultState());
+                world.setBlockState(pos, Blocks.AIR.getDefaultState());
             markRemoved();
         }
     }
 
-    public void done() {
-        if(getWorld() != null)
-            getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()).with(ShiftedBlock.SETUP, true));
+    public void done(int group) {
+        this.group = group;
+        this.done = true;
     }
 
     @Override
     public void fromTag(CompoundTag tag) {
-        Block block = Registry.BLOCK.get(Identifier.tryParse(tag.getString("blockID")));
-        oldState = block.getDefaultState();
+        oldState = Registry.BLOCK.get(Identifier.tryParse(tag.getString("block"))).getDefaultState();
+        done = true;
+        group = tag.getInt("group");
+        if(group > 0)
+            ResetAction.add(pos, group);
         super.fromTag(tag);
     }
 
     @Override
     public CompoundTag toTag(CompoundTag tag) {
-        tag.putString("blockID", Registry.BLOCK.getId(oldState.getBlock()).toString());
+        if(oldState != null)
+            tag.putString("block", Registry.BLOCK.getId(oldState.getBlock()).toString());
+        tag.putInt("group", group);
         return super.toTag(tag);
     }
 }

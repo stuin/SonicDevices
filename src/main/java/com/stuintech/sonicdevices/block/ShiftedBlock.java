@@ -14,6 +14,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -27,11 +28,9 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 public class ShiftedBlock extends BlockWithEntity {
-    public static BooleanProperty SETUP = BooleanProperty.of("setup");
 
     ShiftedBlock(Block.Settings settings) {
         super(settings);
-        this.setDefaultState(this.getDefaultState().with(SETUP, false));
     }
 
     @Override
@@ -61,8 +60,7 @@ public class ShiftedBlock extends BlockWithEntity {
 
     @Override
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos neighborPos, boolean moved) {
-        if(state.get(SETUP))
-            restore(world, pos);
+        restore(world, pos);
     }
 
     @Override
@@ -76,23 +74,17 @@ public class ShiftedBlock extends BlockWithEntity {
     }
 
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if(state.get(SETUP))
-            restore(world, pos);
+        restore(world, pos);
         return ActionResult.SUCCESS;
     }
 
     @Override
     public void onBlockRemoved(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if(state.get(SETUP))
-            restore(world, pos);
+        restore(world, pos);
     }
 
     @Override
     public boolean canReplace(BlockState state, ItemPlacementContext ctx) {
         return false;
-    }
-
-    public void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(SETUP);
     }
 }

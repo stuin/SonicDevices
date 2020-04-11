@@ -15,8 +15,8 @@ import net.minecraft.util.registry.Registry;
 
 public class ModBlocks {
     public static FabricBlockSettings settings = FabricBlockSettings.of(Material.PORTAL).breakInstantly().nonOpaque();
-    public static final Block shifted = new ShiftedBlock(settings.noCollision().build());
-    public static final Block clear = new ShiftedBlock(settings.build());
+    public static final Block shifted = new ShiftedBlock(settings.collidable(false).build());
+    public static final Block clear = new ShiftedBlock(settings.collidable(true).build());
 
     public static BlockEntityType<ShiftedBlockEntity> shiftedEntity;
 
