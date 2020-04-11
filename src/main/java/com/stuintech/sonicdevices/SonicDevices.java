@@ -1,8 +1,8 @@
 package com.stuintech.sonicdevices;
 
-import com.stuintech.sonicdevices.blocks.ModBlocks;
-import com.stuintech.sonicdevices.extensions.ILoader;
-import com.stuintech.sonicdevices.items.ModItems;
+import com.stuintech.sonicdevices.block.ModBlocks;
+import com.stuintech.sonicdevices.integration.ILoader;
+import com.stuintech.sonicdevices.item.ModItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.loader.api.FabricLoader;
@@ -32,12 +32,12 @@ public class SonicDevices implements ModInitializer {
 			{
 					"RebornCore",
 					"reborncore.api.ICustomToolHandler",
-					"com.stuintech.sonicdevices.extensions.RebornCore"
+					"com.stuintech.sonicdevices.integration.RebornCore"
 			},
 			{
 					"Simple Drawers",
 					"me.benfah.simpledrawers.api.drawer.BlockEntityAbstractDrawer",
-					"com.stuintech.sonicdevices.extensions.SimpleDrawers"
+					"com.stuintech.sonicdevices.integration.SimpleDrawers"
 			}
 	};
 
