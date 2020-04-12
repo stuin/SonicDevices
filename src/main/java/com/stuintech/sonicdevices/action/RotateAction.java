@@ -54,6 +54,9 @@ public class RotateAction extends IAction.IBlockAction {
                     else
                         throw new CancelActionException();
                 }
+                //Hopper
+                else if(block instanceof HopperBlock)
+                    blockState_2 = blockState.with(HopperBlock.FACING, rotateHopper(blockState.get(HopperBlock.FACING)));
                 //Horizontal Blocks
                 else if(block instanceof HorizontalFacingBlock ||
                         block instanceof AnvilBlock ||
@@ -143,5 +146,21 @@ public class RotateAction extends IAction.IBlockAction {
         }
 
         return old;
+    }
+
+    private Direction rotateHopper(Direction old) {
+        switch(old) {
+            case NORTH:
+                return Direction.EAST;
+            case EAST:
+                return Direction.SOUTH;
+            case SOUTH:
+                return Direction.WEST;
+            case WEST:
+                return Direction.DOWN;
+            case DOWN:
+                return Direction.NORTH;
+        }
+        return Direction.DOWN;
     }
 }
