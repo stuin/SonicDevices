@@ -1,6 +1,5 @@
-package com.stuintech.sonicdevices.action.blaster;
+package com.stuintech.sonicdevices.action;
 
-import com.stuintech.sonicdevices.action.IAction;
 import com.stuintech.sonicdevices.block.entity.ShiftedBlockEntity;
 import com.stuintech.sonicdevices.item.Device;
 import com.stuintech.sonicdevices.util.SyncedList;
@@ -18,11 +17,15 @@ public class ResetAction extends IAction.IBlockAction {
 
     @Override
     public boolean interact(PlayerEntity player, World world, BlockPos pos, Direction dir) {
-        ItemStack itemStack = getDevice(player);
-        return resetItem(itemStack, player, world);
+        return interact(player, world);
     }
 
-    public boolean resetItem(ItemStack itemStack, PlayerEntity player, World world) {
+    public static boolean interact(PlayerEntity player, World world) {
+        ItemStack itemStack = getDevice(player);
+        return resetItem(itemStack, world);
+    }
+
+    public static boolean resetItem(ItemStack itemStack, World world) {
         if(itemStack != null) {
             int shifter = itemStack.getOrCreateTag().getInt("shifter") - 1;
             if(shiftedBlocks.has(shifter)) {

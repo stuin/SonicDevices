@@ -1,7 +1,6 @@
 package com.stuintech.sonicdevices.item;
 
-import com.stuintech.sonicdevices.action.blaster.ResetAction;
-import com.stuintech.sonicdevices.action.blaster.ShiftAction;
+import com.stuintech.sonicdevices.action.BlasterShiftAction;
 
 /*
  * Created by Stuart Irwin on 4/9/2020.
@@ -9,9 +8,8 @@ import com.stuintech.sonicdevices.action.blaster.ShiftAction;
 
 public class Blaster extends Device {
     Blaster() {
-        super(false, 2, "blaster");
+        super(false, 1, "blaster");
 
-        addAction(1, new ResetAction());
-        addAction(1, new ShiftAction());
+        addAction(1, new BlasterShiftAction());
     }
 }

@@ -1,6 +1,5 @@
 package com.stuintech.sonicdevices.action;
 
-import com.stuintech.sonicdevices.action.blaster.ResetAction;
 import com.stuintech.sonicdevices.block.entity.ShiftedBlockEntity;
 import com.stuintech.sonicdevices.util.PropertyMap;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,11 +15,10 @@ import java.util.ArrayList;
  */
 
 public class ScanBlockAction extends IAction.IBlockAction {
-    private static ResetAction resetAction = new ResetAction();
 
     @Override
     public boolean interact(PlayerEntity player, World world, BlockPos pos, Direction dir) {
-        boolean reset = resetAction.interact(player, world, pos, dir);
+        boolean reset = ResetAction.interact(player, world);
         if(PropertyMap.canShift(world.getBlockState(pos))) {
             ShiftedBlockEntity state = new ShiftedBlockEntity(world, pos, true);
 

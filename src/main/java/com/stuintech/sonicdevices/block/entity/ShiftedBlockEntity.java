@@ -1,19 +1,17 @@
 package com.stuintech.sonicdevices.block.entity;
 
-import com.stuintech.sonicdevices.action.blaster.ResetAction;
+import com.stuintech.sonicdevices.action.ResetAction;
 import com.stuintech.sonicdevices.block.ModBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.Optional;
 
@@ -34,6 +32,7 @@ public class ShiftedBlockEntity extends BlockEntity {
         else
             world.setBlockState(pos, ModBlocks.shifted.getDefaultState());
         world.setBlockEntity(pos, this);
+        world.getBlockTickScheduler().schedule(pos, world.getBlockState(pos).getBlock(), 60);
     }
 
     public void restore() {
@@ -74,9 +73,9 @@ public class ShiftedBlockEntity extends BlockEntity {
         if(oldState != null)
             tag.putString("blockID", Registry.BLOCK.getId(oldState.getBlock()).toString());
         tag.putInt("groupID", group);
-        for(Map.Entry<Property<?>, Comparable<?>> prop : oldState.getEntries().entrySet()) {
-            tag.putString(prop.getKey().getName(), prop.getValue().toString());
-        }
+        if(oldState != null)
+            for(Map.Entry<Property<?>, Comparable<?>> prop : oldState.getEntries().entrySet())
+                tag.putString(prop.getKey().getName(), prop.getValue().toString());
         return super.toTag(tag);
     }
 }

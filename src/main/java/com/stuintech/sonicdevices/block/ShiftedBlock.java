@@ -12,6 +12,7 @@ import net.minecraft.entity.EntityContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -82,5 +83,10 @@ public class ShiftedBlock extends BlockWithEntity {
     @Override
     public boolean canReplace(BlockState state, ItemPlacementContext ctx) {
         return false;
+    }
+
+    @Override
+    public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        restore(world, pos);
     }
 }

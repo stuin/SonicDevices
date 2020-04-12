@@ -1,6 +1,5 @@
-package com.stuintech.sonicdevices.action.blaster;
+package com.stuintech.sonicdevices.action;
 
-import com.stuintech.sonicdevices.action.IAction;
 import com.stuintech.sonicdevices.block.entity.ShiftedBlockEntity;
 import com.stuintech.sonicdevices.util.PropertyMap;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,11 +14,12 @@ import java.util.ArrayList;
  * Created by Stuart Irwin on 4/9/2020.
  */
 
-public class ShiftAction extends IAction.IBlockAction {
+public class BlasterShiftAction extends IAction.IBlockAction {
 
     @Override
     public boolean interact(PlayerEntity player, World world, BlockPos pos, Direction dir) {
         int i = 0;
+        boolean reset = ResetAction.interact(player, world);
         if(player.canModifyWorld()) {
             //Default direction variables
             Direction first =  Direction.NORTH;
@@ -59,6 +59,6 @@ public class ShiftAction extends IAction.IBlockAction {
             for(int j = 0; j < i; j++)
                 state[j].done(group);
         }
-        return i > 0;
+        return reset | i > 0;
     }
 }
