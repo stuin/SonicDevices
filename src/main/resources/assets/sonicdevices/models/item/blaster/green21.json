@@ -1,5 +1,5 @@
 {
-  "parent": "item/generated",
+  "parent": "sonicdevices:item/blaster",
   "textures": {
     "layer0": "sonicdevices:item/blaster/green21"
   }

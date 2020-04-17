@@ -1,5 +1,5 @@
 {
-  "parent": "item/generated",
+  "parent": "sonicdevices:item/screwdriver",
   "textures": {
     "layer0": "sonicdevices:item/cane/cane"
   }
