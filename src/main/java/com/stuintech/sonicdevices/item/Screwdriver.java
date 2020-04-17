@@ -1,13 +1,18 @@
 package com.stuintech.sonicdevices.item;
 
 import com.stuintech.sonicdevices.action.*;
-import com.stuintech.sonicdevices.integration.Wrenchable;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
 
 /*
  * Created by Stuart Irwin on 4/4/2019.
  */
 
 public class Screwdriver extends Device {
+    private SonicWrench wrench = null;
+
     public Screwdriver(boolean hidden) { this(hidden, 3); }
 
     //Actual constructor
@@ -17,7 +22,30 @@ public class Screwdriver extends Device {
         //Base actions
         actions[1].add(new ActivateAction(false));
         actions[2].add(new ActivateAction(true));
-        actions[3].add(new RotateAction());
-        actions[3].add(new Wrenchable());
+    }
+
+    @Override
+    public Item getAlt() {
+        wrench = new SonicWrench(this);
+        return wrench;
+    }
+
+    @Override
+    protected boolean setLevel(PlayerEntity player, Hand hand, ItemStack itemStack, boolean air) {
+        boolean changed = super.setLevel(player, hand, itemStack, air);
+        if(changed && wrench != null) {
+            int level = getLevel(itemStack);
+            if(level == 3)
+                player.setStackInHand(hand, getAlternate(player, itemStack));
+        }
+        return changed;
+    }
+
+    private ItemStack getAlternate(PlayerEntity player, ItemStack oldStack) {
+        ItemStack itemStack = new ItemStack(wrench);
+        itemStack.setCount(1);
+        itemStack.getOrCreateTag().putInt("level", oldStack.getOrCreateTag().getInt("level"));
+        activate(itemStack, player.world, player);
+        return itemStack;
     }
 }

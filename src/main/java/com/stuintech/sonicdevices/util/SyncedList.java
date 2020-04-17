@@ -23,9 +23,10 @@ public class SyncedList<T> extends ArrayList<T> {
             out = next + 1;
 
             //Set new timer
-            if(next == size())
+            if(next >= size()) {
                 add(o);
-            else
+                out = size();
+            } else
                 set(next, o);
         }
         next = -1;

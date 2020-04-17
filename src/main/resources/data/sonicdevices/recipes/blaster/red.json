@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    " CR",
+    "  S"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "R": {
+      "item": "sonicdevices:red_crystal"
+    },
+    "C": {
+      "item": "minecraft:red_stained_glass"
+    }
+  },
+  "result": {
+    "item": "sonicdevices:blaster/red"
+  }
+}

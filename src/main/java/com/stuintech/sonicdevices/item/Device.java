@@ -33,26 +33,35 @@ import java.util.List;
 
 public abstract class Device extends Item {
     private final int MAXTIME = 25;
-    private final int maxLevel;
     private final int offset;
     private final String langCode;
+
+    protected final int maxLevel;
+    protected final boolean hidden;
+
 
     //Included lists
     private static SyncedList<Integer> timers = new SyncedList<>(0);
     protected ArrayList<IAction>[] actions;
 
     public Device(boolean hidden, int maxLevel, String langCode) {
-        super(ModItems.SETTINGS);
+        this(hidden, maxLevel, langCode, ModItems.SETTINGS);
+    }
+
+
+    public Device(boolean hidden, int maxLevel, String langCode, Settings settings) {
+        super(settings);
 
         //Set device stats
         this.maxLevel = hidden ? maxLevel + 1 : maxLevel;
         this.offset = hidden ? 0 : 1;
+        this.hidden = hidden;
         this.langCode = langCode;
 
         //Make action lists for each level
         actions = new ArrayList[this.maxLevel + 1];
-        for(int i = 0; i < this.maxLevel; i++) {
-            actions[i + 1] = new ArrayList<>();
+        for(int i = 0; i <= this.maxLevel; i++) {
+            actions[i] = new ArrayList<>();
         }
 
         //Add to device list
@@ -88,7 +97,7 @@ public abstract class Device extends Item {
         ItemStack itemStack = playerEntity.getStackInHand(hand);
 
         //Change level
-        setLevel(playerEntity, itemStack, true);
+        setLevel(playerEntity, hand, itemStack, true);
 
         return super.use(world, playerEntity, hand);
     }
@@ -98,6 +107,7 @@ public abstract class Device extends Item {
         //Get item properties
         ItemStack itemStack = context.getStack();
         PlayerEntity player = context.getPlayer();
+        Hand hand = context.getHand();
         World world = context.getWorld();
         BlockPos pos = context.getBlockPos();
         Direction dir = context.getSide();
@@ -111,7 +121,7 @@ public abstract class Device extends Item {
             override = true;
 
         //Change level or run
-        if(player != null && (override || !setLevel(player, itemStack,false))) {
+        if(player != null && (override || !setLevel(player, hand, itemStack,false))) {
             //Activate use
             if(interact(getLevel(itemStack), player, context.getWorld(), pos, hit, dir)) {
                 activate(itemStack, world, player);
@@ -125,7 +135,7 @@ public abstract class Device extends Item {
     @Override
     public boolean useOnEntity(ItemStack itemStack, PlayerEntity playerEntity, LivingEntity livingEntity, Hand hand) {
         //Change level or run
-        if(!setLevel(playerEntity, itemStack, false)) {
+        if(!setLevel(playerEntity, hand, itemStack, false)) {
             //Activate use
             if(interact(getLevel(itemStack), playerEntity, livingEntity)) {
                 activate(itemStack, playerEntity.getEntityWorld(), playerEntity);
@@ -163,7 +173,7 @@ public abstract class Device extends Item {
     }
 
     //Set level of screwdriver
-    protected boolean setLevel(PlayerEntity player, ItemStack itemStack, boolean air) {
+    protected boolean setLevel(PlayerEntity player, Hand hand, ItemStack itemStack, boolean air) {
         if(player.isSneaking() || air) {
             int level = itemStack.getOrCreateTag().getInt("level");
 
@@ -184,6 +194,8 @@ public abstract class Device extends Item {
     public void appendTooltip(ItemStack itemStack, World world, List<Text> list, TooltipContext tooltipContext) {
         //Get text features
         String[] key = itemStack.getTranslationKey().replace('.', ',').split(",");
+        if(key[3].equals("alt"))
+            key[3] = key[4];
         String color = key[3].toUpperCase().substring(0, 1) + key[3].substring(1);
         String model = new TranslatableText(itemStack.getTranslationKey().replace(key[3], "model")).asString();
 
@@ -213,8 +225,8 @@ public abstract class Device extends Item {
             }
         }
     }
-
-    protected void onTimeout(ItemStack itemStack, World world) {
-
+    public Item getAlt() {
+        return this;
     }
+
 }

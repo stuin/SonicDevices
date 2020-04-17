@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class ModItems {
     public static final Item.Settings SETTINGS = new Item.Settings().maxCount(1).group(SonicDevices.SONIC_GROUP);
+    public static final Item.Settings ALT_SETTINGS = new Item.Settings().maxCount(1);
 
     //Device parts
     public static final Item slide_circuit = new Item(SETTINGS);
@@ -34,7 +35,7 @@ public class ModItems {
     public static final Device[] mark5 = initializeDevice(false);
     public static final Device[] mark7 = initializeDevice(false);
     public static final Device[] river = initializeDevice(false);
-    public static final Device[] blaster = {new Blaster(), new Blaster()};
+    public static final Device[] blaster = {new Blaster(), new Blaster(), new Blaster()};
 
     private static Device[] initializeDevice(boolean cane) {
         Device[] array = {new Screwdriver(cane), new Screwdriver(cane), new AdvancedScrewdriver(cane)};
@@ -62,11 +63,15 @@ public class ModItems {
         registerDevice("blaster", blaster, false);
     }
 
-    private static void registerDevice(String name, Item[] items, boolean includeRed) {
+    private static void registerDevice(String name, Device[] items, boolean includeAlt) {
         registerItem(name + "/blue", items[0]);
         registerItem(name + "/green", items[1]);
-        if(includeRed)
-            registerItem(name + "/red", items[2]);
+        registerItem(name + "/red", items[2]);
+        if(includeAlt) {
+            registerItem(name + "/alt/blue", items[0].getAlt());
+            registerItem(name + "/alt/green", items[1].getAlt());
+            registerItem(name + "/alt/red", items[2].getAlt());
+        }
     }
 
     private static void registerItem(String name, Item item) {

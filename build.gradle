@@ -3,9 +3,6 @@ plugins {
 	id 'maven-publish'
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
 archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
@@ -47,7 +44,7 @@ dependencies {
 	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	//Wrenchable api
-	def wrenchVersion = 'com.github.Zundrel:wrenchable:0.2.2'
+	def wrenchVersion = 'com.github.Zundrel:Wrenchable:0.2.2'
 	modImplementation (wrenchVersion) {
 		exclude group: "io.github.prospector"
 		exclude group: "net.fabricmc"
@@ -65,6 +62,7 @@ dependencies {
 	modCompileOnly (sdVersion) {
 		exclude group: "net.fabricmc"
 	}
+
 	//modRuntime (rmVersion) {
 	//	exclude group: "net.fabricmc"
 	//}

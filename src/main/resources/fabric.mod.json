@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "sonicdevices",
-  "version": "1.2.0",
+  "version": "${version}",
 
   "name": "Sonic Devices",
   "description": "Sonic Screwdrivers in many styles.",
