@@ -3,12 +3,8 @@ package com.stuintech.sonicdevices.block;
 import com.stuintech.sonicdevices.block.entity.ShiftedBlockEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.EntityContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.particle.ParticleTypes;
@@ -66,7 +62,7 @@ public class ShiftedBlock extends BlockWithEntity {
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, EntityContext context) {
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return VoxelShapes.fullCube();
     }
 
@@ -76,7 +72,7 @@ public class ShiftedBlock extends BlockWithEntity {
     }
 
     @Override
-    public void onBlockRemoved(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         restore(world, pos);
     }
 

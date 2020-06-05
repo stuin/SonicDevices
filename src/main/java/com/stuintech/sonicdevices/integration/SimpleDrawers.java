@@ -2,7 +2,7 @@ package com.stuintech.sonicdevices.integration;
 
 import com.stuintech.sonicdevices.action.IAction;
 import com.stuintech.sonicdevices.item.ModItems;
-import me.benfah.simpledrawers.api.drawer.BlockEntityAbstractDrawer;
+import me.benfah.simpledrawers.api.drawer.blockentity.BlockEntityAbstractDrawer;
 import me.benfah.simpledrawers.api.drawer.holder.ItemHolder;
 import me.benfah.simpledrawers.utils.BlockUtils;
 import net.minecraft.block.entity.BlockEntity;

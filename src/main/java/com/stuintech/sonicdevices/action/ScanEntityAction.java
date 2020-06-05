@@ -18,13 +18,13 @@ public class ScanEntityAction extends IAction.IEntityAction {
         //Run scan
         if(!player.getEntityWorld().isClient) {
             //Scan mob
-            player.addChatMessage(new TranslatableText(entity.getType().getTranslationKey()), false);
-            player.addChatMessage(new LiteralText("  Health: " + entity.getHealth() + " / " + entity.getMaximumHealth()), false);
+            player.sendMessage(new TranslatableText(entity.getType().getTranslationKey()), false);
+            player.sendMessage(new LiteralText("  Health: " + entity.getHealth() + " / " + entity.getMaxHealth()), false);
 
             //Check for potion effects
             if(entity.getStatusEffects().size() > 0) {
                 Collection<StatusEffectInstance> effects = entity.getStatusEffects();
-                player.addChatMessage(new LiteralText("  Potion Effects:"), false);
+                player.sendMessage(new LiteralText("  Potion Effects:"), false);
 
                 //List effects
                 for(StatusEffectInstance effect : effects) {
@@ -34,7 +34,7 @@ public class ScanEntityAction extends IAction.IEntityAction {
                     //Display status
                     String message = "    " + new TranslatableText(effect.getTranslationKey()).asString();
                     message += " " + (effect.getAmplifier() + 1) + " " + seconds + 's';
-                    player.addChatMessage(new LiteralText(message), false);
+                    player.sendMessage(new LiteralText(message), false);
                 }
             }
             return true;

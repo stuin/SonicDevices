@@ -47,9 +47,7 @@ public class PropertyMap {
     public static boolean canShift(BlockState blockState) {
         Block block = blockState.getBlock();
         return !(blockState.isAir() ||
-                block instanceof ShiftedBlock ||
                 block instanceof BlockEntityProvider ||
-                block instanceof BedrockBlock ||
                 block instanceof BarrierBlock ||
                 (block instanceof PistonBlock && blockState.get(PistonBlock.EXTENDED)) ||
                 block instanceof PistonHeadBlock ||

@@ -1,5 +1,6 @@
 package com.stuintech.sonicdevices.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -15,11 +16,11 @@ public abstract class FakeBlockState extends BlockState {
     private World world;
     private BlockState oldState;
 
-    FakeBlockState(World world, BlockPos position) {
-        super(world.getBlockState(position).getBlock(), world.getBlockState(position).getEntries());
+    FakeBlockState(World world, BlockState old) {
+        super(old.getBlock(), old.getEntries(), (MapCodec<BlockState>) field_24734);
 
         this.world = world;
-        this.oldState = world.getBlockState(position);
+        this.oldState = old;
     }
 
     @Override

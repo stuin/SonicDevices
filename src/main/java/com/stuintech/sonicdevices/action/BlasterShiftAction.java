@@ -20,7 +20,7 @@ public class BlasterShiftAction extends IAction.IBlockAction {
     public boolean interact(PlayerEntity player, World world, BlockPos pos, Direction dir) {
         int i = 0;
         boolean reset = ResetAction.interact(player, world);
-        if(player.canModifyWorld()) {
+        if(player.canModifyBlocks()) {
             //Default direction variables
             Direction first =  Direction.NORTH;
             Direction second = Direction.DOWN;

@@ -18,7 +18,7 @@ import static net.minecraft.util.math.Direction.Axis.*;
 public class RotateAction extends IAction.IBlockAction {
     public boolean interact(PlayerEntity player, World world, BlockPos pos, Direction dir) throws CancelActionException {
         //Rotate block
-        if(player.canModifyWorld()) {
+        if(player.canModifyBlocks()) {
             //Get block variables
             BlockState blockState = world.getBlockState(pos);
             Block block = blockState.getBlock();

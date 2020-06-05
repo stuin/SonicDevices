@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.2.6-SNAPSHOT'
+	id 'fabric-loom' version '0.2.7-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -12,25 +12,25 @@ minecraft {
 
 repositories {
 	maven {
-		name = "Modmuss50"
-		url = "https://maven.modmuss50.me/"
-	}
-	maven {
 		url = 'https://maven.fabricmc.net'
-	}
-	maven {
-		url = 'https://jitpack.io'
 	}
 	maven {
 		name = "grondag"
 		url = "https://grondag-repo.appspot.com"
 		credentials {
-			username = "guest"
-			password = ""
+			username "guest"
+			password ""
 		}
 	}
 	maven {
+		name = "Modmuss50"
+		url = "https://maven.modmuss50.me/"
+	}
+	maven {
 		url = 'http://server.bbkr.space:8081/artifactory/libs-release'
+	}
+	maven {
+		url = 'https://jitpack.io'
 	}
 }
 
@@ -44,7 +44,7 @@ dependencies {
 	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	//Wrenchable api
-	def wrenchVersion = 'com.github.Zundrel:Wrenchable:0.2.2'
+	def wrenchVersion = "com.github.Zundrel:Wrenchable:${project.wrench_version}"
 	modImplementation (wrenchVersion) {
 		exclude group: "io.github.prospector"
 		exclude group: "net.fabricmc"
@@ -52,20 +52,17 @@ dependencies {
 	include wrenchVersion
 
 	//RebornCore
-	def rcVersion = 'RebornCore:RebornCore-1.15:+'
+	//def rcVersion = "com.github.techreborn:RebornCore:RebornCore-${project.reborn_version}"
+	def rcVersion = 'RebornCore:RebornCore-1.16:+'
 	modCompileOnly (rcVersion) {
 		exclude group: "net.fabricmc"
 	}
-	
+
 	//Simple Drawers
-	def sdVersion = 'com.github.benfah:simpledrawers:v1.6.0'
+	def sdVersion = "com.github.benfah:simpledrawers:v${project.drawers_version}"
 	modCompileOnly (sdVersion) {
 		exclude group: "net.fabricmc"
 	}
-
-	//modRuntime (rmVersion) {
-	//	exclude group: "net.fabricmc"
-	//}
 }
 
 processResources {
