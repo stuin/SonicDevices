@@ -23,6 +23,13 @@
     ]
   },
 
+  "mixins": [
+    {
+      "environment": "*",
+      "config": "sonicdevices.mixins.json"
+    }
+  ],
+
   "depends": {
     "fabricloader": ">=0.4.8",
     "fabric": "*"

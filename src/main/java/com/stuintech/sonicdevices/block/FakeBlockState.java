@@ -1,6 +1,6 @@
 package com.stuintech.sonicdevices.block;
 
-import com.mojang.serialization.MapCodec;
+import com.stuintech.sonicdevices.mixin.CodecSupplier;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -13,11 +13,11 @@ import net.minecraft.world.World;
  */
 
 public abstract class FakeBlockState extends BlockState {
-    private World world;
-    private BlockState oldState;
+    private final World world;
+    private final BlockState oldState;
 
     FakeBlockState(World world, BlockState old) {
-        super(old.getBlock(), old.getEntries(), (MapCodec<BlockState>) field_24734);
+        super(old.getBlock(), old.getEntries(), ((CodecSupplier) old).getCodec());
 
         this.world = world;
         this.oldState = old;
