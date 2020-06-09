@@ -25,8 +25,8 @@ repositories {
 		name = "grondag"
 		url = "https://grondag-repo.appspot.com"
 		credentials {
-			username = "guest"
-			password = ""
+			username "guest"
+			password ""
 		}
 	}
 	maven {
@@ -55,7 +55,7 @@ dependencies {
 	modCompileOnly ("RebornCore:RebornCore-1.15:+") {
 		exclude group: "net.fabricmc"
 	}
-	
+
 	//Simple Drawers
 	modCompileOnly ("com.github.benfah:SimpleDrawers:v${project.drawers_version}") {
 		exclude group: "net.fabricmc"

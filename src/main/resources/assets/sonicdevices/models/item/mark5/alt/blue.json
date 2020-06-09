@@ -1,0 +1,14 @@
+{
+  "parent": "sonicdevices:item/screwdriver",
+  "textures": {
+    "layer0": "sonicdevices:item/mark5/blue30"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "on": 1
+      },
+      "model": "sonicdevices:item/mark5/blue31"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "sonicdevices",
-  "version": "${version}",
+  "version": "1.3.0",
 
   "name": "Sonic Devices",
   "description": "Sonic Screwdrivers in many styles.",
@@ -22,6 +22,13 @@
       "com.stuintech.sonicdevices.SonicDevices"
     ]
   },
+
+  "mixins": [
+    {
+      "environment": "*",
+      "config": "sonicdevices.mixins.json"
+    }
+  ],
 
   "depends": {
     "fabricloader": ">=0.4.8",

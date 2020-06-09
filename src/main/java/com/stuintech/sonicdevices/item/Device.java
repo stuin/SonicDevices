@@ -1,5 +1,6 @@
 package com.stuintech.sonicdevices.item;
 
+import com.google.common.collect.Multimap;
 import com.stuintech.sonicdevices.ModSounds;
 import com.stuintech.sonicdevices.util.PropertyMap;
 import com.stuintech.sonicdevices.action.CancelActionException;
@@ -9,12 +10,17 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.tag.ItemTags;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -26,6 +32,7 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 /*
  * Created by Stuart Irwin on 4/4/2019.
@@ -70,8 +77,8 @@ public abstract class Device extends Item {
         ModItems.allDevices.add(this);
 
         //Set animation variables
-        this.addPropertyGetter(new Identifier("level"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("level") + 1);
-        this.addPropertyGetter(new Identifier("on"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("on"));
+        //this.addPropertyGetter(new Identifier("level"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("level") + 1);
+        //this.addPropertyGetter(new Identifier("on"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("on"));
     }
 
     public void addAction(int level, IAction action) {

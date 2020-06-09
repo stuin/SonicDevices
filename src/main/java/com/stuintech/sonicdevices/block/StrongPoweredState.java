@@ -14,13 +14,13 @@ public class StrongPoweredState extends FakeBlockState {
     private boolean checked;
 
     public StrongPoweredState(World world, BlockPos position, Direction direction) {
-        super(world, position);
+        super(world, world.getBlockState(position));
 
         this.dir = direction.getOpposite();
     }
 
     @Override
-    public boolean isSimpleFullBlock(BlockView blockView, BlockPos blockPos) {
+    public boolean isSimpleFullBlock(BlockView view, BlockPos pos) {
         return true;
     }
 

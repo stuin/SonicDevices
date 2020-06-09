@@ -3,6 +3,7 @@
   "package": "com.stuintech.sonicdevices.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "StateMixin"
   ],
   "injectors": {
     "defaultRequire": 1

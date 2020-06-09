@@ -12,14 +12,14 @@ import net.minecraft.world.World;
  */
 
 public abstract class FakeBlockState extends BlockState {
-    private World world;
-    private BlockState oldState;
+    private final World world;
+    private final BlockState oldState;
 
-    FakeBlockState(World world, BlockPos position) {
-        super(world.getBlockState(position).getBlock(), world.getBlockState(position).getEntries());
+    FakeBlockState(World world, BlockState old) {
+        super(old.getBlock(), old.getEntries());
 
         this.world = world;
-        this.oldState = world.getBlockState(position);
+        this.oldState = old;
     }
 
     @Override
