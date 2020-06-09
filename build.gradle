@@ -1,19 +1,12 @@
 plugins {
 	id 'fabric-loom' version '0.4-SNAPSHOT'
-	id 'maven-publish'
 }
 
 archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
-minecraft {
-}
-
 repositories {
-	maven {
-		url = 'https://maven.fabricmc.net'
-	}
 	maven {
 		url = 'https://jitpack.io'
 	}
@@ -34,6 +27,17 @@ repositories {
 	}
 }
 
+allprojects {
+	minecraft {
+	}
+
+	repositories {
+		maven {
+			url = 'https://maven.fabricmc.net'
+		}
+	}
+}
+
 dependencies {
 	//to change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -42,6 +46,9 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	
+	//SonicDevices api
+	compile project(':api')
 
 	//Wrenchable api
 	def wrenchVersion = "com.github.Zundrel:Wrenchable:${project.wrenchable_version}"
@@ -60,15 +67,12 @@ dependencies {
 	modCompileOnly ("com.github.benfah:SimpleDrawers:v${project.drawers_version}") {
 		exclude group: "net.fabricmc"
 	}
-	
-	//Bacteria
-	//modCompileOnly ("com.github.stuin:Bacteria:v${project.bacteria_version}") {
-	//	exclude group: "net.fabricmc"
-	//}
+}
 
-	//modRuntime (rmVersion) {
-	//	exclude group: "net.fabricmc"
-	//}
+subprojects {
+	//archivesBaseName = project.archives_api_name
+	version = project.api_version
+	group = project.maven_group
 }
 
 processResources {
@@ -79,7 +83,7 @@ processResources {
 		expand "version": project.version
 	}
 
-	from(sourceSets.main.resources.srcDirs) {
+		from(sourceSets.main.resources.srcDirs) {
 		exclude "fabric.mod.json"
 	}
 }
@@ -101,25 +105,4 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 jar {
 	from "LICENSE"
-}
-
-// configure the maven publication
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			// add all the jars that should be included when publishing to maven
-			artifact(jar) {
-				builtBy remapJar
-			}
-			artifact(sourcesJar) {
-				builtBy remapSourcesJar
-			}
-		}
-	}
-
-	// select the repositories you want to publish to
-	repositories {
-		// uncomment to publish to the local maven
-		// mavenLocal()
-	}
 }

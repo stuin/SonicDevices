@@ -2,6 +2,7 @@ package com.stuintech.sonicdevices.action;
 
 import com.stuintech.sonicdevices.block.entity.ShiftedBlockEntity;
 import com.stuintech.sonicdevices.util.PropertyMap;
+import com.stuintech.sonicdevicesapi.IAction;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;

@@ -2,6 +2,7 @@ package com.stuintech.sonicdevices.action;
 
 import com.stuintech.sonicdevices.util.PropertyMap;
 import com.stuintech.sonicdevices.block.WeakPoweredState;
+import com.stuintech.sonicdevicesapi.IAction;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.block.piston.PistonHandler;
@@ -161,15 +162,14 @@ public class ActivateAction extends IAction.IBlockAction {
 
         //On extension
         PistonHandler pistonHandler = new PistonHandler(world, blockPos, direction, true);
-        if(!blockState.get(PistonBlock.EXTENDED) && pistonHandler.calculatePush() &&
-                PropertyMap.canShift(world.getBlockState(blockPos.offset(direction, -1)))) {
+        if(!blockState.get(PistonBlock.EXTENDED) && pistonHandler.calculatePush()) {
 
             //One tick pulse
             if(tick)
                 world.setBlockState(blockPos, cycle(blockState, block.getStateManager().getProperty("extended"), true), 18);
 
             //Actually activate piston
-            world.setBlockState(blockPos.offset(direction, -1), new WeakPoweredState(world, blockPos.offset(direction, -1), direction));
+            world.setBlockState(blockPos, new WeakPoweredState(world, blockPos, Direction.UP));
             world.addBlockAction(blockPos, block, 0, direction.getId());
             return true;
         }

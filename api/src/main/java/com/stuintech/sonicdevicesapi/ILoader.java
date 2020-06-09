@@ -1,4 +1,4 @@
-package com.stuintech.sonicdevices.integration;
+package com.stuintech.sonicdevicesapi;
 
 public interface ILoader {
     void onInitialize();

@@ -1,7 +1,8 @@
 package com.stuintech.sonicdevices.integration;
 
-import com.stuintech.sonicdevices.action.IAction;
-import com.stuintech.sonicdevices.item.ModItems;
+import com.stuintech.sonicdevicesapi.IAction;
+import com.stuintech.sonicdevicesapi.DeviceList;
+import com.stuintech.sonicdevicesapi.ILoader;
 import me.benfah.simpledrawers.api.drawer.BlockEntityAbstractDrawer;
 import me.benfah.simpledrawers.api.drawer.holder.ItemHolder;
 import me.benfah.simpledrawers.utils.BlockUtils;
@@ -50,7 +51,7 @@ public class SimpleDrawers extends IAction.IBlockAction implements ILoader {
 
     @Override
     public void onInitialize() {
-        ModItems.addToScrewdrivers(1, new SimpleDrawers(false));
-        ModItems.addToScrewdrivers(2, new SimpleDrawers(true));
+        DeviceList.allActions[DeviceList.SCREWDRIVER][1].add(new SimpleDrawers(false));
+        DeviceList.allActions[DeviceList.SCREWDRIVER][2].add(new SimpleDrawers(true));
     }
 }

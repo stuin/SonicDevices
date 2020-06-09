@@ -73,7 +73,7 @@ public class ShiftedBlock extends BlockWithEntity {
     }
 
     @Override
-    public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+    public void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
         restore(world, pos);
     }
 

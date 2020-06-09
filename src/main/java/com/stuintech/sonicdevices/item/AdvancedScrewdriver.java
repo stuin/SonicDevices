@@ -3,18 +3,29 @@ package com.stuintech.sonicdevices.item;
 import com.stuintech.sonicdevices.action.LongActivateAction;
 import com.stuintech.sonicdevices.action.ScanBlockAction;
 import com.stuintech.sonicdevices.action.ScanEntityAction;
+import com.stuintech.sonicdevicesapi.DeviceList;
 
 public class AdvancedScrewdriver extends Screwdriver {
-    public AdvancedScrewdriver(boolean hidden) { this(hidden, 4); }
 
     //Actual constructor
-    public AdvancedScrewdriver(boolean hidden, int maxLevel) {
-        super(hidden, maxLevel);
+    public AdvancedScrewdriver(boolean hidden) {
+        super(hidden);
+    }
 
-        //Additional actions
-        actions[1].add(new LongActivateAction(false));
-        actions[2].add(new LongActivateAction(true));
-        actions[4].add(new ScanBlockAction());
-        actions[4].add(new ScanEntityAction());
+    @Override
+    public int getType() {
+        return DeviceList.ADVANCEDSCREWDRIVER;
+    }
+
+    @Override
+    public int[] getTypeList() {
+        return new int[] {DeviceList.SCREWDRIVER, DeviceList.ADVANCEDSCREWDRIVER};
+    }
+    
+    static {
+        DeviceList.allActions[DeviceList.ADVANCEDSCREWDRIVER][1].add(new LongActivateAction(false));
+        DeviceList.allActions[DeviceList.ADVANCEDSCREWDRIVER][2].add(new LongActivateAction(true));
+        DeviceList.allActions[DeviceList.ADVANCEDSCREWDRIVER][4].add(new ScanBlockAction());
+        DeviceList.allActions[DeviceList.ADVANCEDSCREWDRIVER][4].add(new ScanEntityAction());
     }
 }

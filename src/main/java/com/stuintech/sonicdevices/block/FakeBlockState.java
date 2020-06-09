@@ -24,7 +24,14 @@ public abstract class FakeBlockState extends BlockState {
 
     @Override
     public <T extends Comparable<T>> T get(Property<T> property) {
+        if(oldState == null)
+            return (T)property.getValues().toArray()[0];
         return oldState.get(property);
+    }
+
+    @Override
+    public <T extends Comparable<T>, V extends T> BlockState with(Property<T> property, V value) {
+        return oldState.with(property, value);
     }
 
     //Reset original blockstate

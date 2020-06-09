@@ -1,5 +1,6 @@
 package com.stuintech.sonicdevices.action;
 
+import com.stuintech.sonicdevicesapi.IAction;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -9,8 +10,10 @@ import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 
 import java.util.Collection;
 
@@ -24,7 +27,8 @@ public class ScanEntityAction extends IAction.IEntityAction {
         //Run scan
         if(!player.getEntityWorld().isClient) {
             //Scan mob
-            player.addChatMessage(new TranslatableText(entity.getType().getTranslationKey()), false);
+            Style top = new Style().setColor(Formatting.BLUE);
+            player.addChatMessage(new TranslatableText(entity.getType().getTranslationKey()).setStyle(top), false);
             player.addChatMessage(new LiteralText("  Health: "
                     + entity.getHealth() + " / " + entity.getMaximumHealth()), false);
             
@@ -88,8 +92,7 @@ public class ScanEntityAction extends IAction.IEntityAction {
                     player.addChatMessage(new LiteralText(message), false);
                 }
             }
-            return true;
         }
-        return false;
+        return true;
     }
 }

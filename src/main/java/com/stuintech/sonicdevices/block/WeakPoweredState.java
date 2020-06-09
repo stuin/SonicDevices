@@ -10,7 +10,7 @@ import net.minecraft.world.World;
  */
 
 public class WeakPoweredState extends FakeBlockState {
-    private Direction dir;
+    private final Direction dir;
     private boolean checked;
 
     public WeakPoweredState(World world, BlockPos position, Direction direction) {

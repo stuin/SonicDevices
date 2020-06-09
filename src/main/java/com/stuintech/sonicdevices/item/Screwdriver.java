@@ -1,6 +1,7 @@
 package com.stuintech.sonicdevices.item;
 
 import com.stuintech.sonicdevices.action.*;
+import com.stuintech.sonicdevicesapi.DeviceList;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,15 +14,19 @@ import net.minecraft.util.Hand;
 public class Screwdriver extends Device {
     private SonicWrench wrench = null;
 
-    public Screwdriver(boolean hidden) { this(hidden, 3); }
-
     //Actual constructor
-    public Screwdriver(boolean hidden, int maxLevel) {
-        super(hidden, maxLevel, "screwdriver");
+    public Screwdriver(boolean hidden) {
+        super(hidden, "screwdriver");
+    }
 
-        //Base actions
-        actions[1].add(new ActivateAction(false));
-        actions[2].add(new ActivateAction(true));
+    @Override
+    public int getType() {
+        return DeviceList.SCREWDRIVER;
+    }
+
+    @Override
+    public int[] getTypeList() {
+        return new int[] { DeviceList.SCREWDRIVER };
     }
 
     @Override
@@ -50,5 +55,10 @@ public class Screwdriver extends Device {
             itemStack.setCustomName(oldStack.getName());
         activate(itemStack, player.world, player);
         return itemStack;
+    }
+
+    static {
+        DeviceList.allActions[DeviceList.SCREWDRIVER][1].add(new ActivateAction(false));
+        DeviceList.allActions[DeviceList.SCREWDRIVER][2].add(new ActivateAction(true));
     }
 }

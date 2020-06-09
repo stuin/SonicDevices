@@ -1,4 +1,4 @@
-package com.stuintech.sonicdevices.action;
+package com.stuintech.sonicdevicesapi;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;

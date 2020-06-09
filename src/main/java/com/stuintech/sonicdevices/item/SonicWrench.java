@@ -13,8 +13,18 @@ public class SonicWrench extends Device implements Wrench {
     private final Screwdriver base;
 
     public SonicWrench(Screwdriver base) {
-        super(base.hidden, base.hidden ? base.maxLevel - 1 : base.maxLevel, "screwdriver", ModItems.ALT_SETTINGS);
+        super(base.hidden, "screwdriver", ModItems.ALT_SETTINGS, base.getType());
         this.base = base;
+    }
+
+    @Override
+    public int getType() {
+        return base.getType();
+    }
+
+    @Override
+    public int[] getTypeList() {
+        return new int[0];
     }
 
     @Override

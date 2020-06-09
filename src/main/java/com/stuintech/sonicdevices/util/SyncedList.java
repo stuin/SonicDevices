@@ -17,17 +17,16 @@ public class SyncedList<T> extends ArrayList<T> {
             set(next, o);
         } else {
             //Locate best item location
-            next = 0;
-            while(next < size() && get(next) != none)
-                next++;
-            out = next + 1;
+            out = 0;
+            while(out < size() && get(out) != none)
+                out++;
 
             //Set new timer
-            if(next >= size()) {
+            if(out >= size()) {
                 add(o);
                 out = size();
             } else
-                set(next, o);
+                set(out, o);
         }
         next = -1;
         return out;

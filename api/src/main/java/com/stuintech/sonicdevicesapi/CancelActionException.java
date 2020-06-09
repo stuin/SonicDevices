@@ -1,4 +1,4 @@
-package com.stuintech.sonicdevices.action;
+package com.stuintech.sonicdevicesapi;
 
 public class CancelActionException extends Exception {
     public CancelActionException() {

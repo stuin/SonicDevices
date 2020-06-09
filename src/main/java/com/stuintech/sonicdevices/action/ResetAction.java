@@ -3,6 +3,7 @@ package com.stuintech.sonicdevices.action;
 import com.stuintech.sonicdevices.block.entity.ShiftedBlockEntity;
 import com.stuintech.sonicdevices.item.Device;
 import com.stuintech.sonicdevices.util.SyncedList;
+import com.stuintech.sonicdevicesapi.IAction;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

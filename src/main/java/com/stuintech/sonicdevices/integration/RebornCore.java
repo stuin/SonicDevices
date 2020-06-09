@@ -1,5 +1,6 @@
 package com.stuintech.sonicdevices.integration;
 
+import com.stuintech.sonicdevicesapi.ILoader;
 import com.zundrel.wrenchable.wrench.Wrench;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

@@ -1,26 +1,23 @@
 package com.stuintech.sonicdevices.item;
 
-import com.google.common.collect.Multimap;
 import com.stuintech.sonicdevices.ModSounds;
+import com.stuintech.sonicdevices.SonicDevices;
 import com.stuintech.sonicdevices.util.PropertyMap;
-import com.stuintech.sonicdevices.action.CancelActionException;
-import com.stuintech.sonicdevices.action.IAction;
+import com.stuintech.sonicdevicesapi.CancelActionException;
+import com.stuintech.sonicdevicesapi.DeviceList;
+import com.stuintech.sonicdevicesapi.IAction;
 import com.stuintech.sonicdevices.util.SyncedList;
+import com.stuintech.sonicdevicesapi.IDevice;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.tag.ItemTags;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -32,13 +29,12 @@ import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 /*
  * Created by Stuart Irwin on 4/4/2019.
  */
 
-public abstract class Device extends Item {
+public abstract class Device extends Item implements IDevice {
     private final int MAXTIME = 25;
     private final int offset;
     private final String langCode;
@@ -46,43 +42,30 @@ public abstract class Device extends Item {
     protected final int maxLevel;
     protected final boolean hidden;
 
-
     //Included lists
     private static SyncedList<Integer> timers = new SyncedList<>(0);
-    protected ArrayList<IAction>[] actions;
 
-    public Device(boolean hidden, int maxLevel, String langCode) {
-        this(hidden, maxLevel, langCode, ModItems.SETTINGS);
+    public Device(boolean hidden, String langCode) {
+        this(hidden, langCode, ModItems.SETTINGS, -1);
     }
 
-
-    public Device(boolean hidden, int maxLevel, String langCode, Settings settings) {
+    public Device(boolean hidden, String langCode, Settings settings, int type) {
         super(settings);
 
+        if(type == -1)
+            type = getType();
+
         //Set device stats
-        this.maxLevel = hidden ? maxLevel + 1 : maxLevel;
+        this.maxLevel = hidden ? DeviceList.maxLevel[type] + 1 : DeviceList.maxLevel[type];
         this.offset = hidden ? 0 : 1;
         this.hidden = hidden;
         this.langCode = langCode;
 
-        //Make action lists for each level
-        actions = new ArrayList[this.maxLevel + 1];
-        for(int i = 0; i <= this.maxLevel; i++) {
-            actions[i] = new ArrayList<>();
-        }
-
-        //Add to device list
-        if(ModItems.allDevices == null)
-            ModItems.allDevices = new ArrayList<>();
-        ModItems.allDevices.add(this);
+        DeviceList.allDevices[type].add(this);
 
         //Set animation variables
-        //this.addPropertyGetter(new Identifier("level"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("level") + 1);
-        //this.addPropertyGetter(new Identifier("on"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("on"));
-    }
-
-    public void addAction(int level, IAction action) {
-        actions[level].add(action);
+        this.addPropertyGetter(new Identifier("level"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("level") + 1);
+        this.addPropertyGetter(new Identifier("on"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("on"));
     }
 
     //Run sound and light
@@ -106,7 +89,7 @@ public abstract class Device extends Item {
         //Change level
         setLevel(playerEntity, hand, itemStack, true);
 
-        return super.use(world, playerEntity, hand);
+        return TypedActionResult.success(itemStack);
     }
 
     @Override
@@ -154,21 +137,22 @@ public abstract class Device extends Item {
 
     public boolean interact(int level, PlayerEntity player, LivingEntity entity) {
         try {
-            for (IAction action : actions[level]) {
-                if (action.interact(player, entity))
-                    return true;
-            }
+            for(int i : getTypeList())
+                for(IAction action : DeviceList.allActions[i][level])
+                    if(action.interact(player, entity))
+                        return true;
         } catch (CancelActionException e) {
             //No action should be taken
         }
         return false;
     }
+
     public boolean interact(int level, PlayerEntity player, World world, BlockPos pos, Vec3d hit, Direction dir) {
         try {
-            for(IAction action : actions[level]) {
-                if(action.interact(player, world, pos, hit, dir))
-                    return true;
-            }
+            for(int i : getTypeList())
+                for(IAction action : DeviceList.allActions[i][level])
+                    if(action.interact(player, world, pos, hit, dir))
+                        return true;
         } catch (CancelActionException e) {
             //No action should be taken
         }

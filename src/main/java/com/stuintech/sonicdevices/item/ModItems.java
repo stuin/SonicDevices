@@ -1,7 +1,7 @@
 package com.stuintech.sonicdevices.item;
 
 import com.stuintech.sonicdevices.SonicDevices;
-import com.stuintech.sonicdevices.action.IAction;
+import com.stuintech.sonicdevicesapi.DeviceList;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
 
@@ -29,7 +29,6 @@ public class ModItems {
     public static final Item river_case = new Item(SETTINGS);
 
     //Sonic Screwdrivers
-    public static ArrayList<Device> allDevices;
     public static final Device[] cane = initializeDevice(true);
     public static final Device[] mark1 = initializeDevice(false);
     public static final Device[] mark5 = initializeDevice(false);
@@ -38,8 +37,7 @@ public class ModItems {
     public static final Device[] blaster = {new Blaster(), new Blaster(), new Blaster()};
 
     private static Device[] initializeDevice(boolean cane) {
-        Device[] array = {new Screwdriver(cane), new Screwdriver(cane), new AdvancedScrewdriver(cane)};
-        return array;
+        return new Device[]{new Screwdriver(cane), new Screwdriver(cane), new AdvancedScrewdriver(cane)};
     }
 
     //Register items rendering
@@ -76,12 +74,5 @@ public class ModItems {
 
     private static void registerItem(String name, Item item) {
         Registry.register(Registry.ITEM, SonicDevices.MODID + ":" + name, item);
-    }
-
-    public static void addToScrewdrivers(int level, IAction action) {
-        for(Device device : allDevices) {
-            if(device instanceof Screwdriver)
-                device.addAction(level, action);
-        }
     }
 }
