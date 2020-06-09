@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "sonicdevicesapi",
+  "version": "1.0.1",
+
+  "name": "Sonic Devices API",
+  "description": "API for integration with Sonic Devices",
+  "authors": [
+    "Stuin"
+  ],
+  "contact": {
+    "homepage": "https://stuin.github.io/minecraft",
+    "sources": "https://github.com/stuin/SonicDevices"
+  },
+
+  "license": "CC0-1.0",
+
+  "environment": "*",
+
+  "depends": {
+    "fabricloader": ">=0.4.8",
+    "fabric": "*"
+  }
+}

@@ -10,4 +10,4 @@ pluginManagement {
 }
 
 //Sonicdevices api
-include 'api'
+include 'sonicdevicesapi'
