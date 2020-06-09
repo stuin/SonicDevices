@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.2.6-SNAPSHOT'
+	id 'fabric-loom' version '0.4-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -12,14 +12,14 @@ minecraft {
 
 repositories {
 	maven {
-		name = "Modmuss50"
-		url = "https://maven.modmuss50.me/"
-	}
-	maven {
 		url = 'https://maven.fabricmc.net'
 	}
 	maven {
 		url = 'https://jitpack.io'
+	}
+	maven {
+		name = "Modmuss50"
+		url = "https://maven.modmuss50.me/"
 	}
 	maven {
 		name = "grondag"
@@ -37,14 +37,14 @@ repositories {
 dependencies {
 	//to change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	mappings "net.fabricmc:yarn:${project.minecraft_version}+${project.yarn_mappings}:v2"
 	modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	//Wrenchable api
-	def wrenchVersion = 'com.github.Zundrel:Wrenchable:0.2.2'
+	def wrenchVersion = "com.github.Zundrel:Wrenchable:${project.wrenchable_version}"
 	modImplementation (wrenchVersion) {
 		exclude group: "io.github.prospector"
 		exclude group: "net.fabricmc"
@@ -52,16 +52,19 @@ dependencies {
 	include wrenchVersion
 
 	//RebornCore
-	def rcVersion = 'RebornCore:RebornCore-1.15:+'
-	modCompileOnly (rcVersion) {
+	modCompileOnly ("RebornCore:RebornCore-1.15:+") {
 		exclude group: "net.fabricmc"
 	}
 	
 	//Simple Drawers
-	def sdVersion = 'com.github.benfah:simpledrawers:v1.6.0'
-	modCompileOnly (sdVersion) {
+	modCompileOnly ("com.github.benfah:SimpleDrawers:v${project.drawers_version}") {
 		exclude group: "net.fabricmc"
 	}
+	
+	//Bacteria
+	//modCompileOnly ("com.github.stuin:Bacteria:v${project.bacteria_version}") {
+	//	exclude group: "net.fabricmc"
+	//}
 
 	//modRuntime (rmVersion) {
 	//	exclude group: "net.fabricmc"

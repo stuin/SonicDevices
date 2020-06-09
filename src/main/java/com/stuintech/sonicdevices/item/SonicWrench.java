@@ -10,7 +10,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 
 public class SonicWrench extends Device implements Wrench {
-    private Screwdriver base = null;
+    private final Screwdriver base;
 
     public SonicWrench(Screwdriver base) {
         super(base.hidden, base.hidden ? base.maxLevel - 1 : base.maxLevel, "screwdriver", ModItems.ALT_SETTINGS);
@@ -30,6 +30,8 @@ public class SonicWrench extends Device implements Wrench {
         ItemStack itemStack = new ItemStack(base);
         itemStack.setCount(1);
         itemStack.getOrCreateTag().putInt("level", oldStack.getOrCreateTag().getInt("level"));
+        if(oldStack.hasCustomName())
+            itemStack.setCustomName(oldStack.getName());
         activate(itemStack, player.world, player);
         return itemStack;
     }

@@ -26,7 +26,8 @@ public class Screwdriver extends Device {
 
     @Override
     public Item getAlt() {
-        wrench = new SonicWrench(this);
+        if(wrench == null)
+            wrench = new SonicWrench(this);
         return wrench;
     }
 
@@ -45,6 +46,8 @@ public class Screwdriver extends Device {
         ItemStack itemStack = new ItemStack(wrench);
         itemStack.setCount(1);
         itemStack.getOrCreateTag().putInt("level", oldStack.getOrCreateTag().getInt("level"));
+        if(oldStack.hasCustomName())
+            itemStack.setCustomName(oldStack.getName());
         activate(itemStack, player.world, player);
         return itemStack;
     }
