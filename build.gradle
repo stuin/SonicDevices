@@ -41,8 +41,9 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	//SonicDevices api
-	modImplementation project(':sonicdevicesapi')
-	include project(':sonicdevicesapi')
+	def sonicVersion = "com.github.stuin:sonic-devices-api:${project.sonicapi_version}"
+	modImplementation sonicVersion
+	include sonicVersion
 
 	//Wrenchable api
 	def wrenchVersion = "com.github.Zundrel:Wrenchable:${project.wrenchable_version}"
