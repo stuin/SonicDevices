@@ -6,22 +6,22 @@
   "overrides": [
     {
       "predicate": {
-        "level": 1,
-        "on": 1
+        "sonicdevices:level": 1,
+        "sonicdevices:on": 1
       },
       "model": "sonicdevices:item/blaster/red11"
     },
     {
       "predicate": {
-        "level": 2,
-        "on": 0
+        "sonicdevices:level": 2,
+        "sonicdevices:on": 0
       },
       "model": "sonicdevices:item/blaster/red20"
     },
     {
       "predicate": {
-        "level": 2,
-        "on": 1
+        "sonicdevices:level": 2,
+        "sonicdevices:on": 1
       },
       "model": "sonicdevices:item/blaster/red21"
     }

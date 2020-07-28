@@ -1,5 +1,6 @@
 package com.stuintech.sonicdevices.block;
 
+import com.stuintech.sonicdevices.mixin.StateMixin;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -16,7 +17,7 @@ public abstract class FakeBlockState extends BlockState {
     private final BlockState oldState;
 
     FakeBlockState(World world, BlockState old) {
-        super(old.getBlock(), old.getEntries());
+        super(old.getBlock(), old.getEntries(), ((StateMixin)old).getMapCodec());
 
         this.world = world;
         this.oldState = old;

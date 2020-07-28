@@ -2,6 +2,7 @@ package com.stuintech.sonicdevices.item;
 
 import com.stuintech.sonicdevices.SonicDevices;
 import com.stuintech.sonicdevicesapi.DeviceList;
+import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
 

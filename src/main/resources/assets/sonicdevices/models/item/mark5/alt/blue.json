@@ -6,7 +6,7 @@
   "overrides": [
     {
       "predicate": {
-        "on": 1
+        "sonicdevices:on": 1
       },
       "model": "sonicdevices:item/mark5/blue31"
     }

@@ -20,7 +20,7 @@ public class WeakPoweredState extends FakeBlockState {
     }
 
     @Override
-    public boolean isSimpleFullBlock(BlockView view, BlockPos pos) {
+    public boolean isSolidBlock(BlockView view, BlockPos pos) {
         return false;
     }
 

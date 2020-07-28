@@ -10,7 +10,9 @@ import com.stuintech.sonicdevices.util.SyncedList;
 import com.stuintech.sonicdevicesapi.IDevice;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockWithEntity;
+import net.minecraft.client.item.ModelPredicateProvider;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,6 +27,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -43,7 +46,7 @@ public abstract class Device extends Item implements IDevice {
     protected final boolean hidden;
 
     //Included lists
-    private static SyncedList<Integer> timers = new SyncedList<>(0);
+    private static final SyncedList<Integer> timers = new SyncedList<>(0);
 
     public Device(boolean hidden, String langCode) {
         this(hidden, langCode, ModItems.SETTINGS, -1);
@@ -62,10 +65,6 @@ public abstract class Device extends Item implements IDevice {
         this.langCode = langCode;
 
         DeviceList.allDevices[type].add(this);
-
-        //Set animation variables
-        this.addPropertyGetter(new Identifier("level"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("level") + 1);
-        this.addPropertyGetter(new Identifier("on"), (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("on"));
     }
 
     //Run sound and light
@@ -123,16 +122,16 @@ public abstract class Device extends Item implements IDevice {
     }
 
     @Override
-    public boolean useOnEntity(ItemStack itemStack, PlayerEntity playerEntity, LivingEntity livingEntity, Hand hand) {
+    public ActionResult useOnEntity(ItemStack itemStack, PlayerEntity playerEntity, LivingEntity livingEntity, Hand hand) {
         //Change level or run
         if(!setLevel(playerEntity, hand, itemStack, false)) {
             //Activate use
             if(interact(getLevel(itemStack), playerEntity, livingEntity)) {
                 activate(itemStack, playerEntity.getEntityWorld(), playerEntity);
-                return true;
+                return ActionResult.SUCCESS;
             }
         }
-        return false;
+        return ActionResult.FAIL;
     }
 
     public boolean interact(int level, PlayerEntity player, LivingEntity entity) {
@@ -216,8 +215,14 @@ public abstract class Device extends Item implements IDevice {
             }
         }
     }
+
     public Item getAlt() {
         return this;
     }
+
+    public static final ModelPredicateProvider levelPredicate = 
+            (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("level") + 1;
+    public static final ModelPredicateProvider onPredicate =
+            (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("on");
 
 }

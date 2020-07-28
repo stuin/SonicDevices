@@ -70,12 +70,12 @@ public class ActivateAction extends IAction.IBlockAction {
                         blockState_2 = world.getBlockState(blockPos_2);
                         blockState_2 = blockState_2.with(DoorBlock.OPEN, !deactivate);
                         world.setBlockState(blockPos_2, blockState_2, 18);
-                        world.playLevelEvent(null, deactivate ? 1005 : 1011, pos, 0);
+                        world.syncWorldEvent(null, deactivate ? 1005 : 1011, pos, 0);
                     }
                     break;
                 case "block.minecraft.iron_trapdoor":
                     if(used)
-                        world.playLevelEvent(null, deactivate ? 1036 : 1037, pos, 0);
+                        world.syncWorldEvent(null, deactivate ? 1036 : 1037, pos, 0);
                     break;
                 case "block.minecraft.obsidian":
                     //Create nether portal
@@ -170,7 +170,7 @@ public class ActivateAction extends IAction.IBlockAction {
 
             //Actually activate piston
             world.setBlockState(blockPos, new WeakPoweredState(world, blockPos, Direction.UP));
-            world.addBlockAction(blockPos, block, 0, direction.getId());
+            world.addSyncedBlockEvent(blockPos, block, 0, direction.getId());
             return true;
         }
         return false;

@@ -51,7 +51,7 @@ public class ShiftedBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void fromTag(CompoundTag tag) {
+    public void fromTag(BlockState state, CompoundTag tag) {
         oldState = Registry.BLOCK.get(Identifier.tryParse(tag.getString("blockID"))).getDefaultState();
         done = true;
         group = tag.getInt("groupID");
@@ -59,7 +59,7 @@ public class ShiftedBlockEntity extends BlockEntity {
             ResetAction.add(pos, group);
         for(Property<?> prop : oldState.getEntries().keySet())
             addProp(tag, prop);
-        super.fromTag(tag);
+        super.fromTag(state, tag);
     }
 
     private <T extends Comparable<T>, V extends T> void addProp(CompoundTag tag, Property<T> prop) {

@@ -9,10 +9,7 @@ import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
 
 import java.util.Collection;
@@ -27,51 +24,51 @@ public class ScanEntityAction extends IAction.IEntityAction {
         //Run scan
         if(!player.getEntityWorld().isClient) {
             //Scan mob
-            Style top = new Style().setColor(Formatting.BLUE);
-            player.addChatMessage(new TranslatableText(entity.getType().getTranslationKey()).setStyle(top), false);
-            player.addChatMessage(new LiteralText("  Health: "
-                    + entity.getHealth() + " / " + entity.getMaximumHealth()), false);
+            Style top = Style.EMPTY.withColor(Formatting.BLUE);
+            player.sendMessage(new TranslatableText(entity.getType().getTranslationKey()).setStyle(top), false);
+            player.sendMessage(new LiteralText("  Health: "
+                    + entity.getHealth() + " / " + entity.getMaxHealth()), false);
             
             //Zombie
             if(entity instanceof ZombieEntity) {
                 if(((ZombieEntity) entity).canPickUpLoot())
-                    player.addChatMessage(new LiteralText("  Can pick up loot."), false);
+                    player.sendMessage(new LiteralText("  Can pick up loot."), false);
                 else
-                    player.addChatMessage(new LiteralText("  Cannot pick up loot."), false);
+                    player.sendMessage(new LiteralText("  Cannot pick up loot."), false);
             }
 
             //Display horse stats
             if(entity instanceof HorseBaseEntity) {
-                int speed = (int)Math.round(entity.getAttributeInstance(EntityAttributes.MOVEMENT_SPEED).getValue() * 50);
+                int speed = (int)Math.round(entity.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).getValue() * 50);
                 double jump = ((HorseBaseEntity) entity).getJumpStrength();
                 jump = (int)((-0.1817584952 * Math.pow(jump, 3) + 3.689713992 * Math.pow(jump, 2) + 2.128599134 * jump - 0.343930367) * 10);
-                player.addChatMessage(new LiteralText("  Speed: " + speed + " blocks/sec"), false);
-                player.addChatMessage(new LiteralText("  Jump: " + jump / 10f + " blocks"), false);
+                player.sendMessage(new LiteralText("  Speed: " + speed + " blocks/sec"), false);
+                player.sendMessage(new LiteralText("  Jump: " + jump / 10f + " blocks"), false);
             }
             
             //Tamable
             if(entity instanceof TameableEntity) {
                 if(((TameableEntity) entity).isTamed())
-                    player.addChatMessage(new LiteralText("  Tamed"), false);
+                    player.sendMessage(new LiteralText("  Tamed"), false);
                 else
-                    player.addChatMessage(new LiteralText("  Not Tamed."), false);
+                    player.sendMessage(new LiteralText("  Not Tamed."), false);
             }
 
             //Equipped
             if(entity.getMainHandStack().getItem() != Items.AIR) {
-                Text holding = new LiteralText("  Holding: ");
+                MutableText holding = new LiteralText("  Holding: ");
                 holding.append(entity.getMainHandStack().toHoverableText());
-                player.addChatMessage(holding, false);
+                player.sendMessage(holding, false);
             }
 
             //Check for armor
             if(entity.getArmor() > 0) {
-                player.addChatMessage(new LiteralText("  Armor: " + entity.getArmor()), false);
+                player.sendMessage(new LiteralText("  Armor: " + entity.getArmor()), false);
                 entity.getArmorItems().forEach(itemStack -> {
                     if(itemStack.getItem() != Items.AIR) {
-                        Text armor = new LiteralText("    ");
+                        MutableText armor = new LiteralText("    ");
                         armor.append(itemStack.toHoverableText());
-                        player.addChatMessage(armor, false);
+                        player.sendMessage(armor, false);
                     }
                 });
             }
@@ -79,7 +76,7 @@ public class ScanEntityAction extends IAction.IEntityAction {
             //Check for potion effects
             if(entity.getStatusEffects().size() > 0) {
                 Collection<StatusEffectInstance> effects = entity.getStatusEffects();
-                player.addChatMessage(new LiteralText("  Potion Effects:"), false);
+                player.sendMessage(new LiteralText("  Potion Effects:"), false);
 
                 //List effects
                 for(StatusEffectInstance effect : effects) {
@@ -89,7 +86,7 @@ public class ScanEntityAction extends IAction.IEntityAction {
                     //Display status
                     String message = "    " + new TranslatableText(effect.getTranslationKey()).asString();
                     message += " " + (effect.getAmplifier() + 1) + " " + seconds + 's';
-                    player.addChatMessage(new LiteralText(message), false);
+                    player.sendMessage(new LiteralText(message), false);
                 }
             }
         }

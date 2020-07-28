@@ -4,13 +4,10 @@ plugins {
 }
 
 archivesBaseName = project.archives_base_name
-version = project.mod_version
+version = "${project.mod_version}+${project.minecraft_version}"
 group = project.maven_group
 
 repositories {
-	maven {
-		url = 'https://jitpack.io'
-	}
 	maven {
 		name = "Modmuss50"
 		url = "https://maven.modmuss50.me/"
@@ -24,7 +21,14 @@ repositories {
 		}
 	}
 	maven {
+		name = "Wrenchable"
+		url  "https://dl.bintray.com/zundrel/wrenchable"
+	}
+	maven {
 		url = 'http://server.bbkr.space:8081/artifactory/libs-release'
+	}
+	maven {
+		url = 'https://jitpack.io'
 	}
 }
 
@@ -46,22 +50,12 @@ dependencies {
 	include sonicVersion
 
 	//Wrenchable api
-	def wrenchVersion = "com.github.Zundrel:Wrenchable:${project.wrenchable_version}"
+	def wrenchVersion = "com.zundrel:wrenchable:${project.wrenchable_version}"
 	modImplementation (wrenchVersion) {
 		exclude group: "io.github.prospector"
 		exclude group: "net.fabricmc"
 	}
 	include wrenchVersion
-
-	//RebornCore
-	modCompileOnly ("RebornCore:RebornCore-1.15:+") {
-		exclude group: "net.fabricmc"
-	}
-
-	//Simple Drawers
-	modCompileOnly ("com.github.benfah:SimpleDrawers:v${project.drawers_version}") {
-		exclude group: "net.fabricmc"
-	}
 }
 
 processResources {
