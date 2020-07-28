@@ -1,18 +1,16 @@
 package com.stuintech.sonicdevices.item;
 
 import com.stuintech.sonicdevices.ModSounds;
-import com.stuintech.sonicdevices.SonicDevices;
 import com.stuintech.sonicdevices.util.PropertyMap;
+import com.stuintech.sonicdevices.util.SyncedList;
 import com.stuintech.sonicdevicesapi.CancelActionException;
 import com.stuintech.sonicdevicesapi.DeviceList;
 import com.stuintech.sonicdevicesapi.IAction;
-import com.stuintech.sonicdevices.util.SyncedList;
 import com.stuintech.sonicdevicesapi.IDevice;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.client.item.ModelPredicateProvider;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,14 +21,15 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.UseAction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /*

@@ -1,6 +1,5 @@
 package com.stuintech.sonicdevices.util;
 
-import com.stuintech.sonicdevices.block.ShiftedBlock;
 import net.minecraft.block.*;
 
 import java.util.HashMap;

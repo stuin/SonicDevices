@@ -80,7 +80,7 @@ public class ActivateAction extends IAction.IBlockAction {
                 case "block.minecraft.obsidian":
                     //Create nether portal
                     if(!deactivate)
-                        if(((NetherPortalBlock)block).createPortalAt(world, pos.offset(dir)))
+                        if(NetherPortalBlock.createPortalAt(world, pos.offset(dir)))
                             used = true;
                     break;
                 case "block.minecraft.nether_portal":

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class SyncedList<T> extends ArrayList<T> {
     private int next = -1;
-    private T none;
+    private final T none;
 
     public SyncedList(T none) {
         this.none = none;

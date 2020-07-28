@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 
 public class ResetAction extends IAction.IBlockAction {
-    public static SyncedList<ArrayList<BlockPos>> shiftedBlocks = new SyncedList<>(null);
+    public static final SyncedList<ArrayList<BlockPos>> shiftedBlocks = new SyncedList<>(null);
 
     @Override
     public boolean interact(PlayerEntity player, World world, BlockPos pos, Direction dir) {
