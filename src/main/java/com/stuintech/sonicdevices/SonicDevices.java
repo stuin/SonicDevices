@@ -33,6 +33,11 @@ public class SonicDevices implements ModInitializer {
 					"Simple Drawers",
 					"me.benfah.simpledrawers.api.drawer.holder.ItemHolder",
 					"com.stuintech.sonicdevices.integration.SimpleDrawers"
+			},
+			{
+					"EZPaS",
+					"net.kqp.ezpas.block.entity.PullerPipeBlockEntity",
+					"com.stuintech.sonicdevices.integration.EZPAS"
 			}
 	};
 

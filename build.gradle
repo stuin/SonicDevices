@@ -51,21 +51,24 @@ dependencies {
 
 	//Wrenchable api
 	def wrenchVersion = "com.zundrel:wrenchable:${project.wrenchable_version}"
-	modImplementation (wrenchVersion) {
-		exclude group: "io.github.prospector"
-		exclude group: "net.fabricmc"
-	}
+	modImplementation wrenchVersion
 	include wrenchVersion
 
 	//Simple Drawers
 	def drawerVersion = "com.github.benfah:SimpleDrawers:${project.drawers_version}"
 	modImplementation (drawerVersion) {
-		exclude group: "net.fabricmc"
 		exclude group: "mcp.mobius.waila"
+		exclude group: "io.github.prospector"
 	}
 	modRuntime(drawerVersion) {
 		exclude group: "mcp.mobius.waila"
+		exclude group: "io.github.prospector"
 	}
+
+	//EZPAS
+	def ezpasVersion = "com.github.cakewhip:ezpas:${project.ezpas_version}"
+	modImplementation ezpasVersion
+	modRuntime ezpasVersion
 }
 
 processResources {
