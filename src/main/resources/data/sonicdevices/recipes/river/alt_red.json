@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      	"item": "sonicdevices:river/red"
+    },
+    {
+    	"item": "minecraft:cobblestone"
+    }
+  ],
+  "result": {
+    "item": "sonicdevices:river/alt/red"
+  }
+}

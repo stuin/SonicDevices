@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      	"item": "sonicdevices:cane/red"
+    },
+    {
+    	"item": "minecraft:cobblestone"
+    }
+  ],
+  "result": {
+    "item": "sonicdevices:cane/alt/red"
+  }
+}

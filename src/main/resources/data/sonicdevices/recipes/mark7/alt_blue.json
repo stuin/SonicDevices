@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      	"item": "sonicdevices:mark7/blue"
+    },
+    {
+    	"item": "minecraft:cobblestone"
+    }
+  ],
+  "result": {
+    "item": "sonicdevices:mark7/alt/blue"
+  }
+}

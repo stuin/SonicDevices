@@ -2,12 +2,16 @@ package com.stuintech.sonicdevices.item;
 
 import com.zundrel.wrenchable.wrench.Wrench;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class SonicWrench extends Device implements Wrench {
     private final Screwdriver base;
@@ -25,6 +29,13 @@ public class SonicWrench extends Device implements Wrench {
     @Override
     public int[] getTypeList() {
         return new int[0];
+    }
+
+    @Override
+    public int getLevel(ItemStack itemStack) {
+        if(itemStack.hasTag())
+            return super.getLevel(itemStack);
+        return 3;
     }
 
     @Override

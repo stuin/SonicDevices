@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "sonicdevices:cane/red"
+      "tag": "sonicdevices:sonic_red"
     }
   ],
   "result": {
