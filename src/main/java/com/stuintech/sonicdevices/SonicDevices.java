@@ -20,7 +20,7 @@ import java.util.List;
 
 public class SonicDevices implements ModInitializer {
 	public static final String MODID = "sonicdevices";
-	public static final Logger LOGGER = LogManager.getLogger("sonicdevices");
+	public static final Logger LOGGER = LogManager.getLogger("SonicDevices");
 
 	public static final ItemGroup SONIC_GROUP = FabricItemGroupBuilder.create(
 			new Identifier(MODID, "group"))
@@ -30,13 +30,8 @@ public class SonicDevices implements ModInitializer {
 	//Mod integration
 	private static final String[][] loadExtensions = new String[][] {
 			{
-					"RebornCore",
-					"reborncore.api.ICustomToolHandler",
-					"com.stuintech.sonicdevices.integration.RebornCore"
-			},
-			{
 					"Simple Drawers",
-					"me.benfah.simpledrawers.api.drawer.BlockEntityAbstractDrawer",
+					"me.benfah.simpledrawers.api.drawer.holder.ItemHolder",
 					"com.stuintech.sonicdevices.integration.SimpleDrawers"
 			}
 	};

@@ -56,6 +56,16 @@ dependencies {
 		exclude group: "net.fabricmc"
 	}
 	include wrenchVersion
+
+	//Simple Drawers
+	def drawerVersion = "com.github.benfah:SimpleDrawers:${project.drawers_version}"
+	modImplementation (drawerVersion) {
+		exclude group: "net.fabricmc"
+		exclude group: "mcp.mobius.waila"
+	}
+	modRuntime(drawerVersion) {
+		exclude group: "mcp.mobius.waila"
+	}
 }
 
 processResources {
