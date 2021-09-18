@@ -1,7 +1,7 @@
 package com.stuintech.sonicdevices.item;
 
 import com.stuintech.sonicdevices.action.BlasterShiftAction;
-import com.stuintech.sonicdevicesapi.DeviceList;
+import com.stuintech.wrenchsystems.DeviceList;
 
 /*
  * Created by Stuart Irwin on 4/9/2020.

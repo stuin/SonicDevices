@@ -3,10 +3,10 @@ package com.stuintech.sonicdevices.item;
 import com.stuintech.sonicdevices.ModSounds;
 import com.stuintech.sonicdevices.util.PropertyMap;
 import com.stuintech.sonicdevices.util.SyncedList;
-import com.stuintech.sonicdevicesapi.CancelActionException;
-import com.stuintech.sonicdevicesapi.DeviceList;
-import com.stuintech.sonicdevicesapi.IAction;
-import com.stuintech.sonicdevicesapi.IDevice;
+import com.stuintech.wrenchsystems.CancelActionException;
+import com.stuintech.wrenchsystems.DeviceList;
+import com.stuintech.wrenchsystems.IAction;
+import com.stuintech.wrenchsystems.IDevice;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.client.item.ModelPredicateProvider;
@@ -218,10 +218,5 @@ public abstract class Device extends Item implements IDevice {
     public Item getAlt() {
         return this;
     }
-
-    public static final ModelPredicateProvider levelPredicate = 
-            (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("level") + 1;
-    public static final ModelPredicateProvider onPredicate =
-            (itemStack, world, livingEntity) -> itemStack.getOrCreateTag().getInt("on");
 
 }

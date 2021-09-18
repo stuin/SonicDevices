@@ -1,6 +1,6 @@
 package com.stuintech.sonicdevices.action;
 
-import com.stuintech.sonicdevicesapi.IAction;
+import com.stuintech.wrenchsystems.IAction;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;

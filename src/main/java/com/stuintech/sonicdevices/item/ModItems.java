@@ -1,6 +1,7 @@
 package com.stuintech.sonicdevices.item;
 
 import com.stuintech.sonicdevices.SonicDevices;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.registry.Registry;

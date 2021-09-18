@@ -1,7 +1,7 @@
 package com.stuintech.sonicdevices.item;
 
 import com.stuintech.sonicdevices.action.*;
-import com.stuintech.sonicdevicesapi.DeviceList;
+import com.stuintech.wrenchsystems.DeviceList;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

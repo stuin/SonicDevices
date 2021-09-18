@@ -3,7 +3,7 @@ package com.stuintech.sonicdevices.item;
 import com.stuintech.sonicdevices.action.LongActivateAction;
 import com.stuintech.sonicdevices.action.ScanBlockAction;
 import com.stuintech.sonicdevices.action.ScanEntityAction;
-import com.stuintech.sonicdevicesapi.DeviceList;
+import com.stuintech.wrenchsystems.DeviceList;
 
 public class AdvancedScrewdriver extends Screwdriver {
 

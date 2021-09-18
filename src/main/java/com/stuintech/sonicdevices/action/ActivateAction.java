@@ -2,7 +2,7 @@ package com.stuintech.sonicdevices.action;
 
 import com.stuintech.sonicdevices.util.PropertyMap;
 import com.stuintech.sonicdevices.block.WeakPoweredState;
-import com.stuintech.sonicdevicesapi.IAction;
+import com.stuintech.wrenchsystems.IAction;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.block.piston.PistonHandler;
@@ -79,9 +79,9 @@ public class ActivateAction extends IAction.IBlockAction {
                     break;
                 case "block.minecraft.obsidian":
                     //Create nether portal
-                    if(!deactivate)
-                        if(NetherPortalBlock.createPortalAt(world, pos.offset(dir)))
-                            used = true;
+                    //if(!deactivate)
+                    //    if(NetherPortalBlock.createPortalAt(world, pos.offset(dir)))
+                    //        used = true;
                     break;
                 case "block.minecraft.nether_portal":
                     //Break nether portal

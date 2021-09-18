@@ -1,7 +1,7 @@
 package com.stuintech.sonicdevices;
 
 import com.stuintech.sonicdevices.block.ModBlocks;
-import com.stuintech.sonicdevicesapi.ILoader;
+import com.stuintech.wrenchsystems.ILoader;
 import com.stuintech.sonicdevices.item.ModItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
@@ -33,11 +33,6 @@ public class SonicDevices implements ModInitializer {
 					"Simple Drawers",
 					"me.benfah.simpledrawers.api.drawer.holder.ItemHolder",
 					"com.stuintech.sonicdevices.integration.SimpleDrawers"
-			},
-			{
-					"EZPaS",
-					"net.kqp.ezpas.block.entity.PullerPipeBlockEntity",
-					"com.stuintech.sonicdevices.integration.EZPAS"
 			}
 	};
 
