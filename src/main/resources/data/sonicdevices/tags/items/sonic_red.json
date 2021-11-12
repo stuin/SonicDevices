@@ -1,14 +1,9 @@
 {
   "values": [
     "sonicdevices:cane/red",
-    "sonicdevices:cane/alt/red",
     "sonicdevices:mark1/red",
-    "sonicdevices:mark1/alt/red",
     "sonicdevices:mark5/red",
-    "sonicdevices:mark5/alt/red",
     "sonicdevices:mark7/red",
-    "sonicdevices:mark7/alt/red",
-    "sonicdevices:river/red",
-    "sonicdevices:river/alt/red"
+    "sonicdevices:river/red"
   ]
 }

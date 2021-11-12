@@ -1,26 +1,25 @@
-package com.stuintech.sonicdevices.action;
+package com.stuintech.sonicdevices.socket;
 
 import com.stuintech.sonicdevices.block.entity.ShiftedBlockEntity;
 import com.stuintech.sonicdevices.util.PropertyMap;
-import com.stuintech.wrenchsystems.IAction;
+import com.stuintech.socketwrench.socket.Socket;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-
-import java.util.ArrayList;
 
 /*
  * Created by Stuart Irwin on 4/9/2020.
  */
 
-public class BlasterShiftAction extends IAction.IBlockAction {
+public class BlasterShiftSocket extends Socket.BlockActionSocket {
 
     @Override
-    public boolean interact(PlayerEntity player, World world, BlockPos pos, Direction dir) {
+    public boolean onFasten(PlayerEntity player, World world, BlockPos pos, Vec3d hit, Direction dir) {
         int i = 0;
-        boolean reset = ResetAction.interact(player, world);
+        boolean reset = ResetAction.resetItem(player);
         if(player.canModifyBlocks()) {
             //Default direction variables
             Direction first =  Direction.NORTH;
@@ -34,14 +33,14 @@ public class BlasterShiftAction extends IAction.IBlockAction {
                 second = Direction.EAST;
 
             //Check each block in square
-            ArrayList<BlockPos> positions = new ArrayList<>();
+            ItemStack itemStack = ResetAction.getDevice(player);
             ShiftedBlockEntity[] state = new ShiftedBlockEntity[9];
             pos = pos.offset(first.getOpposite()).offset(second.getOpposite());
             for(int x = 0; x < 3; x++) {
                 for(int y = 0; y < 3; y++) {
                     if(PropertyMap.canShift(world.getBlockState(pos))) {
-                        state[i] = new ShiftedBlockEntity(world, pos, false);
-                        positions.add(pos);
+                        //state[i] = new ShiftedBlockEntity(world, pos, false);
+                        ResetAction.add(pos, itemStack);
                         i++;
                     }
                     pos = pos.offset(first);
@@ -50,15 +49,10 @@ public class BlasterShiftAction extends IAction.IBlockAction {
                 pos = pos.offset(first).offset(second);
             }
 
-            //Save positions for future cancelling
-            int group = ResetAction.shiftedBlocks.addNext(positions);
-            ItemStack itemStack = ResetAction.getDevice(player);
-            if(itemStack != null && i > 0)
-                itemStack.getOrCreateTag().putInt("shifter", group);
 
             //Inform changed blocks that task is complete
-            for(int j = 0; j < i; j++)
-                state[j].done(group);
+            /*for(int j = 0; j < i; j++)
+                state[j].done(group);*/
         }
         return reset | i > 0;
     }

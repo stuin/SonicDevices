@@ -23,18 +23,14 @@
     ],
     "client": [
       "com.stuintech.sonicdevices.ClientSonicDevices"
+    ],
+    "socketwrench": [
+      "com.stuintech.sonicdevices.socket.SonicSocketSet"
     ]
   },
 
-  "mixins": [
-    {
-      "environment": "*",
-      "config": "sonicdevices.mixins.json"
-    }
-  ],
-
   "depends": {
-    "fabricloader": ">=0.4.8",
+    "fabricloader": ">=0.12.2",
     "fabric": "*"
   }
 }

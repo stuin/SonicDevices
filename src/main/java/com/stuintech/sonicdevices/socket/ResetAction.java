@@ -1,37 +1,43 @@
-package com.stuintech.sonicdevices.action;
+package com.stuintech.sonicdevices.socket;
 
+import com.stuintech.sonicdevices.item.SyncedItemData;
+import com.stuintech.socketwrench.socket.CancelFasteningException;
 import com.stuintech.sonicdevices.block.entity.ShiftedBlockEntity;
 import com.stuintech.sonicdevices.item.Device;
-import com.stuintech.sonicdevices.util.SyncedList;
-import com.stuintech.wrenchsystems.IAction;
+import com.stuintech.socketwrench.socket.Socket;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
 
-public class ResetAction extends IAction.IBlockAction {
-    public static final SyncedList<ArrayList<BlockPos>> shiftedBlocks = new SyncedList<>(null);
+public class ResetAction implements Socket {
+    public static final SyncedItemData<ArrayList<BlockPos>> shiftedBlocks = new SyncedItemData<>("shiftedBlocks", null);
 
     @Override
-    public boolean interact(PlayerEntity player, World world, BlockPos pos, Direction dir) {
-        return interact(player, world);
+    public boolean onFasten(PlayerEntity player, LivingEntity entity) throws CancelFasteningException {
+        return resetItem(getDevice(player), player.world);
     }
 
-    public static boolean interact(PlayerEntity player, World world) {
-        ItemStack itemStack = getDevice(player);
-        return resetItem(itemStack, world);
+    @Override
+    public boolean onFasten(PlayerEntity player, World world, BlockPos pos, Vec3d hit, Direction dir) throws CancelFasteningException {
+        return resetItem(getDevice(player), world);
+    }
+
+    public static boolean resetItem(PlayerEntity player) {
+        return resetItem(getDevice(player), player.world);
     }
 
     public static boolean resetItem(ItemStack itemStack, World world) {
         if(itemStack != null) {
-            int shifter = itemStack.getOrCreateTag().getInt("shifter") - 1;
-            if(shiftedBlocks.has(shifter)) {
+            ArrayList<BlockPos> positions = shiftedBlocks.getData(itemStack);
+            if(positions != null) {
                 //Clear previous blocks
-                ArrayList<BlockPos> positions = shiftedBlocks.get(shifter);
                 for(BlockPos pos1 : positions) {
                     if(pos1 != null) {
                         BlockEntity blockEntity = world.getBlockEntity(pos1);
@@ -40,7 +46,7 @@ public class ResetAction extends IAction.IBlockAction {
                     }
                 }
 
-                shiftedBlocks.clear(shifter);
+                shiftedBlocks.clear(itemStack);
                 return true;
             }
         }
@@ -57,17 +63,13 @@ public class ResetAction extends IAction.IBlockAction {
         return null;
     }
 
-    public static void add(BlockPos pos, int group) {
-        ArrayList<BlockPos> list;
-        if(!shiftedBlocks.has(group - 1)) {
+    public static void add(BlockPos pos, ItemStack stack) {
+        ArrayList<BlockPos> list = shiftedBlocks.getData(stack);
+        if(list == null) {
             list = new ArrayList<>();
-            for(int i = 0; i < group; i++)
-                shiftedBlocks.add(new ArrayList<>());
-        } else
-            list = shiftedBlocks.get(group - 1);
+            shiftedBlocks.setData(stack, list);
+        }
 
         list.add(pos);
-        shiftedBlocks.set(group - 1, list);
-
     }
 }

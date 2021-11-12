@@ -26,11 +26,11 @@ public class ShiftedBlock extends BlockWithEntity {
         super(settings);
     }
 
-    @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new ShiftedBlockEntity();
+        return new ShiftedBlockEntity(pos, state, true);
     }
+
 
     @Environment(EnvType.CLIENT)
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {

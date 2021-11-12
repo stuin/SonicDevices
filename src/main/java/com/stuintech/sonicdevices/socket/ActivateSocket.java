@@ -1,8 +1,7 @@
-package com.stuintech.sonicdevices.action;
+package com.stuintech.sonicdevices.socket;
 
 import com.stuintech.sonicdevices.util.PropertyMap;
-import com.stuintech.sonicdevices.block.WeakPoweredState;
-import com.stuintech.wrenchsystems.IAction;
+import com.stuintech.socketwrench.socket.Socket;
 import net.minecraft.block.*;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.block.piston.PistonHandler;
@@ -12,6 +11,7 @@ import net.minecraft.state.property.Property;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /*
@@ -19,15 +19,15 @@ import net.minecraft.world.World;
  * Parts copied and adapted from minecraft debug stick and piston
  */
 
-public class ActivateAction extends IAction.IBlockAction {
+public class ActivateSocket extends Socket.BlockActionSocket {
     private final boolean deactivate;
 
-    public ActivateAction(boolean deactivate) {
+    public ActivateSocket(boolean deactivate) {
         this.deactivate = deactivate;
     }
 
     @Override
-    public boolean interact(PlayerEntity player, World world, BlockPos pos, Direction dir) {
+    public boolean onFasten(PlayerEntity player, World world, BlockPos pos, Vec3d hit, Direction dir) {
         boolean used = false;
         if(!world.isClient) {
             //Get block variables
@@ -96,7 +96,7 @@ public class ActivateAction extends IAction.IBlockAction {
                     break;
                 case "block.minecraft.piston_head":
                     //Activate connected piston
-                    interact(player, world, pos.offset(blockState.get(PistonHeadBlock.FACING).getOpposite()), dir);
+                    onFasten(player, world, pos.offset(blockState.get(PistonHeadBlock.FACING).getOpposite()), hit, dir);
                     break;
                 case "block.minecraft.tnt":
                     if(!deactivate) {
@@ -116,7 +116,7 @@ public class ActivateAction extends IAction.IBlockAction {
                 case "block.minecraft.dispenser": case "block.minecraft.dropper":
                     //Activate with fake redstone source
                     if(!deactivate) {
-                        world.setBlockState(pos.down(), new WeakPoweredState(world, pos.down(), Direction.UP));
+                        //world.setBlockState(pos.down(), new WeakPoweredState(world, pos.down(), Direction.UP));
                         world.updateNeighbor(pos, block, pos.down());
                         used = true;
                     }
@@ -169,7 +169,7 @@ public class ActivateAction extends IAction.IBlockAction {
                 world.setBlockState(blockPos, cycle(blockState, block.getStateManager().getProperty("extended"), true), 18);
 
             //Actually activate piston
-            world.setBlockState(blockPos, new WeakPoweredState(world, blockPos, Direction.UP));
+            //world.setBlockState(blockPos, new WeakPoweredState(world, blockPos, Direction.UP));
             world.addSyncedBlockEvent(blockPos, block, 0, direction.getId());
             return true;
         }

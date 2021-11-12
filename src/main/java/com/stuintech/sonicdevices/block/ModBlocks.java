@@ -3,6 +3,7 @@ package com.stuintech.sonicdevices.block;
 import com.stuintech.sonicdevices.SonicDevices;
 import com.stuintech.sonicdevices.block.entity.ShiftedBlockEntity;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
@@ -26,7 +27,7 @@ public class ModBlocks {
 
         shiftedEntity = Registry.register(Registry.BLOCK_ENTITY_TYPE,
                 new Identifier(SonicDevices.MODID, "shifted_entity"),
-                BlockEntityType.Builder.create(ShiftedBlockEntity::new, new Block[]{ModBlocks.shifted, ModBlocks.clear}).build(null));
+                FabricBlockEntityTypeBuilder.create(ShiftedBlockEntity::new, new Block[]{ModBlocks.shifted, ModBlocks.clear}).build(null));
 
     }
 }

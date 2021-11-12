@@ -1,10 +1,11 @@
 package com.stuintech.sonicdevices.item;
 
 import com.stuintech.sonicdevices.SonicDevices;
-import net.minecraft.client.item.ModelPredicateProviderRegistry;
+import com.stuintech.sonicdevices.socket.SonicSocketSet;
 import net.minecraft.item.Item;
-import net.minecraft.tag.Tag;
 import net.minecraft.util.registry.Registry;
+
+import java.util.ArrayList;
 
 /*
  * Created by Stuart Irwin on 4/4/2019.
@@ -12,7 +13,7 @@ import net.minecraft.util.registry.Registry;
 
 public class ModItems {
     public static final Item.Settings SETTINGS = new Item.Settings().maxCount(1).group(SonicDevices.SONIC_GROUP);
-    public static final Item.Settings ALT_SETTINGS = new Item.Settings().maxCount(1);
+    public static final ArrayList<Device> ALL_DEVICES = new ArrayList<>();
 
     //Device parts
     public static final Item slide_circuit = new Item(SETTINGS);
@@ -33,10 +34,21 @@ public class ModItems {
     public static final Device[] mark5 = initializeDevice(false);
     public static final Device[] mark7 = initializeDevice(false);
     public static final Device[] river = initializeDevice(false);
-    public static final Device[] blaster = {new Blaster(), new Blaster(), new Blaster()};
+    public static final Device[] blaster = {
+            new Device(SonicSocketSet.BLASTER_MODES),
+            new Device(SonicSocketSet.BLASTER_MODES),
+            new Device(SonicSocketSet.BLASTER_MODES)};
 
     private static Device[] initializeDevice(boolean cane) {
-        return new Device[]{new Screwdriver(cane), new Screwdriver(cane), new AdvancedScrewdriver(cane)};
+        if(cane)
+            return new Device[]{
+                    new Device(SonicSocketSet.BASE_MODES_HIDDEN),
+                    new Device(SonicSocketSet.BASE_MODES_HIDDEN),
+                    new Device(SonicSocketSet.ADV_MODES_HIDDEN)};
+        return new Device[]{
+                new Device(SonicSocketSet.BASE_MODES),
+                new Device(SonicSocketSet.BASE_MODES),
+                new Device(SonicSocketSet.ADV_MODES)};
     }
 
     //Register items rendering
@@ -52,26 +64,21 @@ public class ModItems {
         registerItem("mark7/casing", mark7_case);
         registerItem("river/casing", river_case);
 
-        registerDevice("cane", cane, true);
-        registerDevice("mark1", mark1, true);
-        registerDevice("mark5", mark5, true);
-        registerDevice("mark7", mark7, true);
-        registerDevice("river", river, true);
-        registerDevice("blaster", blaster, false);
+        registerDevice("cane", cane);
+        registerDevice("mark1", mark1);
+        registerDevice("mark5", mark5);
+        registerDevice("mark7", mark7);
+        registerDevice("river", river);
+        registerDevice("blaster", blaster);
     }
 
-    private static void registerDevice(String name, Device[] items, boolean includeAlt) {
-        registerItem(name + "/blue", items[0]);
-        registerItem(name + "/green", items[1]);
-        registerItem(name + "/red", items[2]);
-        if(includeAlt) {
-            registerItem(name + "/alt/blue", items[0].getAlt());
-            registerItem(name + "/alt/green", items[1].getAlt());
-            registerItem(name + "/alt/red", items[2].getAlt());
-        }
+    private static void registerDevice(String name, Device[] items) {
+        ALL_DEVICES.add((Device) registerItem(name + "/blue", items[0]));
+        ALL_DEVICES.add((Device) registerItem(name + "/green", items[1]));
+        ALL_DEVICES.add((Device) registerItem(name + "/red", items[2]));
     }
 
-    private static void registerItem(String name, Item item) {
-        Registry.register(Registry.ITEM, SonicDevices.MODID + ":" + name, item);
+    private static Item registerItem(String name, Item item) {
+        return Registry.register(Registry.ITEM, SonicDevices.MODID + ":" + name, item);
     }
 }

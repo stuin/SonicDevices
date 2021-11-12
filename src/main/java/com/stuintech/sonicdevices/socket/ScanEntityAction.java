@@ -1,6 +1,6 @@
-package com.stuintech.sonicdevices.action;
+package com.stuintech.sonicdevices.socket;
 
-import com.stuintech.wrenchsystems.IAction;
+import com.stuintech.socketwrench.socket.Socket;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -18,9 +18,9 @@ import java.util.Collection;
  * Created by Stuart Irwin on 4/8/2020.
  */
 
-public class ScanEntityAction extends IAction.IEntityAction {
+public class ScanEntityAction extends Socket.EntityActionSocket {
     @Override
-    public boolean interact(PlayerEntity player, LivingEntity entity) {
+    public boolean onFasten(PlayerEntity player, LivingEntity entity) {
         //Run scan
         if(!player.getEntityWorld().isClient) {
             //Scan mob

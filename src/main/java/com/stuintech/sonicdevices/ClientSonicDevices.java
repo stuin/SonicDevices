@@ -1,5 +1,8 @@
 package com.stuintech.sonicdevices;
 
+import com.stuintech.socketwrench.item.ModeWrenchItem;
+import com.stuintech.sonicdevices.item.Device;
+import com.stuintech.sonicdevices.item.ModItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.util.Identifier;
@@ -7,9 +10,11 @@ import net.minecraft.util.Identifier;
 public class ClientSonicDevices implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        FabricModelPredicateProviderRegistry.register(new Identifier(SonicDevices.MODID, "level"),
-                (itemStack, world, entity, seed) -> itemStack.getOrCreateTag().getInt("level") + 1);
-        FabricModelPredicateProviderRegistry.register(new Identifier(SonicDevices.MODID, "on"),
-                (itemStack, world, entity, seed) -> itemStack.getOrCreateTag().getInt("on"));
+        for(Device d : ModItems.ALL_DEVICES) {
+            FabricModelPredicateProviderRegistry.register(d, new Identifier("on"),
+                    (itemStack, world, entity, seed) -> itemStack.getOrCreateNbt().getInt("on"));
+            FabricModelPredicateProviderRegistry.register(d, new Identifier("level"),
+                    (itemStack, world, entity, seed) -> (itemStack.getOrCreateNbt().getInt(ModeWrenchItem.MODE) + 1) / 10F);
+        }
     }
 }

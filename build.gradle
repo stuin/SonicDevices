@@ -12,23 +12,11 @@ group = project.maven_group
 
 repositories {
 	maven {
-		name = "Modmuss50"
-		url = "https://maven.modmuss50.me/"
-	}
-	maven {
-		name = "grondag"
-		url = "https://grondag-repo.appspot.com"
-		credentials {
-			username "guest"
-			password ""
+		url = "https://raw.githubusercontent.com/RedGrapefruit09/Maven/master" // the URL to the repository
+		content {
+			includeGroup "com.redgrapefruit.itemnbt" // This will specifically include the ItemNBT group from the repository
 		}
 	}
-	/*maven {
-		url = 'http://server.bbkr.space:8081/artifactory/libs-release'
-	}
-	maven {
-		url = 'https://jitpack.io'
-	}*/
 }
 
 dependencies {
@@ -40,31 +28,9 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	//SonicDevices api
-	/*def sonicVersion = "com.github.stuin:sonic-devices-api:${project.sonicapi_version}"
-	modImplementation sonicVersion
-	include sonicVersion
-
-	//Wrenchable api
-	def wrenchVersion = "com.zundrel:wrenchable:${project.wrenchable_version}"
-	modImplementation wrenchVersion
-	include wrenchVersion*/
-
-	//Simple Drawers
-	/*def drawerVersion = "com.github.benfah:SimpleDrawers:${project.drawers_version}"
-	modImplementation (drawerVersion) {
-		exclude group: "mcp.mobius.waila"
-		exclude group: "io.github.prospector"
-	}
-	modRuntime(drawerVersion) {
-		exclude group: "mcp.mobius.waila"
-		exclude group: "io.github.prospector"
-	}
-
-	//EZPAS
-	def ezpasVersion = "com.github.cakewhip:ezpas:${project.ezpas_version}"
-	modImplementation ezpasVersion
-	modRuntime ezpasVersion*/
+	// ItemNBT
+	//modImplementation "com.redgrapefruit.itemnbt:itemnbt:${project.itemnbt_version}"
+	//include "com.redgrapefruit.itemnbt:itemnbt:${project.itemnbt_version}"
 }
 
 processResources {
@@ -80,13 +46,14 @@ tasks.withType(JavaCompile) {
 	options.release = 16
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = "sources"
-	from sourceSets.main.allSource
+java {
+	withSourcesJar()
 }
 
 jar {
-	from "LICENSE"
+	from("LICENSE") {
+		rename { "${it}_${project.archivesBaseName}"}
+	}
 }
 
 // configure the maven publication
