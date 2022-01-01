@@ -6,64 +6,60 @@
   "overrides": [
     {
       "predicate": {
-        "sonicdevices:level": 1,
-        "sonicdevices:on": 1
+        "level": 0.1,
+        "on": 1
       },
       "model": "sonicdevices:item/mark5/green11"
     },
     {
       "predicate": {
-        "sonicdevices:level": 2,
-        "sonicdevices:on": 0
+        "level": 0.2
       },
       "model": "sonicdevices:item/mark5/green20"
     },
     {
       "predicate": {
-        "sonicdevices:level": 2,
-        "sonicdevices:on": 1
+        "level": 0.2,
+        "on": 1
       },
       "model": "sonicdevices:item/mark5/green21"
     },
     {
       "predicate": {
-        "sonicdevices:level": 3,
-        "sonicdevices:on": 0
+        "level": 0.3
       },
       "model": "sonicdevices:item/mark5/green30"
     },
     {
       "predicate": {
-        "sonicdevices:level": 3,
-        "sonicdevices:on": 1
+        "level": 0.3,
+        "on": 1
       },
       "model": "sonicdevices:item/mark5/green31"
     },
     {
       "predicate": {
-        "sonicdevices:level": 4,
-        "sonicdevices:on": 0
+        "level": 0.4
       },
       "model": "sonicdevices:item/mark5/green40"
     },
     {
       "predicate": {
-        "sonicdevices:level": 4,
-        "sonicdevices:on": 1
+        "level": 0.4,
+        "on": 1
       },
       "model": "sonicdevices:item/mark5/green41"
     },
     {
       "predicate": {
-        "sonicdevices:level": 5,
-        "sonicdevices:on": 0
+        "level": 0.5
       },
       "model": "sonicdevices:item/mark5/green50"
     },
     {
       "predicate": {
-        "sonicdevices:level": 5,
-        "sonicdevices:on": 1
+        "level": 0.5,
+        "on": 1
       },
       "model": "sonicdevices:item/mark5/green51"
     }

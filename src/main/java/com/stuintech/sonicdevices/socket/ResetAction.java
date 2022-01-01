@@ -1,6 +1,6 @@
 package com.stuintech.sonicdevices.socket;
 
-import com.stuintech.sonicdevices.item.SyncedItemData;
+import com.redgrapefruit.itemnbt3.specification.Specification;
 import com.stuintech.socketwrench.socket.CancelFasteningException;
 import com.stuintech.sonicdevices.block.entity.ShiftedBlockEntity;
 import com.stuintech.sonicdevices.item.Device;
@@ -17,16 +17,20 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 
 public class ResetAction implements Socket {
-    public static final SyncedItemData<ArrayList<BlockPos>> shiftedBlocks = new SyncedItemData<>("shiftedBlocks", null);
 
     @Override
-    public boolean onFasten(PlayerEntity player, LivingEntity entity) throws CancelFasteningException {
+    public boolean onFasten(PlayerEntity player, LivingEntity entity) {
         return resetItem(getDevice(player), player.world);
     }
 
     @Override
-    public boolean onFasten(PlayerEntity player, World world, BlockPos pos, Vec3d hit, Direction dir) throws CancelFasteningException {
+    public boolean onFasten(PlayerEntity player, World world, BlockPos pos, Vec3d hit, Direction dir) {
         return resetItem(getDevice(player), world);
+    }
+
+    @Override
+    public boolean checksSneaking() {
+        return false;
     }
 
     public static boolean resetItem(PlayerEntity player) {
@@ -35,7 +39,7 @@ public class ResetAction implements Socket {
 
     public static boolean resetItem(ItemStack itemStack, World world) {
         if(itemStack != null) {
-            ArrayList<BlockPos> positions = shiftedBlocks.getData(itemStack);
+            /*ArrayList<BlockPos> positions = shiftedBlocks.getData(itemStack);
             if(positions != null) {
                 //Clear previous blocks
                 for(BlockPos pos1 : positions) {
@@ -48,7 +52,7 @@ public class ResetAction implements Socket {
 
                 shiftedBlocks.clear(itemStack);
                 return true;
-            }
+            }*/
         }
         return false;
     }
@@ -64,12 +68,12 @@ public class ResetAction implements Socket {
     }
 
     public static void add(BlockPos pos, ItemStack stack) {
-        ArrayList<BlockPos> list = shiftedBlocks.getData(stack);
+        /*ArrayList<BlockPos> list = shiftedBlocks.getData(stack);
         if(list == null) {
             list = new ArrayList<>();
             shiftedBlocks.setData(stack, list);
         }
 
-        list.add(pos);
+        list.add(pos);*/
     }
 }

@@ -2,6 +2,7 @@ package com.stuintech.sonicdevices;
 
 import com.stuintech.socketwrench.item.ModeWrenchItem;
 import com.stuintech.sonicdevices.item.Device;
+import com.stuintech.sonicdevices.item.HiddenDevice;
 import com.stuintech.sonicdevices.item.ModItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
@@ -15,6 +16,11 @@ public class ClientSonicDevices implements ClientModInitializer {
                     (itemStack, world, entity, seed) -> itemStack.getOrCreateNbt().getInt("on"));
             FabricModelPredicateProviderRegistry.register(d, new Identifier("level"),
                     (itemStack, world, entity, seed) -> (itemStack.getOrCreateNbt().getInt(ModeWrenchItem.MODE) + 1) / 10F);
+
+            if(d instanceof HiddenDevice)
+                FabricModelPredicateProviderRegistry.register(d, new Identifier("hidden"),
+                        (itemStack, world, entity, seed) -> ((HiddenDevice) d).isHidden(itemStack) ? 1 : 0);
+
         }
     }
 }

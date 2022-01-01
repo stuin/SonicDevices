@@ -1,6 +1,5 @@
 package com.stuintech.sonicdevices.block.entity;
 
-import com.stuintech.sonicdevices.socket.ResetAction;
 import com.stuintech.sonicdevices.block.ModBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -10,12 +9,13 @@ import net.minecraft.state.property.Property;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.tick.OrderedTick;
 
 import java.util.Map;
 import java.util.Optional;
 
 public class ShiftedBlockEntity extends BlockEntity {
-    private BlockState oldState = null;
+    private BlockState oldState;
     private int group = -1;
     private boolean done = false;
 
@@ -31,7 +31,7 @@ public class ShiftedBlockEntity extends BlockEntity {
         else
             world.setBlockState(pos, ModBlocks.shifted.getDefaultState());
         //world.setBlockEntity(pos, this);
-        world.getBlockTickScheduler().schedule(pos, world.getBlockState(pos).getBlock(), 60);
+        world.getBlockTickScheduler().scheduleTick(new OrderedTick<>(state.getBlock(), pos, 60, 0));
     }
 
     public void restore() {
@@ -68,8 +68,10 @@ public class ShiftedBlockEntity extends BlockEntity {
             oldState = oldState.with(prop, value.get());
     }
 
+
+
     @Override
-    public NbtCompound writeNbt(NbtCompound tag) {
+    public void writeNbt(NbtCompound tag) {
         if(oldState != null) {
             tag.putString("blockID", Registry.BLOCK.getId(oldState.getBlock()).toString());
             for(Map.Entry<Property<?>, Comparable<?>> prop : oldState.getEntries().entrySet())
@@ -77,6 +79,6 @@ public class ShiftedBlockEntity extends BlockEntity {
         }
         tag.putInt("groupID", group);
 
-        return super.writeNbt(tag);
+        super.writeNbt(tag);
     }
 }

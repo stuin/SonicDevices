@@ -5,17 +5,17 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class DeferredList<T> implements List<T> {
-    private final T first;
-    private final List<T> second;
+    private final List<T> main;
+    private final T last;
     
-    public DeferredList(T first, List<T> second) {
-        this.first = first;
-        this.second = second;
+    public DeferredList(T last, List<T> main) {
+        this.main = main;
+        this.last = last;
     }
     
     @Override
     public int size() {
-        return second.size() + 1;
+        return main.size() + 1;
     }
 
     @Override
@@ -25,12 +25,12 @@ public class DeferredList<T> implements List<T> {
 
     @Override
     public boolean contains(Object o) {
-        return first == o || second.contains(o);
+        return last == o || main.contains(o);
     }
     
     public ArrayList<T> fullList() {
-        ArrayList<T> temp = new ArrayList(second);
-        temp.add(0, first);
+        ArrayList<T> temp = new ArrayList(main);
+        temp.add(last);
         return temp;
     }
 
@@ -52,95 +52,90 @@ public class DeferredList<T> implements List<T> {
 
     @Override
     public boolean add(T identifier) {
-        return second.add(identifier);
+        return main.add(identifier);
     }
 
     @Override
     public boolean remove(Object o) {
-        return second.remove(o);
+        return main.remove(o);
     }
 
     @Override
     public boolean containsAll(@NotNull Collection<?> c) {
-        return second.containsAll(c);
+        return main.containsAll(c);
     }
 
     @Override
     public boolean addAll(@NotNull Collection<? extends T> c) {
-        return second.addAll(c);
+        return main.addAll(c);
     }
 
     @Override
     public boolean addAll(int index, @NotNull Collection<? extends T> c) {
-        return second.addAll(index - 1, c);
+        return main.addAll(index - 1, c);
     }
 
     @Override
     public boolean removeAll(@NotNull Collection<?> c) {
-        return second.removeAll(c);
+        return main.removeAll(c);
     }
 
     @Override
     public boolean retainAll(@NotNull Collection<?> c) {
-        return second.retainAll(c);
+        return main.retainAll(c);
     }
 
     @Override
     public void clear() {
-        second.clear();
+        main.clear();
     }
 
     @Override
     public boolean equals(Object o) {
-        return o instanceof DeferredList && ((DeferredList<?>) o).first == first && ((DeferredList<?>) o).second == second;
+        return o instanceof DeferredList && ((DeferredList<?>) o).last == last && ((DeferredList<?>) o).main == main;
     }
 
     @Override
     public int hashCode() {
-        return second.hashCode();
+        return main.hashCode();
     }
 
     @Override
     public T get(int index) {
-        if(index == 0)
-            return first;
-        return second.get(index - 1);
+        if(index == main.size())
+            return last;
+        return main.get(index);
     }
 
     @Override
     public T set(int index, T element) {
-        return second.set(index - 1, element);
+        return main.set(index, element);
     }
 
     @Override
     public void add(int index, T element) {
-        second.add(index - 1, element);
+        main.add(index, element);
 
     }
 
     @Override
     public T remove(int index) {
-        return second.remove(index - 1);
+        return main.remove(index);
     }
 
     @Override
     public int indexOf(Object o) {
-        if(o == first)
-            return 0;
-        int i = second.indexOf(o);
-        if(i == -1)
-            return -1;
-        return i + 1;
+        int i = main.indexOf(o);
+        if(i == -1 && o == last)
+            return main.size();
+        return i;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        int i = second.lastIndexOf(o);
-        if(o == first && i == -1)
-            return 0;
-        if(i == -1)
-            return -1;
-        return i + 1;
+        if(o == last)
+            return main.size();
+        return main.lastIndexOf(o);
     }
 
     @NotNull

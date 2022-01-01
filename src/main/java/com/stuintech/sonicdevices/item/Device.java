@@ -1,8 +1,9 @@
 package com.stuintech.sonicdevices.item;
 
+import com.redgrapefruit.itemnbt3.DataClient;
+import com.redgrapefruit.itemnbt3.specification.Specification;
 import com.stuintech.socketwrench.item.ModeWrenchItem;
 import com.stuintech.sonicdevices.ModSounds;
-import com.stuintech.sonicdevices.SonicDevices;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,7 +22,9 @@ import java.util.List;
  */
 
 public class Device extends ModeWrenchItem {
-    private final SyncedItemTimer timer = new SyncedItemTimer("onTime", 25);
+    private static final int MAX_TIME = 25;
+    private static final Specification TIMER_SPECIFICATION = Specification
+            .builder("Timer").addInt("timer").build();
 
     public Device(List<Identifier> modes) {
         super(ModItems.SETTINGS, modes);
@@ -40,7 +43,10 @@ public class Device extends ModeWrenchItem {
     //Run sound and light
     public void activate(ItemStack itemStack, World world, PlayerEntity playerEntity) {
         itemStack.getOrCreateNbt().putInt("on", 1);
-        timer.start(itemStack);
+
+        DataClient.use(itemStack, TIMER_SPECIFICATION, (compound) -> {
+            compound.put("timer", MAX_TIME);
+        });
 
         if(!world.isClient)
             world.playSound(null, playerEntity.getBlockPos(), ModSounds.sonicSound,
@@ -67,9 +73,12 @@ public class Device extends ModeWrenchItem {
     public void inventoryTick(ItemStack itemStack, World world, Entity entity, int i, boolean bool) {
         //Check for end of timer
         if(itemStack.getOrCreateNbt().getInt("on") == 1) {
-            if(timer.tick(itemStack)) {
-                itemStack.getOrCreateNbt().putInt("on", 0);
-            }
+            DataClient.use(itemStack, TIMER_SPECIFICATION, (compound) -> {
+                if(compound.getInt("timer") == 0)
+                    itemStack.getOrCreateNbt().putInt("on", 0);
+                else
+                    compound.put("timer", compound.getInt("timer") - 1);
+            });
         }
     }
 

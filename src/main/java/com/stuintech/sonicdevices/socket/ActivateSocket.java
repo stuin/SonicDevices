@@ -13,6 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.tick.OrderedTick;
 
 /*
  * Created by Stuart Irwin on 4/8/2020.
@@ -124,7 +125,7 @@ public class ActivateSocket extends Socket.BlockActionSocket {
                 case "block.minecraft.observer":
                     //Run tick update
                     if(!deactivate) {
-                        world.getBlockTickScheduler().schedule(pos, block, 1);
+                        world.getBlockTickScheduler().scheduleTick(new OrderedTick<>(block, pos, 1, 0));
                         used = true;
                     }
                     break;
