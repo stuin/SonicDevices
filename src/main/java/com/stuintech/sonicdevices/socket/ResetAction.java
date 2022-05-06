@@ -20,16 +20,15 @@ public class ResetAction implements Socket {
 
     @Override
     public boolean onFasten(PlayerEntity player, LivingEntity entity) {
-        return resetItem(getDevice(player), player.world);
+        if(!player.isSneaking())
+            return resetItem(getDevice(player), player.world);
+        return false;
     }
 
     @Override
     public boolean onFasten(PlayerEntity player, World world, BlockPos pos, Vec3d hit, Direction dir) {
-        return resetItem(getDevice(player), world);
-    }
-
-    @Override
-    public boolean checksSneaking() {
+        if(!player.isSneaking())
+            return resetItem(getDevice(player), world);
         return false;
     }
 
